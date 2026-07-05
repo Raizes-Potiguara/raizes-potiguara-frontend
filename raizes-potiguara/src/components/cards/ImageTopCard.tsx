@@ -1,6 +1,7 @@
 import { CORES, RADIUS_PADRAO_CARD, TAMANHO } from "@/util/constants";
 import { Card, Flex, Icon, Skeleton, Text } from "@chakra-ui/react";
 import { type LucideIcon } from "lucide-react";
+import { useNavigate } from "react-router";
 
 interface ImageTopCardProps {
     titulo: string;
@@ -8,6 +9,7 @@ interface ImageTopCardProps {
     bgColor: (typeof CORES)[keyof typeof CORES];
     textColor: (typeof CORES)[keyof typeof CORES];
     iconId: LucideIcon;
+    to: string;
 }
 
 
@@ -17,9 +19,12 @@ const ImageTopCard = (
         imageUrl,
         bgColor,
         textColor,
-        iconId
+        iconId,
+        to,
     }: ImageTopCardProps
 ) => {
+
+    const navigate = useNavigate();
     
   return (
     <>          
@@ -31,6 +36,7 @@ const ImageTopCard = (
             w={"full"}
             h={"24%"}
             overflow={"hidden"}
+            onClick={()=>navigate(to)}
         >
             <Skeleton 
                 h={"12vh"} 

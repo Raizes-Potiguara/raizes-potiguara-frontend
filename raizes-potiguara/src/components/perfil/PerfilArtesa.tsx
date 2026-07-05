@@ -61,6 +61,7 @@ const PerfilArtesa = () => {
                                 bgColor={CORES.VERMELHO_ESCURO}
                                 textColor={CORES.BRANCO}
                                 iconId={ClipboardList}
+                                to="info"
                             />
 
                             <ImageTopCard
@@ -69,6 +70,7 @@ const PerfilArtesa = () => {
                                 bgColor={CORES.PRETO}
                                 textColor={CORES.BRANCO}
                                 iconId={Package}
+                                to="config"
                             />
 
                             <ImageTopCard
@@ -77,6 +79,7 @@ const PerfilArtesa = () => {
                                 bgColor={CORES.VERMELHO_ESCURO}
                                 textColor={CORES.BRANCO}
                                 iconId={Shrimp}
+                                to="/"
                             />
                         </Flex>
 
