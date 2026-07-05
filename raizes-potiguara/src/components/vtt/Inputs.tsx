@@ -28,7 +28,6 @@ const Inputs = () => {
         borderRadius={RADIUS_PADRAO_CARD}
         resize="none"
         maxH="16vh"
-        h={"6vh"}
         overflowY="auto"
         disabled={isRecording}
         cursor={isRecording ? "not-allowed" : "text"}
