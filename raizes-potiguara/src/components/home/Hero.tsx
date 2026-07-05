@@ -20,8 +20,8 @@ const Hero = ({ aoClicarConhecerArtesanato }: HeroProps) => {
           align="flex-start"
           gap={5}
           px={{ base: 6, md: 10 }}
-          pt={{ base: 6, md: 10 }}
-          pb={{ base: 10, md: 16 }}
+          pt={10}
+          pb={20}
         >
           <Box
             bg={CORES.BRANCO}

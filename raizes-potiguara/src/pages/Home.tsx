@@ -1,4 +1,5 @@
 // src/pages/Home/index.tsx
+import ArtesanatoAncestral from '@/components/home/ArtesanatoAncestral';
 import Hero from '../components/home/Hero';
 import SobreYbira from '../components/home/SobreYbira';
 
@@ -7,6 +8,7 @@ const Home = () => {
     <>
       <Hero />
       <SobreYbira />
+      <ArtesanatoAncestral/>
     </>
   );
 }
