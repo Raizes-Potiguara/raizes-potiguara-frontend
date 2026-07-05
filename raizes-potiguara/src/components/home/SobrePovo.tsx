@@ -1,6 +1,6 @@
 import { Box, Button, Container, Flex, Heading, Image, Stack, Text } from "@chakra-ui/react"
 import { ArrowRight } from "lucide-react"
-import { CORES, TAMANHO, RADIUS_PADRAO } from '../../util/constants'
+import { CORES, TAMANHO, RADIUS_PADRAO_BOTAO } from '../../util/constants'
 import fotoPotiguara from "@/assets/artesa-potiguara.jpeg"
 import HoneycombBackgroundRed from "../general/HoneycombBackgroundRed"
 
@@ -16,7 +16,7 @@ const SobrePovoPotiguara = () => {
                         gap={2}
                         bg={CORES.BRANCO}
                         border={`2px solid ${CORES.PRETO}`}
-                        borderRadius={`${RADIUS_PADRAO}px`}
+                        borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
                         px={4}
                         py={2}
                         mb={{ base: 6, md: 8 }}
@@ -42,7 +42,7 @@ const SobrePovoPotiguara = () => {
                 <Image
                     src={fotoPotiguara}
                     alt="Artesã potiguara ao lado de mesa com colares artesanais"
-                    borderRadius={`${RADIUS_PADRAO}px`}
+                    borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
                     objectFit="cover"
                     w="100%"
                     h={{ base: "220px", md: "340px" }}

@@ -1,6 +1,6 @@
 // src/components/home/SobreYbira.tsx
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { CORES, TAMANHO, RADIUS_PADRAO } from '../../util/constants';
+import { CORES, TAMANHO, RADIUS_PADRAO_BOTAO } from '../../util/constants';
 
 const SobreYbira = () => {
   return (
@@ -18,7 +18,7 @@ const SobreYbira = () => {
         gap={2}
         bg={CORES.BRANCO}
         border={`2px solid ${CORES.PRETO}`}
-        borderRadius={`${RADIUS_PADRAO}px`}
+        borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
         px={4}
         py={2}
         mb={{ base: 6, md: 8 }}

@@ -2,7 +2,7 @@
 import { Box, Flex, Heading, Text, Button } from '@chakra-ui/react';
 import { ArrowRight } from 'lucide-react';
 import HoneycombBackground from '../general/HoneycombBackground';
-import { CORES, TAMANHO, RADIUS_PADRAO } from '../../util/constants';
+import { CORES, TAMANHO, RADIUS_PADRAO_BOTAO } from '../../util/constants';
 
 interface HeroProps {
   aoClicarConhecerArtesanato?: () => void;
@@ -26,7 +26,7 @@ const Hero = ({ aoClicarConhecerArtesanato }: HeroProps) => {
           <Box
             bg={CORES.BRANCO}
             border={`2px solid ${CORES.PRETO}`}
-            borderRadius={`${RADIUS_PADRAO}px`}
+            borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
             boxShadow="4px 4px 0px rgba(0,0,0,0.35)"
             px={{ base: 5, md: 8 }}
             py={{ base: 2, md: 3 }}
