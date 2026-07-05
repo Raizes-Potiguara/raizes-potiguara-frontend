@@ -5,8 +5,8 @@ import { useState } from "react";
 
 const LINKS_MENU = [
   { label: "Login", href: "/login", icon: LogIn },
-  { label: "Cultura Potiguara", href: "/cultura-potiguara", icon: Landmark },
-  { label: "Loja", href: "/loja", icon: ShoppingBag },
+  { label: "Cultura Potiguara", href: "/cultura", icon: Landmark },
+  { label: "Loja", href: "/artesanato", icon: ShoppingBag },
 ];
 
 const Header = () => {
@@ -31,8 +31,7 @@ const Header = () => {
             {LINKS_MENU.map(({ label, href, icon: ItemIcon }) => (
               <Flex
                 key={href}
-                as="a"
-                href={href}
+                asChild
                 alignItems="center"
                 gap={3}
                 color={CORES.BRANCO}
@@ -40,8 +39,10 @@ const Header = () => {
                 fontSize={`${TAMANHO.CORPO_TEXTO}px`}
                 _hover={{ color: CORES.VERMELHO_VIVO }}
               >
-                <ItemIcon size={20} />
-                {label}
+                <a href={href}>
+                  <ItemIcon size={20} />
+                  {label}
+                </a>
               </Flex>
             ))}
           </Stack>
