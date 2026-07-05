@@ -7,6 +7,7 @@ import Loja from "@/pages/Loja";
 import Produto from "@/pages/Produto";
 import Perfil from "@/pages/Perfil";
 import ConfigVenda from "@/pages/ConfigVenda";
+import InfoArtesas from "@/pages/InfoArtesas";
 import CadastroArtesas from "@/pages/CadastroArtesas";
 import PerfilFundacao from "@/components/perfil/PerfilFundacao";
 
@@ -21,6 +22,7 @@ export const PublicRoutes: RouteObject[] = [
             { path: '/artesanato', element: <Loja/> },
             { path: '/artesanato/:idp', element: <Produto/> },
             { path: '/perfil/:id', element: <Perfil/> },
+            { path: '/perfil/:id/info', element: <InfoArtesas/> },
             { path: '/perfil/:id/config', element: <ConfigVenda/> },
             { path: '/perfil/:id/cadastro', element: <CadastroArtesas/> },
 

@@ -128,7 +128,7 @@ const CadastroArtesas = () => {
                         <Card.Body>
                             <Flex flexDir="column" align="center" mb={6} mt={4}>
                                 <Text
-                                    fontSize={TAMANHO.TITULO_SUBSECAO}
+                                    fontSize={TAMANHO.SUBTITULO_SECAO}
                                     fontWeight={700}
                                     textAlign="center"
                                     mb={1}

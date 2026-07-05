@@ -118,7 +118,7 @@ const PerfilFundacao = () => {
 						<Card.Body>
 							<Flex flexDir="column" align="center" mb={6}>
 								<Text
-									fontSize={TAMANHO.TITULO_SUBSECAO}
+									fontSize={TAMANHO.SUBTITULO_SECAO}
 									fontWeight={700}
 									textAlign="center"
 									mb={1}
@@ -175,7 +175,7 @@ const PerfilFundacao = () => {
 												Total de Artesãs
 											</Text>
 											<Text
-												fontSize={TAMANHO.TITULO_SUBSECAO}
+												fontSize={TAMANHO.SUBTITULO_SECAO}
 												fontWeight={900}
 											>
 												{artesasMock.length} cadastradas
@@ -190,7 +190,7 @@ const PerfilFundacao = () => {
 								align="center"
 								mb={4}
 							>
-								<Text fontSize={TAMANHO.SUBTITULO_SUBSECAO} fontWeight={700}>
+								<Text fontSize={TAMANHO.SUBTITULO_SECAO} fontWeight={700}>
 									Gerenciar Artesãs
 								</Text>
 								<Button
@@ -268,7 +268,7 @@ const PerfilFundacao = () => {
 						m={4}
 					>
 						<Dialog.Body>
-							<Text fontSize={TAMANHO.SUBTITULO_SUBSECAO} fontWeight={700} mb={4}>
+							<Text fontSize={TAMANHO.SUBTITULO_SECAO} fontWeight={700} mb={4}>
 								Editar Perfil
 							</Text>
 
