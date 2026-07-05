@@ -1,10 +1,18 @@
 import { CORES, TAMANHO } from "@/util/constants";
 import { Box, Text } from "@chakra-ui/react";
 
-const BalaoUser = () => {
-  const msg =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam imperdiet rutrum justo, sed vulputate orci convallis a. Maecenas non efficitur lectus."; // mock
+export interface BalaoProps {
+  key: string;
+  msg: string;
+}
 
+const BalaoUser = (
+  {
+    key,
+    msg,
+  }: BalaoProps
+) => {
+  
   return (
     <Box display="flex" justifyContent="flex-end" mb={2}>
       <Box

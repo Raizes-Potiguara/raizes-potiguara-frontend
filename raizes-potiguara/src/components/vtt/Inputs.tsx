@@ -18,7 +18,7 @@ const Inputs = () => {
   };
 
   return (
-    <Flex gap={2} align="center">
+    <Flex px={2} gap={2} align="center">
       <Textarea
         value={isRecording ? "Gravando..." : mensagem}
         onChange={handleChange}

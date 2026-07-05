@@ -13,8 +13,7 @@ const MicButton = () => {
     <>
 
     <Dialog.Root 
-    scrollBehavior="inside" 
-    size="sm"
+    scrollBehavior="inside"
     placement="center"
     motionPreset="slide-in-bottom"
     open={open}
@@ -48,11 +47,12 @@ const MicButton = () => {
         <Dialog.Backdrop />
         <Dialog.Positioner >
           <Dialog.Content 
-            m={4} 
+            mx={2} 
             boxShadow={"md"}
             borderRadius={"xl"}
             bgColor={CORES.BRANCO}
             color={CORES.PRETO}
+            h={"100%"}
           >
             <Dialog.Header>
               <Dialog.Title fontSize={TAMANHO.TITULO_SUBSECAO}>
@@ -62,9 +62,11 @@ const MicButton = () => {
             <Dialog.CloseTrigger asChild>
               <CloseButton mt={2} size="md" />
             </Dialog.CloseTrigger>
-            <Dialog.Body>
-                <Flex flexDir={"column"} gap={6}>
+            <Dialog.Body px={0}>
+                <Flex px={2} w={"100%"} h={"full"} flexDir={"column"} justifyContent={"end"} gap={6}>
+                    <Box w={"100%"} overflowY={"auto"} overflowX={"hidden"}>
                     <Conversa/>
+                    </Box>
                     <Inputs/>
                 </Flex>
             </Dialog.Body>

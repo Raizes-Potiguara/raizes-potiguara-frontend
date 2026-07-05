@@ -1,8 +1,13 @@
 import { CORES, TAMANHO } from "@/util/constants";
 import { Box, Text } from "@chakra-ui/react";
+import type { BalaoProps } from "./BalaoUser";
 
-const BalaoBot = () => {
-  const msg = "Como posso ajudar?"; // mock
+const BalaoBot = (
+  {
+    key,
+    msg,
+  }: BalaoProps
+) => {
 
   return (
     <Box display="flex" justifyContent="flex-start" mb={2}>
