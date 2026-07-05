@@ -46,7 +46,7 @@ const PerfilArtesa = () => {
                 >
                     <Card.Body>
                         <Text 
-                        fontSize={TAMANHO.TITULO_SUBSECAO}
+                        fontSize={TAMANHO.TITULO_SECAO}
                         fontWeight={700}
                         textAlign={"center"}
                         >
