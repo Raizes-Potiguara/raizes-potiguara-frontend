@@ -48,15 +48,9 @@ const PerfilArtesa = () => {
                         <Text 
                         fontSize={TAMANHO.TITULO_SUBSECAO}
                         fontWeight={700}
+                        textAlign={"center"}
                         >
                         Bem-vinda, {nome.split(" ")[0]}!
-                        </Text>
-                        <Text
-                        fontSize={TAMANHO.TEXTO_PEQUENO}
-                        color={CORES.CINZA_ESCURO}
-                        fontWeight={700}
-                        >
-                            Do que você precisa?
                         </Text>
 
                         <Flex flexDir={"column"} gap={8} my={8}>
