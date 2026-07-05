@@ -18,7 +18,7 @@ const BalaoUser = () => {
         _after={{
           content: '""',
           position: "absolute",
-          right: "-6px",
+          right: "-4px",
           bottom: "10px",
           width: "12px",
           height: "12px",

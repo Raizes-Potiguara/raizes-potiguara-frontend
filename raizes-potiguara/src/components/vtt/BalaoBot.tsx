@@ -17,7 +17,7 @@ const BalaoBot = () => {
         _after={{
           content: '""',
           position: "absolute",
-          left: "-6px",
+          left: "-4px",
           bottom: "10px",
           width: "12px",
           height: "12px",
