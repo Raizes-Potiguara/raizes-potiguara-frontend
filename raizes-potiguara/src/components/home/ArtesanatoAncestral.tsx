@@ -1,8 +1,7 @@
 import { Box, Button, Container, Flex, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react"
 import { ArrowRight, ShoppingBasket, Gem, Paintbrush } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import { CORES, TAMANHO, RADIUS_PADRAO } from '../../util/constants';
-import HoneycombBackgroundRed from "../general/HoneycombBackgroundRed";
+import { CORES, TAMANHO, RADIUS_PADRAO_BOTAO } from '../../util/constants';
 
 interface Categoria {
     icon: LucideIcon
@@ -39,7 +38,7 @@ const ArtesanatoAncestral = () => {
                         gap={2}
                         bg={CORES.BRANCO}
                         border={`2px solid ${CORES.PRETO}`}
-                        borderRadius={`${RADIUS_PADRAO}px`}
+                        borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
                         px={4}
                         py={2}
                         mb={{ base: 6, md: 8 }}
@@ -76,7 +75,7 @@ const ArtesanatoAncestral = () => {
                                 mt={4}
                                 fontFamily="'CabinetGrotesk-Variable', 'Fraunces', serif"
                                 fontWeight="800"
-                                fontSize={`${TAMANHO.TITULO_SUBSECAO}px`}
+                                fontSize={`${TAMANHO.SUBTITULO_SECAO}px`}
                             >
                                 {titulo}
                             </Text>
