@@ -29,7 +29,7 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Box bgColor={CORES.BRANCO} color={CORES.PRETO}> {/* pode ser ajustado */}
+        <Box>
           <RouterProvider router={router} />
         </Box>
       </QueryClientProvider>

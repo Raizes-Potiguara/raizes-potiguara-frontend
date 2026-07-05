@@ -1,15 +1,17 @@
-import { CORES } from "@/util/constants";
-import { Box, Flex, Icon } from "@chakra-ui/react";
+import { CORES, TAMANHO } from "@/util/constants";
+import { Box, Flex, Icon, Text } from "@chakra-ui/react";
 import { Shrimp } from "lucide-react";
 
 const Footer = () => {
 
   return (
     <>
-        <Box p={8} bgColor={CORES.VERMELHO_VIVO} fontWeight={600}>
+        <Box px={8} py={6} bgColor={CORES.PRETO} fontWeight={600}>
             <Flex gap={8} alignItems="center" justifyContent="center">
                 <Icon><Shrimp size={58} color={CORES.BRANCO}/></Icon>
-                <p style={{ color: CORES.BRANCO }}>© 2026 Ybirá. Todos os direitos reservados.</p>
+                <Text fontSize={TAMANHO.TEXTO_PEQUENO} color={CORES.BRANCO}>
+                  © 2026 Ybirá. Todos os direitos reservados.
+                </Text>
             </Flex>
         </Box>
     </>

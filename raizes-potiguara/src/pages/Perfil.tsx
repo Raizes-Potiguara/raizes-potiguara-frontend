@@ -10,7 +10,7 @@ const Perfil = () => {
   return (
     <>
       {
-        tipoUserMock === 2 ?
+        tipoUserMock === 3 ?
           <PerfilCliente />
         : tipoUserMock === 2 ?
           <PerfilArtesa />
