@@ -1,9 +1,11 @@
 import { CORES, TAMANHO } from "@/util/constants";
-import { Box, Flex, Icon, Stack } from "@chakra-ui/react";
-import { LogIn, Landmark, ShoppingBag, Menu, X } from "lucide-react";
+import { Box, Flex, Icon, IconButton, Stack } from "@chakra-ui/react";
+import { LogIn, Landmark, ShoppingBag, Menu, X, HomeIcon, Shrimp } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router";
 
 const LINKS_MENU = [
+  { label: "Página Inicial", href: "/", icon: HomeIcon },
   { label: "Login", href: "/login", icon: LogIn },
   { label: "Cultura Potiguara", href: "/cultura", icon: Landmark },
   { label: "Loja", href: "/artesanato", icon: ShoppingBag },
@@ -15,7 +17,9 @@ const Header = () => {
     <>
       <Box position="relative" zIndex={2} px={8} py={5} bgColor={CORES.PRETO}>
         <Flex alignItems="center" justifyContent="space-between">
-          <Box w="10px" h="10px" borderRadius="full" bgColor={CORES.VERMELHO_VIVO} />
+          <Link to="/">
+            <Shrimp size={35} color={CORES.VERMELHO_VIVO} />
+          </Link>
           <Icon cursor="pointer" onClick={() => setMenuAberto(!menuAberto)}>
             {menuAberto ? (
               <X size={26} color={CORES.BRANCO} />

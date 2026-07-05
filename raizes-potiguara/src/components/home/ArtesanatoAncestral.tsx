@@ -30,7 +30,7 @@ const categorias: Categoria[] = [
 
 const ArtesanatoAncestral = () => {
     return (
-        <Box as="section" bg={CORES.BRANCO} py={{ base: 12, md: 16 }}>
+        <Box as="section" bg={CORES.BRANCO} py={{ base: 8, md: 12}}>
             <Container maxW="container.lg">
                 <Stack gap={3} mb={10} align="flex-start">
                     <Flex
@@ -47,7 +47,7 @@ const ArtesanatoAncestral = () => {
                     >
                         <Box as="span" w="8px" h="8px" borderRadius="full" bg={CORES.VERMELHO_VIVO} />
                         <Text as="span" fontStyle="italic" color={CORES.PRETO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
-                            Artesanato Ancestral
+                            O que produzimos?
                         </Text>
                     </Flex>
 
@@ -98,7 +98,7 @@ const ArtesanatoAncestral = () => {
                     px={6}
                     _hover={{ bg: CORES.VERMELHO_VIVO }}
                 >
-                    <a href="/loja" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <a href="/artesanato" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
                         Visitar a loja
                         <ArrowRight size={18} />
                     </a>

@@ -24,7 +24,7 @@ const SobrePovoPotiguara = () => {
                     >
                         <Box as="span" w="8px" h="8px" borderRadius="full" bg={CORES.VERMELHO_VIVO} />
                         <Text as="span" fontStyle="italic" color={CORES.PRETO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
-                            Artesanato Ancestral
+                            Quem produz?
                         </Text>
                     </Flex>
 
@@ -67,7 +67,7 @@ const SobrePovoPotiguara = () => {
                     _hover={{ bg: CORES.VERMELHO_VIVO }}
                 >
                     <a
-                        href="/cultura-potiguara"
+                        href="/cultura"
                         style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
                     >
                         Conhecer cultura Potiguara
