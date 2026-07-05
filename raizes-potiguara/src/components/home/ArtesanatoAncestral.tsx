@@ -74,7 +74,7 @@ const ArtesanatoAncestral = () => {
                             <Icon size={28} color={CORES.BRANCO} strokeWidth={1.75} />
                             <Text
                                 mt={4}
-                                fontFamily="'Hashira', 'Fraunces', serif"
+                                fontFamily="'CabinetGrotesk-Variable', 'Fraunces', serif"
                                 fontWeight="800"
                                 fontSize={`${TAMANHO.TITULO_SUBSECAO}px`}
                             >

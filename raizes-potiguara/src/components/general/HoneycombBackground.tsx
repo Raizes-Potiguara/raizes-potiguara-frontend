@@ -7,9 +7,11 @@ const TILE_W = 455;
 const TILE_H = 407;
 
 // fator de escala do padrão (0.5 = hexágonos na metade do tamanho)
-const SCALE = 0.5;
+const SCALE = 0.25;
 
-const maskSize = `${TILE_W * SCALE}px ${TILE_H * SCALE}px`;
+const TARGET_H = Math.round(TILE_H * SCALE);
+const PERFECT_SCALE = TARGET_H / TILE_H; 
+const maskSize = `${TILE_W * PERFECT_SCALE}px ${TARGET_H}px`;
 
 const HoneycombBackground = () => {
     return (
