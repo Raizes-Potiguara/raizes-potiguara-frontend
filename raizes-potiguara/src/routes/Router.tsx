@@ -8,7 +8,6 @@ import Produto from "@/pages/Produto";
 import Perfil from "@/pages/Perfil";
 import ConfigVenda from "@/pages/ConfigVenda";
 import CadastroArtesas from "@/pages/CadastroArtesas";
-import Logistica from "@/pages/Logistica";
 
 export const PublicRoutes: RouteObject[] = [
     {
@@ -23,7 +22,6 @@ export const PublicRoutes: RouteObject[] = [
             { path: '/perfil/:id', element: <Perfil/> },
             { path: '/perfil/:id/config', element: <ConfigVenda/> },
             { path: '/perfil/:id/cadastro', element: <CadastroArtesas/> },
-            { path: '/perfil/:id/logistica', element: <Logistica/> },
             { path: '*', element: <Navigate to="/" replace /> },
         ]
     }
