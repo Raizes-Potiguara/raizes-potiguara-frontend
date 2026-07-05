@@ -2,6 +2,7 @@ import { Box, Button, Container, Flex, Heading, SimpleGrid, Stack, Text } from "
 import { ArrowRight, ShoppingBasket, Gem, Paintbrush } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { CORES, TAMANHO, RADIUS_PADRAO } from '../../util/constants';
+import HoneycombBackgroundRed from "../general/HoneycombBackgroundRed";
 
 interface Categoria {
     icon: LucideIcon
