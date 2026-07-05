@@ -6,7 +6,7 @@ const Footer = () => {
 
   return (
     <>
-        <Box px={8} py={6} bgColor={CORES.VERMELHO_VIVO} fontWeight={600}>
+        <Box px={8} py={6} bgColor={CORES.PRETO} fontWeight={600}>
             <Flex gap={8} alignItems="center" justifyContent="center">
                 <Icon><Shrimp size={58} color={CORES.BRANCO}/></Icon>
                 <Text fontSize={TAMANHO.TEXTO_PEQUENO} color={CORES.BRANCO}>

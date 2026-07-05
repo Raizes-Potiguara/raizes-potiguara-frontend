@@ -1,5 +1,7 @@
 export const CORES = {
     BRANCO: "#F8F2F2",
+    CREME: "#dbd4d3",
+    MARROM: "#855045",
     CINZA_CLARO: "#AFAAA9",
     CINZA_ESCURO: "#635656",
     PRETO: "#2B2121",

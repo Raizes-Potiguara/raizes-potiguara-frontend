@@ -1,35 +1,44 @@
 import { CORES, RADIUS_PADRAO_CARD, TAMANHO } from "@/util/constants";
-import { Box, Button, Card, Carousel, HStack, IconButton, SkeletonCircle, Text } from "@chakra-ui/react";
+import { Box, Button, Card, Carousel, Circle, Flex, HStack,Icon,IconButton,Image, Skeleton, SkeletonCircle, Text } from "@chakra-ui/react";
+import { ArrowLeft, ArrowRight, BoxIcon, ClipboardIcon, ClipboardList, Hexagon, Mic, NotebookIcon, Package, PackageOpen, Shrimp } from "lucide-react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import ImageTopCard from "../cards/ImageTopCard";
+import MicButton from "../general/MicButton";
 
 const PerfilArtesa = () => {
 
     const nome = "Fulana da Silva";
-    const items = Array.from({ length: 5 })
     
   return (
     <>
         <Box 
         w={"full"} 
-        bgColor={CORES.PRETO}
+        bgColor={CORES.PRETO} /* incorporar o padrão aqui depois */
+        color={CORES.PRETO}
         pt={16}
         >
             <Box  position="relative" w="full" pt="72px">
-                <SkeletonCircle
+                <Circle
                     size={"150px"}
+                    bgColor={CORES.CINZA_CLARO}
                     position="absolute"
                     top={0}
                     left="50%"
                     transform="translateX(-50%)"
                     borderWidth={10}
-                    borderColor={CORES.BRANCO}
+                    borderColor={CORES.CREME}
                     color={CORES.PRETO}
                     zIndex={2}
-                    animation="none"
+                >
+                <SkeletonCircle
+                    size={"full"}
                 />
+                </Circle>
 
                 <Card.Root
-                    bg={CORES.BRANCO}
+                    bg={CORES.CREME}
+                    blur={"lg"}
+                    boxShadow={"md"}
                     borderTopRadius={24}
                     borderBottomRadius={0}
                     pt="60px"
@@ -47,48 +56,49 @@ const PerfilArtesa = () => {
                         color={CORES.CINZA_ESCURO}
                         fontWeight={700}
                         >
-                            Como posso te ajudar hoje?
+                            Do que você precisa?
                         </Text>
 
-                        <Carousel.Root
-                        slidesPerPage={1.5}
-                        slideCount={items.length}
+                        <Flex flexDir={"column"} gap={8} my={8}>
+
+                            <ImageTopCard
+                                titulo="Alterar minhas informações"
+                                imageUrl=""
+                                bgColor={CORES.VERMELHO_ESCURO}
+                                textColor={CORES.BRANCO}
+                                iconId={ClipboardList}
+                            />
+
+                            <ImageTopCard
+                                titulo="Configurar meus produtos"
+                                imageUrl=""
+                                bgColor={CORES.PRETO}
+                                textColor={CORES.BRANCO}
+                                iconId={Package}
+                            />
+
+                            <ImageTopCard
+                                titulo="Explorar o Ybirá"
+                                imageUrl=""
+                                bgColor={CORES.VERMELHO_ESCURO}
+                                textColor={CORES.BRANCO}
+                                iconId={Shrimp}
+                            />
+                        </Flex>
+
+                        <Button 
+                        rounded={"full"}
+                        bgColor={CORES.VERMELHO_MEDIO}
+                        my={4}
+                        fontSize={TAMANHO.TEXTO_BOTAO}
+                        py={4}
+                        px={8}
+                        h={"full"}
                         >
-
-                            <Carousel.ItemGroup
-                                py={6}
-                            >
-                                {items.map((_, index) => (
-                                <Carousel.Item key={index} index={index}>
-                                    <Box 
-                                    w="50vw" 
-                                    h={"35vh"} 
-                                    rounded={RADIUS_PADRAO_CARD}
-                                    bg={CORES.CINZA_CLARO}
-                                    boxShadow="md"
-                                    >
-                                        
-                                    </Box>
-                                </Carousel.Item>
-                                ))}
-                            </Carousel.ItemGroup>
-
-                            <Carousel.Control justifyContent="center" gap="4">
-                                <Carousel.PrevTrigger asChild>
-                                <IconButton size="xs" variant="ghost">
-                                    <LuChevronLeft />
-                                </IconButton>
-                                </Carousel.PrevTrigger>
-
-                                <Carousel.Indicators />
-
-                                <Carousel.NextTrigger asChild>
-                                <IconButton size="xs" variant="ghost">
-                                    <LuChevronRight />
-                                </IconButton>
-                                </Carousel.NextTrigger>
-                            </Carousel.Control>
-                        </Carousel.Root>
+                            Sair da conta
+                        </Button>
+                        
+                        <MicButton />
 
                     </Card.Body>
                 </Card.Root>
