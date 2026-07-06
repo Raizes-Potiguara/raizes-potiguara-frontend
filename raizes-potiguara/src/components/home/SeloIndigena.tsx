@@ -1,6 +1,6 @@
 // src/components/home/SeloIndigenaSection.tsx
 import { Box, Container, Flex, Heading, Text } from '@chakra-ui/react';
-import { CircleCheck } from 'lucide-react';
+import { BadgeCheck } from 'lucide-react';
 import { CORES, TAMANHO, RADIUS_PADRAO_BOTAO } from '../../util/constants';
 
 const SeloIndigenaSection = () => {
@@ -48,7 +48,7 @@ const SeloIndigenaSection = () => {
                         justifyContent="center"
                     >
                         <Box width="100%" aspectRatio={1}>
-                            <CircleCheck
+                            <BadgeCheck
                                 color={CORES.VERMELHO_VIVO}
                                 strokeWidth={1.5}
                                 width="100%"
