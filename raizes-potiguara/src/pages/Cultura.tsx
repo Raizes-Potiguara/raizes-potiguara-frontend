@@ -64,7 +64,7 @@ const Cultura = () => {
     <Box bg={CORES.BRANCO}>
       <Box as="section" position="relative" bg={CORES.PRETO} overflow="hidden">
         <HoneycombBackgroundRed />
-        <Container maxW="container.lg" position="relative" zIndex={1} py={{ base: 14, md: 20 }}>
+        <Container maxW="container.lg" position="relative" zIndex={1} px={{ base: 5, md: 8 }} py={{ base: 10, md: 20 }}>
           <Stack gap={5} align="flex-start" maxW="720px">
             <Flex
               display="inline-flex"
@@ -73,12 +73,13 @@ const Cultura = () => {
               bg={CORES.BRANCO}
               border={`2px solid ${CORES.PRETO}`}
               borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
-              px={4}
+              maxW="100%"
+              px={{ base: 3, md: 4 }}
               py={2}
               transform="rotate(-3deg)"
             >
               <Box as="span" w="8px" h="8px" borderRadius="full" bg={CORES.VERMELHO_VIVO} />
-              <Text as="span" fontStyle="italic" color={CORES.PRETO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+              <Text as="span" fontStyle="italic" color={CORES.PRETO} fontSize={{ base: "13px", md: `${TAMANHO.TEXTO_PEQUENO}px` }}>
                 Memoria, territorio e artesanato
               </Text>
             </Flex>
@@ -89,12 +90,14 @@ const Cultura = () => {
               fontWeight="normal"
               lineHeight={1}
               color={CORES.BRANCO}
-              fontSize={{ base: "52px", md: `${TAMANHO.TITULO_YBIRA}px` }}
+              fontSize={{ base: "44px", sm: "52px", md: `${TAMANHO.TITULO_YBIRA}px` }}
+              maxW="100%"
+              wordBreak="break-word"
             >
               Cultura Potiguara
             </Heading>
 
-            <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.SUBTITULO_SECAO}px`} lineHeight={1.35}>
+            <Text color={CORES.CINZA_CLARO} fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }} lineHeight={1.35}>
               O artesanato potiguara guarda simbolos, materiais e palavras que nascem da relacao com as aldeias,
               com o litoral norte da Paraiba e com os saberes transmitidos pelas mulheres.
             </Text>
@@ -102,10 +105,10 @@ const Cultura = () => {
         </Container>
       </Box>
 
-      <Box as="section" py={{ base: 10, md: 14 }}>
-        <Container maxW="container.lg">
-          <Stack gap={3} mb={8}>
-            <Heading as="h2" color={CORES.PRETO} fontSize={`${TAMANHO.TITULO_SECAO}px`}>
+      <Box as="section" py={{ base: 8, md: 14 }}>
+        <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
+          <Stack gap={3} mb={{ base: 6, md: 8 }}>
+            <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
               Simbolos e crencas
             </Heading>
             <Text color={CORES.CINZA_ESCURO} maxW="66ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
@@ -116,9 +119,9 @@ const Cultura = () => {
 
           <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
             {simbolos.map(({ titulo, descricao, icon: Icon }) => (
-              <Box key={titulo} bg={CORES.VERMELHO_ESCURO} color={CORES.BRANCO} borderRadius="4px" p={6}>
+              <Box key={titulo} bg={CORES.VERMELHO_ESCURO} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
                 <Icon size={28} strokeWidth={1.75} />
-                <Text mt={4} fontWeight="800" fontSize={`${TAMANHO.SUBTITULO_SECAO}px`}>
+                <Text mt={4} fontWeight="800" fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
                   {titulo}
                 </Text>
                 <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
@@ -130,11 +133,11 @@ const Cultura = () => {
         </Container>
       </Box>
 
-      <Box as="section" bg={CORES.CINZA_CLARINHO} py={{ base: 10, md: 14 }}>
-        <Container maxW="container.lg">
+      <Box as="section" bg={CORES.CINZA_CLARINHO} py={{ base: 8, md: 14 }}>
+        <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 8, md: 10 }} alignItems="start">
             <Stack gap={4}>
-              <Heading as="h2" color={CORES.PRETO} fontSize={`${TAMANHO.TITULO_SECAO}px`}>
+              <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
                 Materiais e significados
               </Heading>
               <Text color={CORES.CINZA_ESCURO} fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
@@ -145,10 +148,10 @@ const Cultura = () => {
 
             <Stack gap={4}>
               {materiais.map(({ titulo, descricao, icon: Icon }) => (
-                <Flex key={titulo} gap={4} bg={CORES.BRANCO} borderRadius="4px" p={5} align="flex-start">
+                <Flex key={titulo} gap={{ base: 3, md: 4 }} bg={CORES.BRANCO} borderRadius="4px" p={{ base: 4, md: 5 }} align="flex-start">
                   <Flex
-                    w="42px"
-                    h="42px"
+                    w={{ base: "38px", md: "42px" }}
+                    h={{ base: "38px", md: "42px" }}
                     align="center"
                     justify="center"
                     bg={CORES.VERMELHO_CLARINHO}
@@ -173,13 +176,13 @@ const Cultura = () => {
         </Container>
       </Box>
 
-      <Box as="section" bg={CORES.PRETO} py={{ base: 10, md: 14 }}>
-        <Container maxW="container.lg">
+      <Box as="section" bg={CORES.PRETO} py={{ base: 8, md: 14 }}>
+        <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 8, md: 10 }}>
             <Stack gap={4}>
               <Flex color={CORES.VERMELHO_CLARINHO} align="center" gap={3}>
                 <Languages size={28} />
-                <Heading as="h2" color={CORES.BRANCO} fontSize={`${TAMANHO.TITULO_SECAO}px`}>
+                <Heading as="h2" color={CORES.BRANCO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
                   O tupi potiguara
                 </Heading>
               </Flex>

@@ -104,8 +104,8 @@ const Artesas = () => {
     <Box bg={CORES.BRANCO}>
       <Box as="section" position="relative" bg={CORES.PRETO} overflow="hidden">
         <HoneycombBackgroundRed />
-        <Container maxW="container.lg" position="relative" zIndex={1} py={{ base: 14, md: 20 }}>
-          <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 8, md: 10 }} alignItems="center">
+        <Container maxW="container.lg" position="relative" zIndex={1} px={{ base: 5, md: 8 }} py={{ base: 10, md: 20 }}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 9, md: 10 }} alignItems="center">
             <Stack gap={5} align="flex-start">
               <Flex
                 display="inline-flex"
@@ -114,12 +114,13 @@ const Artesas = () => {
                 bg={CORES.BRANCO}
                 border={`2px solid ${CORES.PRETO}`}
                 borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
-                px={4}
+                maxW="100%"
+                px={{ base: 3, md: 4 }}
                 py={2}
                 transform="rotate(-3deg)"
               >
                 <Box as="span" w="8px" h="8px" borderRadius="full" bg={CORES.VERMELHO_VIVO} />
-                <Text as="span" fontStyle="italic" color={CORES.PRETO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+                <Text as="span" fontStyle="italic" color={CORES.PRETO} fontSize={{ base: "13px", md: `${TAMANHO.TEXTO_PEQUENO}px` }}>
                   Mulheres que mantem o saber vivo
                 </Text>
               </Flex>
@@ -130,27 +131,30 @@ const Artesas = () => {
                 fontWeight="normal"
                 lineHeight={1}
                 color={CORES.BRANCO}
-                fontSize={{ base: "52px", md: `${TAMANHO.TITULO_YBIRA}px` }}
+                fontSize={{ base: "44px", sm: "52px", md: `${TAMANHO.TITULO_YBIRA}px` }}
+                maxW="100%"
+                wordBreak="break-word"
               >
                 Artesas Potiguara
               </Heading>
 
-              <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.SUBTITULO_SECAO}px`} lineHeight={1.35}>
+              <Text color={CORES.CINZA_CLARO} fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }} lineHeight={1.35}>
                 Das aldeias de Baia da Traicao, Marcacao e Rio Tinto, as artesas produzem renda, memoria e
                 pertencimento com sementes, cipos, fibras, conchas e grafismos.
               </Text>
             </Stack>
 
-            <Box>
+            <Box w="100%">
               <Box
                 position="relative"
-                mx={{ base: "auto", md: 0 }}
-                maxW={{ base: "520px", md: "500px" }}
+                mx="auto"
+                w="100%"
+                maxW={{ base: "340px", sm: "420px", md: "500px" }}
                 aspectRatio="1 / 1"
                 borderRadius="4px"
                 overflow="hidden"
                 bg={CORES.PRETO}
-                boxShadow={`12px 12px 0 ${CORES.VERMELHO_ESCURO}`}
+                boxShadow={{ base: `7px 7px 0 ${CORES.VERMELHO_ESCURO}`, md: `12px 12px 0 ${CORES.VERMELHO_ESCURO}` }}
               >
                 <Image
                   src={fotoSelecionada.src}
@@ -168,26 +172,26 @@ const Artesas = () => {
                   align="center"
                   justify="space-between"
                   gap={4}
-                  px={{ base: 4, md: 5 }}
-                  py={3}
+                  px={{ base: 3, md: 5 }}
+                  py={{ base: 2, md: 3 }}
                   bg="rgba(43, 33, 33, 0.78)"
                 >
-                  <Text color={CORES.BRANCO} fontWeight="800" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+                  <Text color={CORES.BRANCO} fontWeight="800" fontSize={{ base: "14px", md: `${TAMANHO.CORPO_TEXTO}px` }} lineHeight={1.15}>
                     {fotoSelecionada.legenda}
                   </Text>
-                  <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+                  <Text color={CORES.CINZA_CLARO} fontSize={{ base: "12px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} flexShrink={0}>
                     {fotoAtual + 1}/{fotosArtesas.length}
                   </Text>
                 </Flex>
               </Box>
 
-              <Flex mt={5} align="center" justify="center" gap={4}>
+              <Flex mt={{ base: 4, md: 5 }} align="center" justify="center" gap={{ base: 3, md: 4 }}>
                 <Flex
                   as="button"
                   aria-label="Foto anterior"
                   onClick={voltarFoto}
-                  w="40px"
-                  h="40px"
+                  w={{ base: "36px", md: "40px" }}
+                  h={{ base: "36px", md: "40px" }}
                   align="center"
                   justify="center"
                   bg={CORES.BRANCO}
@@ -205,7 +209,7 @@ const Artesas = () => {
                       aria-label={`Ver foto: ${foto.legenda}`}
                       key={foto.legenda}
                       onClick={() => setFotoAtual(index)}
-                      w={index === fotoAtual ? "28px" : "10px"}
+                      w={{ base: index === fotoAtual ? "22px" : "10px", md: index === fotoAtual ? "28px" : "10px" }}
                       h="10px"
                       borderRadius="full"
                       bg={index === fotoAtual ? CORES.VERMELHO_VIVO : CORES.CINZA_CLARO}
@@ -218,8 +222,8 @@ const Artesas = () => {
                   as="button"
                   aria-label="Proxima foto"
                   onClick={avancarFoto}
-                  w="40px"
-                  h="40px"
+                  w={{ base: "36px", md: "40px" }}
+                  h={{ base: "36px", md: "40px" }}
                   align="center"
                   justify="center"
                   bg={CORES.BRANCO}
@@ -235,30 +239,30 @@ const Artesas = () => {
         </Container>
       </Box>
 
-      <Box as="section" py={{ base: 10, md: 14 }}>
-        <Container maxW="container.lg">
+      <Box as="section" py={{ base: 8, md: 14 }}>
+        <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
           <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
-            <Box bg={CORES.VERMELHO_ESCURO} color={CORES.BRANCO} borderRadius="4px" p={6}>
+            <Box bg={CORES.VERMELHO_ESCURO} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
               <UsersRound size={28} strokeWidth={1.75} />
-              <Text mt={4} fontWeight="800" fontSize={`${TAMANHO.SUBTITULO_SECAO}px`}>
+              <Text mt={4} fontWeight="800" fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
                 17 aldeias mapeadas
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
                 O diagnostico citado no PDF aponta artesas distribuidas por diferentes aldeias do territorio.
               </Text>
             </Box>
-            <Box bg={CORES.PRETO} color={CORES.BRANCO} borderRadius="4px" p={6}>
+            <Box bg={CORES.PRETO} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
               <Sprout size={28} strokeWidth={1.75} />
-              <Text mt={4} fontWeight="800" fontSize={`${TAMANHO.SUBTITULO_SECAO}px`}>
+              <Text mt={4} fontWeight="800" fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
                 Saber tradicional
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
                 A producao preserva tecnicas familiares, modos de coleta e relacoes com a mata e o mar.
               </Text>
             </Box>
-            <Box bg={CORES.MARROM} color={CORES.BRANCO} borderRadius="4px" p={6}>
+            <Box bg={CORES.MARROM} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
               <Gem size={28} strokeWidth={1.75} />
-              <Text mt={4} fontWeight="800" fontSize={`${TAMANHO.SUBTITULO_SECAO}px`}>
+              <Text mt={4} fontWeight="800" fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
                 Renda mais justa
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
@@ -269,10 +273,10 @@ const Artesas = () => {
         </Container>
       </Box>
 
-      <Box as="section" bg={CORES.CINZA_CLARINHO} py={{ base: 10, md: 14 }}>
-        <Container maxW="container.lg">
-          <Stack gap={3} mb={8}>
-            <Heading as="h2" color={CORES.PRETO} fontSize={`${TAMANHO.TITULO_SECAO}px`}>
+      <Box as="section" bg={CORES.CINZA_CLARINHO} py={{ base: 8, md: 14 }}>
+        <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
+          <Stack gap={3} mb={{ base: 6, md: 8 }}>
+            <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
               Historias das artesas
             </Heading>
             <Text color={CORES.CINZA_ESCURO} maxW="68ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
@@ -284,7 +288,7 @@ const Artesas = () => {
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={5}>
             {artesas.map((artesa, index) => (
               <Box key={artesa.nome} bg={CORES.BRANCO} borderRadius="4px" overflow="hidden">
-                <Box position="relative" h="220px" bg={CORES.PRETO}>
+                <Box position="relative" h={{ base: "190px", md: "220px" }} bg={CORES.PRETO}>
                   <Image
                     src={fotoPotiguara}
                     alt={artesa.nome}
@@ -313,8 +317,8 @@ const Artesas = () => {
                   </Flex>
                 </Box>
 
-                <Stack gap={3} p={5}>
-                  <Heading as="h3" color={CORES.PRETO} fontSize={`${TAMANHO.SUBTITULO_SECAO}px`}>
+                <Stack gap={3} p={{ base: 4, md: 5 }}>
+                  <Heading as="h3" color={CORES.PRETO} fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
                     {artesa.nome}
                   </Heading>
                   <Text color={CORES.CINZA_ESCURO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
