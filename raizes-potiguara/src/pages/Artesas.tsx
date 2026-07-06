@@ -61,7 +61,7 @@ const fotosArtesas = [
   {
     src: fotoAldeasColetivo,
     alt: "Grupo de mulheres potiguara em espaco cultural",
-    legenda: "Mulheres e aldeias",
+    legenda: "Artesãs em espaço cultural",
   },
   {
     src: fotoArtesasRetrato,
@@ -71,7 +71,7 @@ const fotosArtesas = [
   {
     src: fotoAssociacaoPotiguara,
     alt: "Representantes em frente a grafismo e cocar potiguara",
-    legenda: "Organizacao coletiva",
+    legenda: "Organização coletiva",
   },
   {
     src: fotoPotiguara,
@@ -184,7 +184,6 @@ const Artesas = () => {
               <Flex mt={5} align="center" justify="center" gap={4}>
                 <Flex
                   as="button"
-                  type="button"
                   aria-label="Foto anterior"
                   onClick={voltarFoto}
                   w="40px"
@@ -203,7 +202,6 @@ const Artesas = () => {
                   {fotosArtesas.map((foto, index) => (
                     <Box
                       as="button"
-                      type="button"
                       aria-label={`Ver foto: ${foto.legenda}`}
                       key={foto.legenda}
                       onClick={() => setFotoAtual(index)}
@@ -218,7 +216,6 @@ const Artesas = () => {
 
                 <Flex
                   as="button"
-                  type="button"
                   aria-label="Proxima foto"
                   onClick={avancarFoto}
                   w="40px"
