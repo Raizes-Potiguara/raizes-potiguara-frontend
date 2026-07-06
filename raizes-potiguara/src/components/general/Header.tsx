@@ -1,6 +1,6 @@
 import { CORES, TAMANHO } from "@/util/constants";
 import { Box, Flex, Icon, IconButton, Stack } from "@chakra-ui/react";
-import { LogIn, Landmark, ShoppingBag, Menu, X, HomeIcon, Shrimp } from "lucide-react";
+import { LogIn, Landmark, ShoppingBag, Menu, X, HomeIcon, Shrimp, UsersRound } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 
@@ -8,6 +8,7 @@ const LINKS_MENU = [
   { label: "Página Inicial", href: "/", icon: HomeIcon },
   { label: "Login", href: "/login", icon: LogIn },
   { label: "Cultura Potiguara", href: "/cultura", icon: Landmark },
+  { label: "Artesãs Potiguara", href: "/artesas", icon: UsersRound },
   { label: "Loja", href: "/artesanato", icon: ShoppingBag },
 ];
 
