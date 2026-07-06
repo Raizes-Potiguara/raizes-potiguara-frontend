@@ -51,7 +51,7 @@ const SobrePovoPotiguara = () => {
 
                 <Text fontSize={`${TAMANHO.CORPO_TEXTO}px`} color={CORES.CINZA_CLARO} maxW="52ch">
                     O povo Potiguara vive no litoral norte da Paraíba, entre os municípios de
-                    Baía da Traição, Marcação e Rio Tinto — sendo o maior povo indígena do
+                    Baía da Traição, Marcação e Rio Tinto, sendo o maior povo indígena do
                     Nordeste brasileiro.
                 </Text>
 
