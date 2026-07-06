@@ -1,8 +1,14 @@
 import HoneycombBackgroundRed from "@/components/general/HoneycombBackgroundRed";
+import fotoPotiguara from "@/assets/artesa-potiguara.jpeg";
+import fotoArtesanatoMesa from "@/assets/cultura-artesanato-mesa.jpeg";
+import fotoAldeasColetivo from "@/assets/cultura-aldeas-coletivo.jpeg";
+import fotoArtesasRetrato from "@/assets/cultura-artesas-retrato.jpeg";
+import fotoAssociacaoPotiguara from "@/assets/cultura-associacao-potiguara.jpeg";
 import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
-import { Box, Container, Flex, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import { Feather, Gem, Leaf, Languages, Shell, ShieldCheck, Sparkles } from "lucide-react";
+import { Box, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { ChevronLeft, ChevronRight, Feather, Gem, Leaf, Languages, Shell, ShieldCheck, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useState } from "react";
 
 interface BlocoCultural {
   titulo: string;
@@ -59,7 +65,45 @@ const topicos = [
   "Organizacao coletiva entre aldeias para preservar renda, memoria e tecnica.",
 ];
 
+const fotosCultura = [
+  {
+    src: fotoArtesanatoMesa,
+    alt: "Mesa com colares e biojoias potiguara feitos com sementes",
+    legenda: "Biojoias e sementes",
+  },
+  {
+    src: fotoAldeasColetivo,
+    alt: "Grupo de mulheres potiguara em espaco cultural",
+    legenda: "Mulheres e aldeias",
+  },
+  {
+    src: fotoArtesasRetrato,
+    alt: "Tres mulheres usando adornos potiguara",
+    legenda: "Artesas potiguara",
+  },
+  {
+    src: fotoAssociacaoPotiguara,
+    alt: "Representantes em frente a grafismo e cocar potiguara",
+    legenda: "Organizacao coletiva",
+  },
+  {
+    src: fotoPotiguara,
+    alt: "Artesa potiguara ao lado de uma mesa com colares artesanais",
+    legenda: "Artesanato ancestral",
+  },
+];
+
 const Cultura = () => {
+  const [fotoAtual, setFotoAtual] = useState(0);
+  const fotoSelecionada = fotosCultura[fotoAtual];
+
+  const voltarFoto = () => {
+    setFotoAtual((atual) => (atual === 0 ? fotosCultura.length - 1 : atual - 1));
+  };
+
+  const avancarFoto = () => {
+    setFotoAtual((atual) => (atual === fotosCultura.length - 1 ? 0 : atual + 1));
+  };
 
   return (
     <Box bg={CORES.BRANCO}>
@@ -100,6 +144,99 @@ const Cultura = () => {
               com o litoral norte da Paraiba e com os saberes transmitidos pelas mulheres.
             </Text>
           </Stack>
+
+          <Box mt={{ base: 10, md: 14 }}>
+            <Box
+              position="relative"
+              mx="auto"
+              maxW="980px"
+              borderRadius="4px"
+              overflow="hidden"
+              bg={CORES.VERMELHO_ESCURO}
+              boxShadow={`14px 14px 0 ${CORES.VERMELHO_ESCURO}`}
+            >
+              <Image
+                src={fotoSelecionada.src}
+                alt={fotoSelecionada.alt}
+                w="100%"
+                h={{ base: "280px", md: "520px" }}
+                objectFit="cover"
+                objectPosition="center"
+              />
+
+              <Flex
+                position="absolute"
+                insetX={0}
+                bottom={0}
+                align="center"
+                justify="space-between"
+                gap={4}
+                px={{ base: 4, md: 6 }}
+                py={4}
+                bg="rgba(43, 33, 33, 0.72)"
+              >
+                <Text color={CORES.BRANCO} fontWeight="800" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+                  {fotoSelecionada.legenda}
+                </Text>
+                <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+                  {fotoAtual + 1}/{fotosCultura.length}
+                </Text>
+              </Flex>
+            </Box>
+
+            <Flex mt={6} align="center" justify="center" gap={4}>
+              <Flex
+                as="button"
+                type="button"
+                aria-label="Foto anterior"
+                onClick={voltarFoto}
+                w="44px"
+                h="44px"
+                align="center"
+                justify="center"
+                bg={CORES.BRANCO}
+                color={CORES.VERMELHO_ESCURO}
+                borderRadius="4px"
+                _hover={{ bg: CORES.VERMELHO_CLARINHO }}
+              >
+                <ChevronLeft size={22} />
+              </Flex>
+
+              <Flex gap={2} align="center">
+                {fotosCultura.map((foto, index) => (
+                  <Box
+                    as="button"
+                    type="button"
+                    aria-label={`Ver foto: ${foto.legenda}`}
+                    key={foto.legenda}
+                    onClick={() => setFotoAtual(index)}
+                    w={index === fotoAtual ? "28px" : "10px"}
+                    h="10px"
+                    borderRadius="full"
+                    bg={index === fotoAtual ? CORES.VERMELHO_VIVO : CORES.CINZA_CLARO}
+                    transition="width 0.2s ease, background 0.2s ease"
+                  />
+                ))}
+              </Flex>
+
+              <Flex
+                as="button"
+                type="button"
+                aria-label="Proxima foto"
+                onClick={avancarFoto}
+                w="44px"
+                h="44px"
+                align="center"
+                justify="center"
+                bg={CORES.BRANCO}
+                color={CORES.VERMELHO_ESCURO}
+                borderRadius="4px"
+                _hover={{ bg: CORES.VERMELHO_CLARINHO }}
+              >
+                <ChevronRight size={22} />
+              </Flex>
+            </Flex>
+          </Box>
         </Container>
       </Box>
 
