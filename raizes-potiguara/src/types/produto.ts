@@ -7,4 +7,7 @@ export interface Produto {
   preco: number;
   categoria: CategoriaProduto;
   imagemUrl: string;
+  imagens?: string[];
+  materiaisInsumos?: string;
+  simbologia?: string;//categoria cultural
 }

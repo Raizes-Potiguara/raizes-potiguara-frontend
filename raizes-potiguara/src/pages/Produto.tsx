@@ -1,9 +1,12 @@
-const Produto = () => {
+import { useParams } from 'react-router';
+import ProdutoSecao from '@/components/produto/ProdutoSecao';
 
-  return (
-    <>
-    </>
-  );
+const ProdutoPage = () => {
+  const { idp } = useParams<{ idp: string }>();
+
+  if (!idp) return null;
+
+  return <ProdutoSecao produtoId={idp} />;
 };
 
-export default Produto;
+export default ProdutoPage;

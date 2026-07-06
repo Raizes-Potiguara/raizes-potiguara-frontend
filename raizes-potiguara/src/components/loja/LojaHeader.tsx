@@ -34,7 +34,7 @@ export const LojaHeader: React.FC = () => {
         Leve a ancestralidade com você
       </Heading>
       
-      <Text fontSize={`${TAMANHO.CORPO_TEXTO}px`} color={CORES.CINZA_CLARO} maxW="600px">
+      <Text fontSize={`${TAMANHO.CORPO_TEXTO}px`} color={CORES.CINZA_ESCURO} maxW="600px">
         Explore nossas coleções exclusivas de cestarias, biojoias e pinturas, 
         feitas pelas mãos talentosas dos artesãos Potiguara.
       </Text>

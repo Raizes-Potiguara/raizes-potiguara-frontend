@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Flex, Image, Text, Button } from '@chakra-ui/react';
 import { ShoppingBasket } from 'lucide-react';
+import { useNavigate } from 'react-router'; 
 import { CORES, TAMANHO, RADIUS_PADRAO_CARD, RADIUS_PADRAO_BOTAO } from '../../util/constants';
 import type { Produto } from '../../types/produto';
 
@@ -10,18 +11,25 @@ interface ProdutoCardProps {
 }
 
 export const ProdutoCard: React.FC<ProdutoCardProps> = ({ produto, aoAdicionarAoCarrinho }) => {
+  const navigate = useNavigate();
+  const lidarComCliqueCartao = () => {
+    navigate(`/artesanato/${produto.id}`);
+  };
+
   return (
     <Flex
       direction="column"
       bg={CORES.BRANCO}
-      border={`2px solid ${CORES.PRETO}`}
+      border={`2px solid ${CORES.CINZA_CLARINHO}`}
       borderRadius={`${RADIUS_PADRAO_CARD}px`}
       overflow="hidden"
-      boxShadow="4px 4px 0px rgba(0,0,0,0.2)"
+      dropShadow='sm'
       transition="all 0.2s ease-in-out"
+      cursor="pointer"
+      onClick={lidarComCliqueCartao}
       _hover={{ transform: 'translateY(-4px)', boxShadow: '6px 6px 0px rgba(0,0,0,0.25)' }}
     >
-      <Box h="220px" w="100%" borderBottom={`2px solid ${CORES.PRETO}`} overflow="hidden">
+      <Box h="220px" w="100%" borderBottom={`2px solid ${CORES.CINZA_CLARO}`} overflow="hidden">
         <Image
           src={produto.imagemUrl}
           alt={produto.nome}
@@ -35,7 +43,7 @@ export const ProdutoCard: React.FC<ProdutoCardProps> = ({ produto, aoAdicionarAo
         <Text fontSize={`${TAMANHO.TEXTO_PEQUENO}px`} color={CORES.CINZA_ESCURO} fontWeight="bold">
           {produto.categoria}
         </Text>
-        
+
         <Text
           fontFamily="'CabinetGrotesk-Variable', 'Fraunces', serif"
           fontWeight="800"
@@ -45,7 +53,6 @@ export const ProdutoCard: React.FC<ProdutoCardProps> = ({ produto, aoAdicionarAo
         >
           {produto.nome}
         </Text>
-        
         <Text fontSize={`${TAMANHO.TEXTO_PEQUENO}px`} color={CORES.CINZA_ESCURO} flex="1">
           {produto.descricao}
         </Text>
@@ -54,9 +61,11 @@ export const ProdutoCard: React.FC<ProdutoCardProps> = ({ produto, aoAdicionarAo
           <Text fontWeight="800" color={CORES.VERMELHO_MEDIO} fontSize={`${TAMANHO.TEXTO_BOTAO}px`}>
             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(produto.preco)}
           </Text>
-
           <Button
-            onClick={() => aoAdicionarAoCarrinho?.(produto)}
+            onClick={(e) => {
+              e.stopPropagation();
+              aoAdicionarAoCarrinho?.(produto);
+            }}
             bg={CORES.PRETO}
             color={CORES.BRANCO}
             borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
