@@ -104,6 +104,7 @@ const userId = 1
                           alignItems={"center"}
                           color={CORES.CINZA_ESCURO}
                           border={0}
+                          onClick={()=>navigate(`0`)}
                           >
                               <Card.Body>
                                 <Flex alignItems={"center"} gap={4}>
