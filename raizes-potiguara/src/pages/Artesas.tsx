@@ -1,8 +1,13 @@
 import HoneycombBackgroundRed from "@/components/general/HoneycombBackgroundRed";
 import fotoPotiguara from "@/assets/artesa-potiguara.jpeg";
+import fotoArtesanatoMesa from "@/assets/cultura-artesanato-mesa.jpeg";
+import fotoAldeasColetivo from "@/assets/cultura-aldeas-coletivo.jpeg";
+import fotoArtesasRetrato from "@/assets/cultura-artesas-retrato.jpeg";
+import fotoAssociacaoPotiguara from "@/assets/cultura-associacao-potiguara.jpeg";
 import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
 import { Badge, Box, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import { Gem, Globe, MapPin, Sprout, UsersRound } from "lucide-react";
+import { ChevronLeft, ChevronRight, Gem, Globe, MapPin, Sprout, UsersRound } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const artesas = [
   {
@@ -47,7 +52,53 @@ const artesas = [
   },
 ];
 
+const fotosArtesas = [
+  {
+    src: fotoArtesanatoMesa,
+    alt: "Mesa com colares e biojoias potiguara feitos com sementes",
+    legenda: "Biojoias e sementes",
+  },
+  {
+    src: fotoAldeasColetivo,
+    alt: "Grupo de mulheres potiguara em espaco cultural",
+    legenda: "Mulheres e aldeias",
+  },
+  {
+    src: fotoArtesasRetrato,
+    alt: "Tres mulheres usando adornos potiguara",
+    legenda: "Artesas potiguara",
+  },
+  {
+    src: fotoAssociacaoPotiguara,
+    alt: "Representantes em frente a grafismo e cocar potiguara",
+    legenda: "Organizacao coletiva",
+  },
+  {
+    src: fotoPotiguara,
+    alt: "Artesa potiguara ao lado de uma mesa com colares artesanais",
+    legenda: "Artesanato ancestral",
+  },
+];
+
 const Artesas = () => {
+  const [fotoAtual, setFotoAtual] = useState(0);
+  const fotoSelecionada = fotosArtesas[fotoAtual];
+
+  useEffect(() => {
+    const intervalo = window.setInterval(() => {
+      setFotoAtual((atual) => (atual === fotosArtesas.length - 1 ? 0 : atual + 1));
+    }, 4000);
+
+    return () => window.clearInterval(intervalo);
+  }, []);
+
+  const voltarFoto = () => {
+    setFotoAtual((atual) => (atual === 0 ? fotosArtesas.length - 1 : atual - 1));
+  };
+
+  const avancarFoto = () => {
+    setFotoAtual((atual) => (atual === fotosArtesas.length - 1 ? 0 : atual + 1));
+  };
 
   return (
     <Box bg={CORES.BRANCO}>
@@ -90,15 +141,99 @@ const Artesas = () => {
               </Text>
             </Stack>
 
-            <Image
-              src={fotoPotiguara}
-              alt="Artesa potiguara com colares artesanais"
-              borderRadius="4px"
-              objectFit="cover"
-              w="100%"
-              h={{ base: "260px", md: "380px" }}
-              boxShadow="8px 8px 0px rgba(210, 23, 23, 0.45)"
-            />
+            <Box>
+              <Box
+                position="relative"
+                mx={{ base: "auto", md: 0 }}
+                maxW={{ base: "520px", md: "500px" }}
+                aspectRatio="1 / 1"
+                borderRadius="4px"
+                overflow="hidden"
+                bg={CORES.PRETO}
+                boxShadow={`12px 12px 0 ${CORES.VERMELHO_ESCURO}`}
+              >
+                <Image
+                  src={fotoSelecionada.src}
+                  alt={fotoSelecionada.alt}
+                  w="100%"
+                  h="100%"
+                  objectFit="contain"
+                  objectPosition="center"
+                />
+
+                <Flex
+                  position="absolute"
+                  insetX={0}
+                  bottom={0}
+                  align="center"
+                  justify="space-between"
+                  gap={4}
+                  px={{ base: 4, md: 5 }}
+                  py={3}
+                  bg="rgba(43, 33, 33, 0.78)"
+                >
+                  <Text color={CORES.BRANCO} fontWeight="800" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+                    {fotoSelecionada.legenda}
+                  </Text>
+                  <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+                    {fotoAtual + 1}/{fotosArtesas.length}
+                  </Text>
+                </Flex>
+              </Box>
+
+              <Flex mt={5} align="center" justify="center" gap={4}>
+                <Flex
+                  as="button"
+                  type="button"
+                  aria-label="Foto anterior"
+                  onClick={voltarFoto}
+                  w="40px"
+                  h="40px"
+                  align="center"
+                  justify="center"
+                  bg={CORES.BRANCO}
+                  color={CORES.VERMELHO_ESCURO}
+                  borderRadius="4px"
+                  _hover={{ bg: CORES.VERMELHO_CLARINHO }}
+                >
+                  <ChevronLeft size={22} />
+                </Flex>
+
+                <Flex gap={2} align="center">
+                  {fotosArtesas.map((foto, index) => (
+                    <Box
+                      as="button"
+                      type="button"
+                      aria-label={`Ver foto: ${foto.legenda}`}
+                      key={foto.legenda}
+                      onClick={() => setFotoAtual(index)}
+                      w={index === fotoAtual ? "28px" : "10px"}
+                      h="10px"
+                      borderRadius="full"
+                      bg={index === fotoAtual ? CORES.VERMELHO_VIVO : CORES.CINZA_CLARO}
+                      transition="width 0.2s ease, background 0.2s ease"
+                    />
+                  ))}
+                </Flex>
+
+                <Flex
+                  as="button"
+                  type="button"
+                  aria-label="Proxima foto"
+                  onClick={avancarFoto}
+                  w="40px"
+                  h="40px"
+                  align="center"
+                  justify="center"
+                  bg={CORES.BRANCO}
+                  color={CORES.VERMELHO_ESCURO}
+                  borderRadius="4px"
+                  _hover={{ bg: CORES.VERMELHO_CLARINHO }}
+                >
+                  <ChevronRight size={22} />
+                </Flex>
+              </Flex>
+            </Box>
           </SimpleGrid>
         </Container>
       </Box>
