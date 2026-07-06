@@ -18,17 +18,18 @@ const Inputs = () => {
   };
 
   return (
-    <Flex px={2} gap={2} align="center">
+    <Flex px={2} gap={4} align="center">
       <Textarea
         value={isRecording ? "Gravando..." : mensagem}
         onChange={handleChange}
         fontSize={TAMANHO.TEXTO_PEQUENO}
         placeholder="Digite ou fale aqui..."
-        bg="whiteAlpha.300"
+        bg={CORES.CREME+"/5"}
         borderRadius={RADIUS_PADRAO_CARD}
         resize="none"
         maxH="16vh"
         overflowY="auto"
+        border={"none"}
         disabled={isRecording}
         cursor={isRecording ? "not-allowed" : "text"}
         alignContent={"center"}
@@ -43,9 +44,9 @@ const Inputs = () => {
         rounded="full"
         size={"xl"}
         aria-label={isEmpty ? "Usar microfone" : "Enviar mensagem"}
-        bgColor={isRecording ? "red.500" : CORES.PRETO}
+        bgColor={CORES.VERMELHO_MEDIO}
         color={CORES.BRANCO}
-        transform={isRecording ? "scale(1.15)" : "scale(1)"}
+        transform={isRecording ? "scale(1.2)" : "scale(1)"}
         transition="all 0.2s ease"
         animation={isRecording ?"pulse":"none"}
         onMouseDown={() => isEmpty && setIsRecording(true)}

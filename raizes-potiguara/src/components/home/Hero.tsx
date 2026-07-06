@@ -15,7 +15,7 @@ const Hero = () => {
           align="flex-start"
           gap={5}
           px={{ base: 6, md: 10 }}
-          pt={10}
+          pt={16}
           pb={20}
         >
           <Box
@@ -53,6 +53,7 @@ const Hero = () => {
             lineHeight={1.25}
             maxW="480px"
             fontSize={`${TAMANHO.SUBTITULO_SECAO}px`}
+            mt={8}
           >
             O artesanato potiguara contado pelas mãos que o criam.
           </Text>

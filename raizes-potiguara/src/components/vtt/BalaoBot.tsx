@@ -13,8 +13,8 @@ const BalaoBot = (
     <Box display="flex" justifyContent="flex-start" mb={2}>
       <Box
         position="relative"
-        bg={CORES.CINZA_CLARINHO}
-        color={CORES.PRETO}
+        bg={CORES.CINZA_ESCURO}
+        color={CORES.CREME}
         px={4}
         py={3}
         borderRadius="2xl"
@@ -26,7 +26,7 @@ const BalaoBot = (
           bottom: "10px",
           width: "12px",
           height: "12px",
-          bg: `${CORES.CINZA_CLARINHO}`,
+          bg: `${CORES.CINZA_ESCURO}`,
           transform: "rotate(45deg)",
           borderRadius: "2px",
         }}

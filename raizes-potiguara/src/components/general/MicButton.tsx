@@ -50,17 +50,17 @@ const MicButton = () => {
             mx={2} 
             boxShadow={"md"}
             borderRadius={"xl"}
-            bgColor={CORES.BRANCO}
-            color={CORES.PRETO}
+            bgColor={CORES.PRETO}
+            color={CORES.BRANCO}
             h={"100%"}
           >
             <Dialog.Header>
-              <Dialog.Title fontSize={TAMANHO.TITULO_SUBSECAO}>
+              <Dialog.Title fontSize={TAMANHO.SUBTITULO_SECAO}>
                 Assistente virtual
             </Dialog.Title>
             </Dialog.Header>
             <Dialog.CloseTrigger asChild>
-              <CloseButton mt={2} size="md" />
+              <CloseButton color={CORES.BRANCO} mt={2} size="md" />
             </Dialog.CloseTrigger>
             <Dialog.Body px={0}>
                 <Flex px={2} w={"100%"} h={"full"} flexDir={"column"} justifyContent={"end"} gap={6}>
