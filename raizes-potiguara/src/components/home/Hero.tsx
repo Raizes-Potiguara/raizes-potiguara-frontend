@@ -25,7 +25,8 @@ const Hero = () => {
             boxShadow="4px 4px 0px rgba(0,0,0,0.35)"
             px={{ base: 5, md: 8 }}
             py={{ base: 2, md: 3 }}
-            my={{ base: 8, md: 10 }}
+            mt={{ base: 20, md: 22  }}
+            mb={{ base: 16, md: 18  }}
             css={{
               backgroundImage: `
                 linear-gradient(${CORES.CINZA_CLARO}33 1px, transparent 1px),
