@@ -97,7 +97,7 @@ const userId = 1
                           <Card.Root
                           flexDirection="row" 
                           boxShadow={"sm"}
-                          bgColor={"white/60"}
+                          bgColor={"white/40"}
                           overflow="hidden" 
                           w={"full"}
                           h={"10vh"}

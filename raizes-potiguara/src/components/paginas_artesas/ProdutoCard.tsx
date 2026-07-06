@@ -13,7 +13,7 @@ const ProdutoCard = () => {
         <Card.Root 
         flexDirection="row" 
         boxShadow={"sm"}
-        bgColor={"white/60"}
+        bgColor={"white/40"}
         overflow="hidden" 
         w={"full"}
         h={"20vh"}
