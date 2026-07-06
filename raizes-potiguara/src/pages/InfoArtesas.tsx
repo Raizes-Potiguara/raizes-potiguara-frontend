@@ -1,7 +1,7 @@
 import ChangePassword from "@/components/general/ChangePassword";
 import MicButton from "@/components/general/MicButton";
 import { CORES, TAMANHO } from "@/util/constants";
-import { Box, Button, Card, Circle, Flex,IconButton, Input, InputGroup, SkeletonCircle, Text, Textarea } from "@chakra-ui/react";
+import { Box, Button, Card, Circle, Field, Flex,IconButton, Input, InputGroup, SkeletonCircle, Text, Textarea } from "@chakra-ui/react";
 import { ArrowLeft, Pencil } from "lucide-react";
 import { LuAtSign, LuCoins, LuHouse, LuMail, LuUser } from "react-icons/lu";
 import { useNavigate } from "react-router";
@@ -74,28 +74,94 @@ const userId = 1
                             <Pencil color="white" size={28} />
                           </Box>
                         </Box>
+                        
+                        <Field.Root required>
+                            <Field.Label>
+                              Nome completo <Field.RequiredIndicator />
+                            </Field.Label>
+                            <InputGroup startElement={<LuUser />}>
+                              <Input
+                                boxShadow="xs"
+                                rounded="md"
+                                placeholder="Seu nome completo..."
+                              />
+                            </InputGroup>
+                          </Field.Root>
 
-                          <InputGroup startElement={<LuUser />}>
-                            <Input boxShadow={"xs"} rounded={"md"} placeholder="Seu nome completo..." />
-                          </InputGroup>
-                          <InputGroup  endElement={<LuCoins />}>
-                            <Input boxShadow={"xs"} px={4} rounded={"md"} placeholder="Sua chave pix..." />
-                          </InputGroup>
-                          <InputGroup startElement={<LuMail />}>
-                            <Input boxShadow={"xs"} rounded={"md"} placeholder="Seu endereço de email..." />
-                          </InputGroup>
-                          <InputGroup  endElement={<LuHouse />}>
-                            <Input boxShadow={"xs"} px={4} rounded={"md"} placeholder="De que aldeia você é?" />
-                          </InputGroup>
+                          <Field.Root required>
+                            <Field.Label>
+                              Chave Pix <Field.RequiredIndicator />
+                            </Field.Label>
+                            <InputGroup endElement={<LuCoins />}>
+                              <Input
+                                boxShadow="xs"
+                                px={4}
+                                rounded="md"
+                                placeholder="Sua chave pix..."
+                              />
+                            </InputGroup>
+                          </Field.Root>
+
+                          <Field.Root>
+                            <Field.Label>
+                              E-mail <Field.RequiredIndicator />
+                            </Field.Label>
+                            <InputGroup startElement={<LuMail />}>
+                              <Input
+                                boxShadow="xs"
+                                rounded="md"
+                                placeholder="Seu endereço de email..."
+                              />
+                            </InputGroup>
+                          </Field.Root>
+
+                          <Field.Root required>
+                            <Field.Label>
+                              Aldeia <Field.RequiredIndicator />
+                            </Field.Label>
+                            <InputGroup endElement={<LuHouse />}>
+                              <Input
+                                boxShadow="xs"
+                                px={4}
+                                rounded="md"
+                                placeholder="De que aldeia você é?"
+                              />
+                            </InputGroup>
+                          </Field.Root>
+
                           <Flex gap={2}>
-                            <InputGroup startElement={<LuAtSign />}>
-                              <Input boxShadow={"xs"} rounded={"md"} placeholder="Instagram" />
-                            </InputGroup>
-                            <InputGroup startElement={<LuAtSign />}>
-                              <Input boxShadow={"xs"} rounded={"md"} placeholder="Facebook" />
-                            </InputGroup>
+                            <Field.Root flex={1}>
+                              <Field.Label>Instagram</Field.Label>
+                              <InputGroup startElement={<LuAtSign />}>
+                                <Input
+                                  boxShadow="xs"
+                                  rounded="md"
+                                  placeholder="Instagram"
+                                />
+                              </InputGroup>
+                            </Field.Root>
+
+                            <Field.Root flex={1}>
+                              <Field.Label>Facebook</Field.Label>
+                              <InputGroup startElement={<LuAtSign />}>
+                                <Input
+                                  boxShadow="xs"
+                                  rounded="md"
+                                  placeholder="Facebook"
+                                />
+                              </InputGroup>
+                            </Field.Root>
                           </Flex>
-                          <Textarea boxShadow={"xs"} placeholder="Sobre mim..." minH={"20vh"} maxH={"40vh"}/>
+
+                          <Field.Root>
+                            <Field.Label>Sobre mim</Field.Label>
+                            <Textarea
+                              boxShadow="xs"
+                              placeholder="Sobre mim..."
+                              minH="20vh"
+                              maxH="40vh"
+                            />
+                          </Field.Root>
 
                           <Button 
                           fontSize={TAMANHO.TEXTO_BOTAO} 

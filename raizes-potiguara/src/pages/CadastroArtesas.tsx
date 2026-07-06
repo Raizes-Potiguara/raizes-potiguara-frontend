@@ -1,10 +1,11 @@
 import { CORES, TAMANHO } from "@/util/constants";
 import { aplicarMascaraCpf } from "@/util/mascaras";
-import { Box, Button, Card, Circle, Flex, Image, Input, Stack, Text } from "@chakra-ui/react";
-import { Eye, EyeOff, Pencil, UserPlus } from "lucide-react";
+import { Box, Button, Card, Circle, DatePicker, Field, Flex, IconButton, Image, Input, InputGroup, PinInput, Portal, Stack, Text } from "@chakra-ui/react";
+import { ArrowLeft, Eye, EyeOff, Pencil, UserPlus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toaster } from "@/components/ui/toaster";
+import { LuUser, LuCalendar, LuBadgeInfo, LuHouse, LuCoins, LuMail } from "react-icons/lu";
 
 const CadastroArtesas = () => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const CadastroArtesas = () => {
 
     const [dados, setDados] = useState({
         nome: "",
-        idade: "",
+        dataNascimento: "",
         cpf: "",
         aldeia: "",
         chavePix: "",
@@ -38,7 +39,7 @@ const CadastroArtesas = () => {
     };
 
     const handleCadastrar = () => {
-        if (!dados.nome || !dados.idade || !dados.cpf || !dados.aldeia || !dados.chavePix || !dados.senha) {
+        if (!dados.nome || !dados.dataNascimento || !dados.cpf || !dados.aldeia || !dados.chavePix || !dados.senha) {
             toaster.create({
                 title: "Campos obrigatórios",
                 description: "Preencha todos os campos com asterisco (*) para continuar.",
@@ -74,10 +75,10 @@ const CadastroArtesas = () => {
                         <Circle
                             as="label"
                             cursor="pointer"
-                            size={"150px"}
+                            size={"130px"}
                             bgColor={CORES.CINZA_CLARO}
                             borderWidth={10}
-                            borderColor={CORES.CREME}
+                            borderColor={CORES.BRANCO}
                             overflow="hidden"
                             position="relative"
                         >
@@ -96,7 +97,7 @@ const CadastroArtesas = () => {
                                     alt="Preview"
                                 />
                             ) : (
-                                <UserPlus size={60} color={CORES.PRETO} />
+                                <UserPlus size={36} color={CORES.PRETO} />
                             )}
 
                             <Box
@@ -115,182 +116,192 @@ const CadastroArtesas = () => {
                     </Box>
 
                     <Card.Root
-                        bg={CORES.CREME}
+                        bg={CORES.BRANCO}
                         blur={"lg"}
                         boxShadow={"md"}
                         borderTopRadius={24}
                         borderBottomRadius={0}
                         pt="60px"
-                        pb="50px"
                         zIndex={1}
                         minH={"85vh"}
                     >
                         <Card.Body>
-                            <Flex flexDir="column" align="center" mb={6} mt={4}>
-                                <Text
-                                    fontSize={TAMANHO.SUBTITULO_SECAO}
-                                    fontWeight={700}
-                                    textAlign="center"
-                                    mb={1}
-                                >
-                                    Nova Artesã
+                            <Flex mb={2} alignItems={"center"} placeContent={"space-between"}>
+                                <Text color={CORES.PRETO} className="hashira" lineHeight={1.1} fontWeight={"bold"} fontSize={TAMANHO.TITULO_SECAO}>
+                                    Cadastrar <br/> Artesã
                                 </Text>
-                                <Text
-                                    fontSize={TAMANHO.TEXTO_PEQUENO}
-                                    color={CORES.CINZA_ESCURO}
-                                    fontWeight={500}
-                                    textAlign="center"
+                                {
+                                <IconButton 
+                                bgColor={CORES.PRETO} 
+                                color={CORES.BRANCO} 
+                                size={"xl"} 
+                                boxShadow={"md"}
+                                rounded={"full"}
+                                onClick={()=>navigate(`/admin`)}
                                 >
-                                    Preencha os dados para gerar o acesso
-                                </Text>
+                                    <ArrowLeft/>
+                                </IconButton>
+                                }
                             </Flex>
+                            <Text
+                                mb={8}
+                                fontSize={TAMANHO.CORPO_TEXTO}
+                                color={CORES.CINZA_ESCURO}
+                                fontWeight={500}
+                            >
+                                Preencha os dados para gerar o acesso
+                            </Text>
 
                             <Stack gap="4">
-                                <Box>
-                                    <Text fontSize={TAMANHO.TEXTO_PEQUENO} fontWeight={700} mb={1}>
-                                        Nome Completo <Text as="span" color={CORES.VERMELHO_MEDIO}>*</Text>
-                                    </Text>
+                                <Field.Root required>
+                                <Field.Label>
+                                    Nome Completo <Field.RequiredIndicator />
+                                </Field.Label>
+                                <InputGroup startElement={<LuUser />}>
                                     <Input
-                                        value={dados.nome}
-                                        onChange={(e) => handleChange("nome", e.target.value)}
-                                        placeholder="Nome da artesã"
-                                        borderColor={CORES.CINZA_ESCURO}
-                                        bg={CORES.BRANCO}
+                                    value={dados.nome}
+                                    onChange={(e) => handleChange("nome", e.target.value)}
+                                    placeholder="Nome da artesã"
+                                    boxShadow="xs"
+                                    rounded="md"
+                                    bg={CORES.BRANCO}
                                     />
-                                </Box>
+                                </InputGroup>
+                                </Field.Root>
 
                                 <Flex gap={4}>
-                                    <Box flex={1}>
-                                        <Text fontSize={TAMANHO.TEXTO_PEQUENO} fontWeight={700} mb={1}>
-                                            Idade <Text as="span" color={CORES.VERMELHO_MEDIO}>*</Text>
-                                        </Text>
-                                        <Input
-                                            type="number"
-                                            value={dados.idade}
-                                            onChange={(e) => handleChange("idade", e.target.value)}
-                                            placeholder="Ex: 35"
-                                            borderColor={CORES.CINZA_ESCURO}
-                                            bg={CORES.BRANCO}
-                                        />
-                                    </Box>
-                                    <Box flex={2}>
-                                        <Text fontSize={TAMANHO.TEXTO_PEQUENO} fontWeight={700} mb={1}>
-                                            CPF <Text as="span" color={CORES.VERMELHO_MEDIO}>*</Text>
-                                        </Text>
-                                        <Input
-                                            value={dados.cpf}
-                                            onChange={handleCpfChange}
-                                            placeholder="000.000.000-00"
-                                            borderColor={CORES.CINZA_ESCURO}
-                                            bg={CORES.BRANCO}
-                                            maxLength={14}
-                                        />
-                                    </Box>
+                                    <Field.Root required flex={1}>
+                                    <Field.Label>
+                                        Data de Nascimento <Field.RequiredIndicator />
+                                    </Field.Label>
+                                    <DatePicker.Root maxWidth="20rem">
+                                    <DatePicker.Control>
+                                        <DatePicker.Input />
+                                        <DatePicker.IndicatorGroup>
+                                        <DatePicker.Trigger>
+                                            <LuCalendar />
+                                        </DatePicker.Trigger>
+                                        </DatePicker.IndicatorGroup>
+                                    </DatePicker.Control>
+                                    <Portal>
+                                        <DatePicker.Positioner>
+                                        <DatePicker.Content bgColor={CORES.PRETO} color={CORES.BRANCO}>
+                                            <DatePicker.View view="day">
+                                            <DatePicker.Header />
+                                            <DatePicker.DayTable />
+                                            </DatePicker.View>
+                                            <DatePicker.View view="month">
+                                            <DatePicker.Header />
+                                            <DatePicker.MonthTable />
+                                            </DatePicker.View>
+                                            <DatePicker.View view="year">
+                                            <DatePicker.Header />
+                                            <DatePicker.YearTable />
+                                            </DatePicker.View>
+                                        </DatePicker.Content>
+                                        </DatePicker.Positioner>
+                                    </Portal>
+                                    </DatePicker.Root>
+                                    </Field.Root>
+
+                                <Field.Root required flex={2}>
+                                    <Field.Label>
+                                    CPF <Field.RequiredIndicator />
+                                    </Field.Label>
+                                    <InputGroup startElement={<LuBadgeInfo />}>
+                                    <Input
+                                        value={dados.cpf}
+                                        onChange={handleCpfChange}
+                                        placeholder="000.000.000-00"
+                                        maxLength={14}
+                                        boxShadow="xs"
+                                        rounded="md"
+                                        bg={CORES.BRANCO}
+                                    />
+                                    </InputGroup>
+                                </Field.Root>
                                 </Flex>
 
-                                <Box>
-                                    <Text fontSize={TAMANHO.TEXTO_PEQUENO} fontWeight={700} mb={1}>
-                                        Aldeia / Comunidade <Text as="span" color={CORES.VERMELHO_MEDIO}>*</Text>
-                                    </Text>
+                                <Field.Root required>
+                                <Field.Label>
+                                    Aldeia / Comunidade <Field.RequiredIndicator />
+                                </Field.Label>
+                                <InputGroup endElement={<LuHouse />}>
                                     <Input
-                                        value={dados.aldeia}
-                                        onChange={(e) => handleChange("aldeia", e.target.value)}
-                                        placeholder="Ex: Aldeia Jacaré"
-                                        borderColor={CORES.CINZA_ESCURO}
-                                        bg={CORES.BRANCO}
+                                    value={dados.aldeia}
+                                    onChange={(e) => handleChange("aldeia", e.target.value)}
+                                    placeholder="Ex: Aldeia São Francisco"
+                                    boxShadow="xs"
+                                    rounded="md"
+                                    px={4}
+                                    bg={CORES.BRANCO}
                                     />
-                                </Box>
+                                </InputGroup>
+                                </Field.Root>
 
-                                <Box>
-                                    <Text fontSize={TAMANHO.TEXTO_PEQUENO} fontWeight={700} mb={1}>
-                                        Chave PIX <Text as="span" color={CORES.VERMELHO_MEDIO}>*</Text>
-                                    </Text>
+                                <Field.Root required>
+                                <Field.Label>
+                                    Chave PIX <Field.RequiredIndicator />
+                                </Field.Label>
+                                <InputGroup endElement={<LuCoins />}>
                                     <Input
-                                        value={dados.chavePix}
-                                        onChange={(e) => handleChange("chavePix", e.target.value)}
-                                        placeholder="Celular, CPF ou E-mail"
-                                        borderColor={CORES.CINZA_ESCURO}
-                                        bg={CORES.BRANCO}
+                                    value={dados.chavePix}
+                                    onChange={(e) => handleChange("chavePix", e.target.value)}
+                                    placeholder="Celular, CPF ou E-mail"
+                                    boxShadow="xs"
+                                    rounded="md"
+                                    px={4}
+                                    bg={CORES.BRANCO}
                                     />
-                                </Box>
+                                </InputGroup>
+                                </Field.Root>
 
-                                <Box>
-                                    <Text fontSize={TAMANHO.TEXTO_PEQUENO} fontWeight={700} mb={1}>
-                                        E-mail (Opcional)
-                                    </Text>
+                                <Field.Root>
+                                <Field.Label>E-mail (Opcional)</Field.Label>
+                                <InputGroup startElement={<LuMail />}>
                                     <Input
-                                        type="email"
-                                        value={dados.email}
-                                        onChange={(e) => handleChange("email", e.target.value)}
-                                        placeholder="artesa@email.com"
-                                        borderColor={CORES.CINZA_ESCURO}
-                                        bg={CORES.BRANCO}
+                                    type="email"
+                                    value={dados.email}
+                                    onChange={(e) => handleChange("email", e.target.value)}
+                                    placeholder="artesa@email.com"
+                                    boxShadow="xs"
+                                    rounded="md"
+                                    bg={CORES.BRANCO}
                                     />
-                                </Box>
+                                </InputGroup>
+                                </Field.Root>
 
-                                <Box>
-                                    <Text fontSize={TAMANHO.TEXTO_PEQUENO} fontWeight={700} mb={1}>
-                                        Senha de Acesso (PIN) <Text as="span" color={CORES.VERMELHO_MEDIO}>*</Text>
-                                    </Text>
-                                    <Box position="relative">
-                                        <Input
-                                            type={mostrarSenha ? "text" : "password"}
-                                            value={dados.senha}
-                                            onChange={(e) => handleChange("senha", e.target.value)}
-                                            placeholder="Crie uma senha simples"
-                                            borderColor={CORES.CINZA_ESCURO}
-                                            bg={CORES.BRANCO}
-                                            pr="40px"
-                                        />
-                                        <Box
-                                            role="button"
-                                            aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
-                                            position="absolute"
-                                            right="3"
-                                            top="50%"
-                                            transform="translateY(-50%)"
-                                            cursor="pointer"
-                                            color={CORES.CINZA_ESCURO}
-                                            onClick={() => setMostrarSenha(!mostrarSenha)}
-                                            display="flex"
-                                            alignItems="center"
-                                            justifyContent="center"
-                                        >
-                                            {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
-                                        </Box>
-                                    </Box>
-                                </Box>
+                                <Field.Root required>
+                                <Field.Label>
+                                    Senha de Acesso (PIN) <Field.RequiredIndicator />
+                                </Field.Label>
+                                  <PinInput.Root
+                                    value={dados.senha}
+                                    onValueChange={(e) => handleChange("senha", e.value)}
+                                    otp
+                                >
+                                    <PinInput.HiddenInput />
+                                    <PinInput.Control>
+                                    <PinInput.Input index={0} />
+                                    <PinInput.Input index={1} />
+                                    <PinInput.Input index={2} />
+                                    <PinInput.Input index={3} />
+                                    <PinInput.Input index={4} />
+                                    <PinInput.Input index={5} />
+                                    </PinInput.Control>
+                                </PinInput.Root>
+                                </Field.Root>
 
-                                <Flex gap={3} mt={6}>
-                                    <Button
-                                        flex={2}
-                                        onClick={handleCadastrar}
-                                        bg={CORES.PRETO}
-                                        color={CORES.BRANCO}
-                                        fontWeight={700}
-                                        py={6}
-                                        rounded="full"
-                                        _hover={{ bg: CORES.CINZA_ESCURO }}
-                                    >
-                                        Concluir Cadastro
+                                    <Button 
+                                    fontSize={TAMANHO.TEXTO_BOTAO} 
+                                    onClick={handleCadastrar}
+                                    mt={6} 
+                                    mb={2}
+                                    boxShadow={"sm"} 
+                                    bgColor={CORES.VERMELHO_MEDIO} 
+                                    rounded={"full"}>
+                                        Salvar alterações
                                     </Button>
-
-                                    <Button
-                                        flex={1}
-                                        variant="outline"
-                                        borderColor={CORES.VERMELHO_MEDIO}
-                                        color={CORES.VERMELHO_MEDIO}
-                                        fontWeight={700}
-                                        py={6}
-                                        rounded="full"
-                                        onClick={() => navigate("/admin")}
-                                        _hover={{
-                                            bg: `${CORES.VERMELHO_MEDIO}1A`,
-                                        }}
-                                    >
-                                        Cancelar
-                                    </Button>
-                                </Flex>
                             </Stack>
                         </Card.Body>
                     </Card.Root>
