@@ -8,10 +8,10 @@ import { toaster } from "@/components/ui/toaster";
 import { LuUser, LuCalendar, LuBadgeInfo, LuHouse, LuCoins, LuMail } from "react-icons/lu";
 
 const CadastroArtesas = () => {
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
-    const [fotoPreview, setFotoPreview] = useState("");
-    const [mostrarSenha, setMostrarSenha] = useState(false);
+	const [fotoPreview, setFotoPreview] = useState("");
+	const [mostrarSenha, setMostrarSenha] = useState(false);
 
     const [dados, setDados] = useState({
         nome: "",
@@ -23,20 +23,20 @@ const CadastroArtesas = () => {
         senha: ""
     });
 
-    const handleChange = (campo: keyof typeof dados, valor: string) => {
-        setDados({ ...dados, [campo]: valor });
-    };
+	const handleChange = (campo: keyof typeof dados, valor: string) => {
+		setDados({ ...dados, [campo]: valor });
+	};
 
-    const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        handleChange("cpf", aplicarMascaraCpf(e.target.value));
-    };
+	const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		handleChange("cpf", aplicarMascaraCpf(e.target.value));
+	};
 
-    const handleFotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            const urlOpcao = URL.createObjectURL(e.target.files[0]);
-            setFotoPreview(urlOpcao);
-        }
-    };
+	const handleFotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files[0]) {
+			const urlOpcao = URL.createObjectURL(e.target.files[0]);
+			setFotoPreview(urlOpcao);
+		}
+	};
 
     const handleCadastrar = () => {
         if (!dados.nome || !dados.dataNascimento || !dados.cpf || !dados.aldeia || !dados.chavePix || !dados.senha) {
@@ -49,17 +49,17 @@ const CadastroArtesas = () => {
             return;
         }
 
-        toaster.create({
-            title: "Artesã Cadastrada!",
-            description: `${dados.nome} foi adicionada.`,
-            type: "success",
-            duration: 3000,
-        });
+		toaster.create({
+			title: "Artesã Cadastrada!",
+			description: `${dados.nome} foi adicionada.`,
+			type: "success",
+			duration: 3000,
+		});
 
-        setTimeout(() => {
-            navigate("/admin");
-        }, 1000);
-    };
+		setTimeout(() => {
+			navigate("/admin");
+		}, 1000);
+	};
 
     return (
         <>
@@ -100,20 +100,20 @@ const CadastroArtesas = () => {
                                 <UserPlus size={36} color={CORES.PRETO} />
                             )}
 
-                            <Box
-                                position="absolute"
-                                bottom={0}
-                                w="full"
-                                h="35px"
-                                bg="rgba(0, 0, 0, 0.5)"
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="center"
-                            >
-                                <Pencil size={18} color={CORES.BRANCO} />
-                            </Box>
-                        </Circle>
-                    </Box>
+							<Box
+								position="absolute"
+								bottom={0}
+								w="full"
+								h="35px"
+								bg="rgba(0, 0, 0, 0.5)"
+								display="flex"
+								alignItems="center"
+								justifyContent="center"
+							>
+								<Pencil size={18} color={CORES.BRANCO} />
+							</Box>
+						</Circle>
+					</Box>
 
                     <Card.Root
                         bg={CORES.BRANCO}
