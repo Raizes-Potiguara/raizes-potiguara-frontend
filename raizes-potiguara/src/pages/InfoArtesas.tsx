@@ -3,7 +3,7 @@ import MicButton from "@/components/general/MicButton";
 import { CORES, TAMANHO } from "@/util/constants";
 import { Box, Button, Card, Circle, DatePicker, Field, Flex,IconButton, Input, InputGroup, Portal, SkeletonCircle, Text, Textarea } from "@chakra-ui/react";
 import { ArrowLeft, Pencil } from "lucide-react";
-import { LuAtSign, LuBadgeInfo, LuCalendar, LuCoins, LuHouse, LuMail, LuUser } from "react-icons/lu";
+import { LuAtSign, LuBadgeInfo, LuCalendar, LuCoins, LuHouse, LuMail, LuPhone, LuUser } from "react-icons/lu";
 import { useNavigate } from "react-router";
 
 const InfoArtesas = () => {
@@ -152,6 +152,21 @@ const userId = 1
                               />
                             </InputGroup>
                           </Field.Root>
+                          
+                            <Field.Root required>
+                            <Field.Label>
+                                Número para contato <Field.RequiredIndicator />
+                            </Field.Label>
+                            <InputGroup startElement={<LuPhone />}>
+                                <Input
+                                placeholder="(99) 99999-9999" 
+                                boxShadow="xs"
+                                rounded="md"
+                                px={4}
+                                bg={CORES.BRANCO}
+                                />
+                            </InputGroup>
+                            </Field.Root>
 
                           <Field.Root required>
                             <Field.Label>

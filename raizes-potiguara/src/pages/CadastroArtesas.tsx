@@ -5,7 +5,7 @@ import { ArrowLeft, Eye, EyeOff, Pencil, UserPlus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toaster } from "@/components/ui/toaster";
-import { LuUser, LuCalendar, LuBadgeInfo, LuHouse, LuCoins, LuMail } from "react-icons/lu";
+import { LuUser, LuCalendar, LuBadgeInfo, LuHouse, LuCoins, LuMail, LuPhone } from "react-icons/lu";
 
 const CadastroArtesas = () => {
 	const navigate = useNavigate();
@@ -214,6 +214,7 @@ const CadastroArtesas = () => {
                                         value={dados.cpf}
                                         onChange={handleCpfChange}
                                         placeholder="000.000.000-00"
+                                        
                                         maxLength={14}
                                         boxShadow="xs"
                                         rounded="md"
@@ -232,6 +233,21 @@ const CadastroArtesas = () => {
                                     value={dados.aldeia}
                                     onChange={(e) => handleChange("aldeia", e.target.value)}
                                     placeholder="Ex: Aldeia São Francisco"
+                                    boxShadow="xs"
+                                    rounded="md"
+                                    px={4}
+                                    bg={CORES.BRANCO}
+                                    />
+                                </InputGroup>
+                                </Field.Root>
+
+                                <Field.Root required>
+                                <Field.Label>
+                                    Número para contato <Field.RequiredIndicator />
+                                </Field.Label>
+                                <InputGroup startElement={<LuPhone />}>
+                                    <Input
+                                    placeholder="(99) 99999-9999" 
                                     boxShadow="xs"
                                     rounded="md"
                                     px={4}

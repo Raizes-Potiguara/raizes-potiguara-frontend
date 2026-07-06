@@ -272,7 +272,7 @@ const PerfilFundacao = () => {
 												variant={"outline"}
 												color={CORES.CINZA_ESCURO}
 												borderColor={CORES.CINZA_CLARO}
-												onClick={() => navigate(`/perfil/${artesa.id}/info`)}
+												onClick={() => navigate(`/perfil/${artesa.id}`)}
 												>
 													Abrir
 												</Button>
