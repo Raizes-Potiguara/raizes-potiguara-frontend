@@ -1,14 +1,9 @@
 // src/components/home/Hero.tsx
-import { Box, Flex, Heading, Text, Button } from '@chakra-ui/react';
-import { ArrowRight } from 'lucide-react';
+import { Box, Flex, Heading, Text} from '@chakra-ui/react';
 import HoneycombBackground from '../general/HoneycombBackground';
 import { CORES, TAMANHO, RADIUS_PADRAO_BOTAO } from '../../util/constants';
 
-interface HeroProps {
-  aoClicarConhecerArtesanato?: () => void;
-}
-
-const Hero = ({ aoClicarConhecerArtesanato }: HeroProps) => {
+const Hero = () => {
   return (
     <Box as="section" position="relative" bg={CORES.PRETO} overflow="hidden">
       <HoneycombBackground />
@@ -30,6 +25,7 @@ const Hero = ({ aoClicarConhecerArtesanato }: HeroProps) => {
             boxShadow="4px 4px 0px rgba(0,0,0,0.35)"
             px={{ base: 5, md: 8 }}
             py={{ base: 2, md: 3 }}
+            my={{ base: 8, md: 10 }}
             css={{
               backgroundImage: `
                 linear-gradient(${CORES.CINZA_CLARO}33 1px, transparent 1px),
@@ -59,23 +55,6 @@ const Hero = ({ aoClicarConhecerArtesanato }: HeroProps) => {
           >
             O artesanato potiguara contado pelas mãos que o criam.
           </Text>
-
-          <Button
-            onClick={aoClicarConhecerArtesanato}
-            bg={CORES.VERMELHO_MEDIO}
-            color={CORES.BRANCO}
-            fontWeight="semibold"
-            borderRadius="full"
-            px={7}
-            py={6}
-            gap={2}
-            fontSize={`${TAMANHO.TEXTO_BOTAO}px`}
-            _hover={{ bg: CORES.VERMELHO_ESCURO }}
-            _active={{ bg: CORES.VERMELHO_ESCURO }}
-          >
-            Conhecer o artesanato
-            <ArrowRight size={20} />
-          </Button>
         </Flex>
       </Box>
     </Box>
