@@ -17,8 +17,8 @@ const BalaoUser = (
     <Box display="flex" justifyContent="flex-end" mb={2}>
       <Box
         position="relative"
-        bg={CORES.VERMELHO_CLARINHO}
-        color={CORES.PRETO}
+        bg={CORES.VERMELHO_ESCURO}
+        color={CORES.CREME}
         px={4}
         py={3}
         borderRadius="2xl"
@@ -30,7 +30,7 @@ const BalaoUser = (
           bottom: "10px",
           width: "12px",
           height: "12px",
-          bg: CORES.VERMELHO_CLARINHO,
+          bg: CORES.VERMELHO_ESCURO,
           transform: "rotate(45deg)",
           borderRadius: "2px",
         }}
