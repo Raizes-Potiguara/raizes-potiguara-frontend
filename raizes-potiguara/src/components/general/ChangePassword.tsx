@@ -16,6 +16,7 @@ const ChangePassword = () => {
         fontSize={TAMANHO.TEXTO_BOTAO}
         w={"full"} 
         bgColor={CORES.CINZA_ESCURO} 
+        boxShadow={"md"}
         rounded={"full"}>
         Alterar senha
         </Button>
@@ -44,12 +45,12 @@ const ChangePassword = () => {
                         <Text mb={2} fontSize={TAMANHO.CORPO_TEXTO}>Sua senha anterior</Text>
                         <PinInput.HiddenInput />
                         <PinInput.Control >
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={0} />
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={1} />
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={2} />
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={3} />
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={4} />
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={5} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={0} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={1} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={2} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={3} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={4} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={5} />
                         </PinInput.Control>
                         </PinInput.Root>
 
@@ -57,12 +58,12 @@ const ChangePassword = () => {
                         <Text mb={2} fontSize={TAMANHO.CORPO_TEXTO}>Sua nova senha</Text>
                         <PinInput.HiddenInput />
                         <PinInput.Control >
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={0} />
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={1} />
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={2} />
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={3} />
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={4} />
-                            <PinInput.Input border={"none"} bgColor={CORES.BRANCO+"/15"} index={5} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={0} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={1} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={2} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={3} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={4} />
+                            <PinInput.Input boxShadow={"xs"} border={"none"} bgColor={CORES.BRANCO+"/15"} index={5} />
                         </PinInput.Control>
                         </PinInput.Root>
                 </Flex>
@@ -71,6 +72,7 @@ const ChangePassword = () => {
                 fontSize={TAMANHO.TEXTO_BOTAO}
                 w={"full"} 
                 bgColor={CORES.VERMELHO_MEDIO} 
+                boxShadow={"md"}
                 rounded={"full"}>
                 Alterar senha
                 </Button>

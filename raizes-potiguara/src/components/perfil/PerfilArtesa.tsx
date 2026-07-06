@@ -52,15 +52,20 @@ const PerfilArtesa = () => {
                     >
                         <Center>
                             <Text 
-                            fontSize={TAMANHO.TEXTO_GRANDE}
+                            fontSize={TAMANHO.SUBTITULO_PAGINA}
+                            fontWeight={"bold"}
+                            textAlign={"center"}
+                            lineHeight={1}
                             bgColor={CORES.BRANCO}
-                            color={CORES.PRETO}
+                            color={CORES.CINZA_ESCURO}
                             w={"fit"}
+                            className="hashira"
+                            letterSpacing={"wide"}
                             px={4}
                             py={1}
                             rounded={2}
                             >
-                            Bem-vinda, {nome.split(" ")[0]}!
+                            {nome.split(" ")[0]}
                             </Text>
                         </Center>
 

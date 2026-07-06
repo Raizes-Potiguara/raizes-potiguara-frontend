@@ -24,6 +24,7 @@ const userId = 1
             bgColor={CORES.PRETO} 
             color={CORES.BRANCO} 
             size={"xl"} 
+            boxShadow={"md"}
             rounded={"full"}
             onClick={()=>navigate(`/perfil/${userId}`)}
             >
@@ -39,6 +40,7 @@ const userId = 1
                 borderColor={CORES.CREME}
                 color={CORES.PRETO}
                 overflow="hidden"
+                boxShadow={"md"}
               >
                 <SkeletonCircle size="full" />
               </Circle>
@@ -62,26 +64,26 @@ const userId = 1
             </Box>
 
               <InputGroup startElement={<LuUser />}>
-                <Input rounded={"md"} placeholder="Seu nome completo..." />
+                <Input boxShadow={"xs"} rounded={"md"} placeholder="Seu nome completo..." />
               </InputGroup>
               <InputGroup  endElement={<LuCoins />}>
-                <Input px={4} rounded={"md"} placeholder="Sua chave pix..." />
+                <Input boxShadow={"xs"} px={4} rounded={"md"} placeholder="Sua chave pix..." />
               </InputGroup>
               <InputGroup startElement={<LuMail />}>
-                <Input rounded={"md"} placeholder="Seu endereço de email..." />
+                <Input boxShadow={"xs"} rounded={"md"} placeholder="Seu endereço de email..." />
               </InputGroup>
               <InputGroup  endElement={<LuHouse />}>
-                <Input px={4} rounded={"md"} placeholder="De que aldeia você é?" />
+                <Input boxShadow={"xs"} px={4} rounded={"md"} placeholder="De que aldeia você é?" />
               </InputGroup>
               <Flex gap={2}>
                 <InputGroup startElement={<LuAtSign />}>
-                  <Input rounded={"md"} placeholder="Instagram" />
+                  <Input boxShadow={"xs"} rounded={"md"} placeholder="Instagram" />
                 </InputGroup>
                 <InputGroup startElement={<LuAtSign />}>
-                  <Input rounded={"md"} placeholder="Facebook" />
+                  <Input boxShadow={"xs"} rounded={"md"} placeholder="Facebook" />
                 </InputGroup>
               </Flex>
-              <Textarea placeholder="Sobre mim..." minH={"20vh"} maxH={"40vh"}/>
+              <Textarea boxShadow={"xs"} placeholder="Sobre mim..." minH={"20vh"} maxH={"40vh"}/>
 
               <Button 
               fontSize={TAMANHO.TEXTO_BOTAO} 
