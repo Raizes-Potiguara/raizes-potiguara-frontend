@@ -45,9 +45,9 @@ export default function Layout() {
 
           <div style={{ flex: 1, overflow: "auto" }}>
             <Outlet />
+            <Footer />
           </div>
 
-          <Footer />
         </MotionDiv>
       </AnimatePresence>
     </div>

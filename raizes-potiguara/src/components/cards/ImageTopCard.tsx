@@ -34,12 +34,12 @@ const ImageTopCard = (
             borderRadius={RADIUS_PADRAO_CARD}
             boxShadow="md"
             w={"full"}
-            h={"24%"}
             overflow={"hidden"}
+            border={"none"}
             onClick={()=>navigate(to)}
         >
             <Skeleton 
-                h={"12vh"} 
+                h={"14vh"} 
                 w={"full"}
             >
 

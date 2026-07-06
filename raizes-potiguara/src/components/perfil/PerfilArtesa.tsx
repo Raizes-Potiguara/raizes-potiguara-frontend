@@ -1,9 +1,10 @@
-import { CORES, RADIUS_PADRAO_CARD, TAMANHO } from "@/util/constants";
-import { Box, Button, Card, Carousel, Circle, Flex, HStack,Icon,IconButton,Image, Skeleton, SkeletonCircle, Text } from "@chakra-ui/react";
+import { CORES, RADIUS_PADRAO_BOTAO, RADIUS_PADRAO_CARD, TAMANHO } from "@/util/constants";
+import { Box, Button, Card, Carousel, Center, Circle, Flex, HStack,Icon,IconButton,Image, Skeleton, SkeletonCircle, Text } from "@chakra-ui/react";
 import { ArrowLeft, ArrowRight, BoxIcon, ClipboardIcon, ClipboardList, Hexagon, Mic, NotebookIcon, Package, PackageOpen, Shrimp } from "lucide-react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import ImageTopCard from "../cards/ImageTopCard";
 import MicButton from "../general/MicButton";
+import HoneycombBackground from "../general/HoneycombBackground";
 
 const PerfilArtesa = () => {
 
@@ -14,44 +15,54 @@ const PerfilArtesa = () => {
         <Box 
         w={"full"} 
         bgColor={CORES.PRETO} /* incorporar o padrão aqui depois */
-        color={CORES.PRETO}
+        color={CORES.BRANCO}
         pt={16}
         >
+            <HoneycombBackground/>
             <Box  position="relative" w="full" pt="72px">
                 <Circle
-                    size={"150px"}
-                    bgColor={CORES.CINZA_CLARO}
+                    size={"130px"}
+                    bgColor={CORES.PRETO}
                     position="absolute"
                     top={0}
                     left="50%"
                     transform="translateX(-50%)"
                     borderWidth={10}
-                    borderColor={CORES.CREME}
-                    color={CORES.PRETO}
+                    borderColor={CORES.PRETO}
+                    color={CORES.BRANCO}
                     zIndex={2}
                 >
                 <SkeletonCircle
                     size={"full"}
+                    border={"none"}
                 />
                 </Circle>
 
                 <Card.Root
-                    bg={CORES.CREME}
+                    bg={CORES.PRETO}
                     blur={"lg"}
                     boxShadow={"md"}
                     borderTopRadius={24}
                     borderBottomRadius={0}
-                    pt="60px"
+                    pt="50px"
                     zIndex={1}
+                    border={"none"}
                 >
-                    <Card.Body>
-                        <Text 
-                        fontSize={TAMANHO.TITULO_SECAO}
-                        fontWeight={700}
-                        textAlign={"center"}
-                        >
-                        Bem-vinda, {nome.split(" ")[0]}!
-                        </Text>
+                    <Card.Body
+                    >
+                        <Center>
+                            <Text 
+                            fontSize={TAMANHO.SUBTITULO_SECAO}
+                            bgColor={CORES.BRANCO}
+                            color={CORES.PRETO}
+                            w={"fit"}
+                            px={4}
+                            py={1}
+                            rounded={2}
+                            >
+                            Bem-vinda, {nome.split(" ")[0]}!
+                            </Text>
+                        </Center>
 
                         <Flex flexDir={"column"} gap={8} my={8}>
 
@@ -67,7 +78,7 @@ const PerfilArtesa = () => {
                             <ImageTopCard
                                 titulo="Configurar meus produtos"
                                 imageUrl=""
-                                bgColor={CORES.PRETO}
+                                bgColor={CORES.MARROM}
                                 textColor={CORES.BRANCO}
                                 iconId={Package}
                                 to="config"
