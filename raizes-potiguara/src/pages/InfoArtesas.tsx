@@ -16,7 +16,7 @@ const userId = 1
     <Box >
       <Box p={8} bgColor={CORES.BRANCO} color={CORES.CINZA_ESCURO}>
         <Flex mb={8} alignItems={"center"} placeContent={"space-between"}>
-            <Text className="hashira" lineHeight={1.1} fontWeight={"bold"} fontSize={TAMANHO.TITULO_SECAO}>
+            <Text color={CORES.PRETO} className="hashira" lineHeight={1.1} fontWeight={"bold"} fontSize={TAMANHO.TITULO_SECAO}>
                 Minhas <br/> Informações
             </Text>
             {
