@@ -1,9 +1,9 @@
 import ChangePassword from "@/components/general/ChangePassword";
 import MicButton from "@/components/general/MicButton";
 import { CORES, TAMANHO } from "@/util/constants";
-import { Box, Button, Card, Circle, Field, Flex,IconButton, Input, InputGroup, SkeletonCircle, Text, Textarea } from "@chakra-ui/react";
+import { Box, Button, Card, Circle, DatePicker, Field, Flex,IconButton, Input, InputGroup, Portal, SkeletonCircle, Text, Textarea } from "@chakra-ui/react";
 import { ArrowLeft, Pencil } from "lucide-react";
-import { LuAtSign, LuCoins, LuHouse, LuMail, LuUser } from "react-icons/lu";
+import { LuAtSign, LuBadgeInfo, LuCalendar, LuCoins, LuHouse, LuMail, LuUser } from "react-icons/lu";
 import { useNavigate } from "react-router";
 
 const InfoArtesas = () => {
@@ -88,6 +88,71 @@ const userId = 1
                             </InputGroup>
                           </Field.Root>
 
+                          <Flex gap={4}>
+                            <Field.Root w={"45%"} required flex={1}>
+                            <Field.Label>
+                                Data de Nascimento <Field.RequiredIndicator />
+                            </Field.Label>
+                            <DatePicker.Root maxWidth="20rem">
+                            <DatePicker.Control>
+                                <DatePicker.Input />
+                                <DatePicker.IndicatorGroup>
+                                <DatePicker.Trigger>
+                                    <LuCalendar />
+                                </DatePicker.Trigger>
+                                </DatePicker.IndicatorGroup>
+                            </DatePicker.Control>
+                            <Portal>
+                                <DatePicker.Positioner>
+                                <DatePicker.Content bgColor={CORES.PRETO} color={CORES.BRANCO}>
+                                    <DatePicker.View view="day">
+                                    <DatePicker.Header />
+                                    <DatePicker.DayTable />
+                                    </DatePicker.View>
+                                    <DatePicker.View view="month">
+                                    <DatePicker.Header />
+                                    <DatePicker.MonthTable />
+                                    </DatePicker.View>
+                                    <DatePicker.View view="year">
+                                    <DatePicker.Header />
+                                    <DatePicker.YearTable />
+                                    </DatePicker.View>
+                                </DatePicker.Content>
+                                </DatePicker.Positioner>
+                            </Portal>
+                            </DatePicker.Root>
+                            </Field.Root>
+
+                        <Field.Root required flex={2}>
+                            <Field.Label>
+                            CPF <Field.RequiredIndicator />
+                            </Field.Label>
+                            <InputGroup startElement={<LuBadgeInfo />}>
+                            <Input
+                                placeholder="000.000.000-00"
+                                maxLength={14}
+                                boxShadow="xs"
+                                rounded="md"
+                                bg={CORES.BRANCO}
+                            />
+                            </InputGroup>
+                        </Field.Root>
+                        </Flex>
+
+                          <Field.Root required>
+                            <Field.Label>
+                              Aldeia / Comunidade<Field.RequiredIndicator />
+                            </Field.Label>
+                            <InputGroup endElement={<LuHouse />}>
+                              <Input
+                                boxShadow="xs"
+                                px={4}
+                                rounded="md"
+                                placeholder="De que aldeia você é?"
+                              />
+                            </InputGroup>
+                          </Field.Root>
+
                           <Field.Root required>
                             <Field.Label>
                               Chave Pix <Field.RequiredIndicator />
@@ -111,20 +176,6 @@ const userId = 1
                                 boxShadow="xs"
                                 rounded="md"
                                 placeholder="Seu endereço de email..."
-                              />
-                            </InputGroup>
-                          </Field.Root>
-
-                          <Field.Root required>
-                            <Field.Label>
-                              Aldeia <Field.RequiredIndicator />
-                            </Field.Label>
-                            <InputGroup endElement={<LuHouse />}>
-                              <Input
-                                boxShadow="xs"
-                                px={4}
-                                rounded="md"
-                                placeholder="De que aldeia você é?"
                               />
                             </InputGroup>
                           </Field.Root>

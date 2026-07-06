@@ -123,9 +123,10 @@ const CadastroArtesas = () => {
                         borderBottomRadius={0}
                         pt="60px"
                         zIndex={1}
-                        minH={"85vh"}
+                        minH={"85vh"} 
+                        px={2}
                     >
-                        <Card.Body>
+                        <Card.Body color={CORES.CINZA_ESCURO}>
                             <Flex mb={2} alignItems={"center"} placeContent={"space-between"}>
                                 <Text color={CORES.PRETO} className="hashira" lineHeight={1.1} fontWeight={"bold"} fontSize={TAMANHO.TITULO_SECAO}>
                                     Cadastrar <br/> Artesã
@@ -170,7 +171,7 @@ const CadastroArtesas = () => {
                                 </Field.Root>
 
                                 <Flex gap={4}>
-                                    <Field.Root required flex={1}>
+                                    <Field.Root w={"45%"} required flex={1}>
                                     <Field.Label>
                                         Data de Nascimento <Field.RequiredIndicator />
                                     </Field.Label>

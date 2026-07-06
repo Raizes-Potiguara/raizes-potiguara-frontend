@@ -295,6 +295,7 @@ const PerfilFundacao = () => {
 				<Dialog.Positioner>
 					<Dialog.Content
 						bg={CORES.BRANCO}
+						color={CORES.CINZA_ESCURO}
 						rounded={RADIUS_PADRAO_CARD}
 						p={4}
 						m={4}
