@@ -52,7 +52,7 @@ const PerfilArtesa = () => {
                     >
                         <Center>
                             <Text 
-                            fontSize={TAMANHO.SUBTITULO_SECAO}
+                            fontSize={TAMANHO.TEXTO_GRANDE}
                             bgColor={CORES.BRANCO}
                             color={CORES.PRETO}
                             w={"fit"}
