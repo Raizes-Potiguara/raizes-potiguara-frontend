@@ -49,7 +49,6 @@ export default function Layout() {
             <Footer />
           </div>
 
-          <Footer />
         </MotionDiv>
       </AnimatePresence>
     </div>
