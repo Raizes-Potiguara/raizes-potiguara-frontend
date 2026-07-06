@@ -8,7 +8,7 @@ import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
 import { Box, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight, Feather, Gem, Leaf, Languages, Shell, ShieldCheck, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface BlocoCultural {
   titulo: string;
@@ -97,6 +97,14 @@ const Cultura = () => {
   const [fotoAtual, setFotoAtual] = useState(0);
   const fotoSelecionada = fotosCultura[fotoAtual];
 
+  useEffect(() => {
+    const intervalo = window.setInterval(() => {
+      setFotoAtual((atual) => (atual === fotosCultura.length - 1 ? 0 : atual + 1));
+    }, 4000);
+
+    return () => window.clearInterval(intervalo);
+  }, []);
+
   const voltarFoto = () => {
     setFotoAtual((atual) => (atual === 0 ? fotosCultura.length - 1 : atual - 1));
   };
@@ -110,133 +118,136 @@ const Cultura = () => {
       <Box as="section" position="relative" bg={CORES.PRETO} overflow="hidden">
         <HoneycombBackgroundRed />
         <Container maxW="container.lg" position="relative" zIndex={1} py={{ base: 14, md: 20 }}>
-          <Stack gap={5} align="flex-start" maxW="720px">
-            <Flex
-              display="inline-flex"
-              align="center"
-              gap={2}
-              bg={CORES.BRANCO}
-              border={`2px solid ${CORES.PRETO}`}
-              borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
-              px={4}
-              py={2}
-              transform="rotate(-3deg)"
-            >
-              <Box as="span" w="8px" h="8px" borderRadius="full" bg={CORES.VERMELHO_VIVO} />
-              <Text as="span" fontStyle="italic" color={CORES.PRETO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
-                Memoria, territorio e artesanato
-              </Text>
-            </Flex>
-
-            <Heading
-              as="h1"
-              fontFamily="'Hashira', serif"
-              fontWeight="normal"
-              lineHeight={1}
-              color={CORES.BRANCO}
-              fontSize={{ base: "52px", md: `${TAMANHO.TITULO_YBIRA}px` }}
-            >
-              Cultura Potiguara
-            </Heading>
-
-            <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.SUBTITULO_SECAO}px`} lineHeight={1.35}>
-              O artesanato potiguara guarda simbolos, materiais e palavras que nascem da relacao com as aldeias,
-              com o litoral norte da Paraiba e com os saberes transmitidos pelas mulheres.
-            </Text>
-          </Stack>
-
-          <Box mt={{ base: 10, md: 14 }}>
-            <Box
-              position="relative"
-              mx="auto"
-              maxW="980px"
-              borderRadius="4px"
-              overflow="hidden"
-              bg={CORES.VERMELHO_ESCURO}
-              boxShadow={`14px 14px 0 ${CORES.VERMELHO_ESCURO}`}
-            >
-              <Image
-                src={fotoSelecionada.src}
-                alt={fotoSelecionada.alt}
-                w="100%"
-                h={{ base: "280px", md: "520px" }}
-                objectFit="cover"
-                objectPosition="center"
-              />
-
+          <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 10, lg: 12 }} alignItems="center">
+            <Stack gap={5} align="flex-start">
               <Flex
-                position="absolute"
-                insetX={0}
-                bottom={0}
+                display="inline-flex"
                 align="center"
-                justify="space-between"
-                gap={4}
-                px={{ base: 4, md: 6 }}
-                py={4}
-                bg="rgba(43, 33, 33, 0.72)"
+                gap={2}
+                bg={CORES.BRANCO}
+                border={`2px solid ${CORES.PRETO}`}
+                borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
+                px={4}
+                py={2}
+                transform="rotate(-3deg)"
               >
-                <Text color={CORES.BRANCO} fontWeight="800" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-                  {fotoSelecionada.legenda}
+                <Box as="span" w="8px" h="8px" borderRadius="full" bg={CORES.VERMELHO_VIVO} />
+                <Text as="span" fontStyle="italic" color={CORES.PRETO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+                  Memoria, territorio e artesanato
                 </Text>
-                <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
-                  {fotoAtual + 1}/{fotosCultura.length}
-                </Text>
+              </Flex>
+
+              <Heading
+                as="h1"
+                fontFamily="'Hashira', serif"
+                fontWeight="normal"
+                lineHeight={1}
+                color={CORES.BRANCO}
+                fontSize={{ base: "52px", md: `${TAMANHO.TITULO_YBIRA}px` }}
+              >
+                Cultura Potiguara
+              </Heading>
+
+              <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.SUBTITULO_SECAO}px`} lineHeight={1.35}>
+                O artesanato potiguara guarda simbolos, materiais e palavras que nascem da relacao com as aldeias,
+                com o litoral norte da Paraiba e com os saberes transmitidos pelas mulheres.
+              </Text>
+            </Stack>
+
+            <Box>
+              <Box
+                position="relative"
+                mx={{ base: "auto", lg: 0 }}
+                maxW={{ base: "520px", lg: "500px" }}
+                aspectRatio="1 / 1"
+                borderRadius="4px"
+                overflow="hidden"
+                bg={CORES.PRETO}
+                boxShadow={`12px 12px 0 ${CORES.VERMELHO_ESCURO}`}
+              >
+                <Image
+                  src={fotoSelecionada.src}
+                  alt={fotoSelecionada.alt}
+                  w="100%"
+                  h="100%"
+                  objectFit="contain"
+                  objectPosition="center"
+                />
+
+                <Flex
+                  position="absolute"
+                  insetX={0}
+                  bottom={0}
+                  align="center"
+                  justify="space-between"
+                  gap={4}
+                  px={{ base: 4, md: 5 }}
+                  py={3}
+                  bg="rgba(43, 33, 33, 0.78)"
+                >
+                  <Text color={CORES.BRANCO} fontWeight="800" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+                    {fotoSelecionada.legenda}
+                  </Text>
+                  <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+                    {fotoAtual + 1}/{fotosCultura.length}
+                  </Text>
+                </Flex>
+              </Box>
+
+              <Flex mt={5} align="center" justify="center" gap={4}>
+                <Flex
+                  as="button"
+                  type="button"
+                  aria-label="Foto anterior"
+                  onClick={voltarFoto}
+                  w="40px"
+                  h="40px"
+                  align="center"
+                  justify="center"
+                  bg={CORES.BRANCO}
+                  color={CORES.VERMELHO_ESCURO}
+                  borderRadius="4px"
+                  _hover={{ bg: CORES.VERMELHO_CLARINHO }}
+                >
+                  <ChevronLeft size={22} />
+                </Flex>
+
+                <Flex gap={2} align="center">
+                  {fotosCultura.map((foto, index) => (
+                    <Box
+                      as="button"
+                      type="button"
+                      aria-label={`Ver foto: ${foto.legenda}`}
+                      key={foto.legenda}
+                      onClick={() => setFotoAtual(index)}
+                      w={index === fotoAtual ? "28px" : "10px"}
+                      h="10px"
+                      borderRadius="full"
+                      bg={index === fotoAtual ? CORES.VERMELHO_VIVO : CORES.CINZA_CLARO}
+                      transition="width 0.2s ease, background 0.2s ease"
+                    />
+                  ))}
+                </Flex>
+
+                <Flex
+                  as="button"
+                  type="button"
+                  aria-label="Proxima foto"
+                  onClick={avancarFoto}
+                  w="40px"
+                  h="40px"
+                  align="center"
+                  justify="center"
+                  bg={CORES.BRANCO}
+                  color={CORES.VERMELHO_ESCURO}
+                  borderRadius="4px"
+                  _hover={{ bg: CORES.VERMELHO_CLARINHO }}
+                >
+                  <ChevronRight size={22} />
+                </Flex>
               </Flex>
             </Box>
-
-            <Flex mt={6} align="center" justify="center" gap={4}>
-              <Flex
-                as="button"
-                type="button"
-                aria-label="Foto anterior"
-                onClick={voltarFoto}
-                w="44px"
-                h="44px"
-                align="center"
-                justify="center"
-                bg={CORES.BRANCO}
-                color={CORES.VERMELHO_ESCURO}
-                borderRadius="4px"
-                _hover={{ bg: CORES.VERMELHO_CLARINHO }}
-              >
-                <ChevronLeft size={22} />
-              </Flex>
-
-              <Flex gap={2} align="center">
-                {fotosCultura.map((foto, index) => (
-                  <Box
-                    as="button"
-                    type="button"
-                    aria-label={`Ver foto: ${foto.legenda}`}
-                    key={foto.legenda}
-                    onClick={() => setFotoAtual(index)}
-                    w={index === fotoAtual ? "28px" : "10px"}
-                    h="10px"
-                    borderRadius="full"
-                    bg={index === fotoAtual ? CORES.VERMELHO_VIVO : CORES.CINZA_CLARO}
-                    transition="width 0.2s ease, background 0.2s ease"
-                  />
-                ))}
-              </Flex>
-
-              <Flex
-                as="button"
-                type="button"
-                aria-label="Proxima foto"
-                onClick={avancarFoto}
-                w="44px"
-                h="44px"
-                align="center"
-                justify="center"
-                bg={CORES.BRANCO}
-                color={CORES.VERMELHO_ESCURO}
-                borderRadius="4px"
-                _hover={{ bg: CORES.VERMELHO_CLARINHO }}
-              >
-                <ChevronRight size={22} />
-              </Flex>
-            </Flex>
-          </Box>
+          </SimpleGrid>
         </Container>
       </Box>
 
