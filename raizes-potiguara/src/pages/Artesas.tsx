@@ -1,12 +1,14 @@
 import HoneycombBackgroundRed from "@/components/general/HoneycombBackgroundRed";
+import HoneycombBackgroundBlack from "@/components/general/HoneycombBackgroundBlack";
+import PerfilArtesa from "@/components/artesas/PerfilArtesasInfo";
 import fotoPotiguara from "@/assets/artesa-potiguara.jpeg";
 import fotoArtesanatoMesa from "@/assets/cultura-artesanato-mesa.jpeg";
 import fotoAldeasColetivo from "@/assets/cultura-aldeas-coletivo.jpeg";
 import fotoArtesasRetrato from "@/assets/cultura-artesas-retrato.jpeg";
 import fotoAssociacaoPotiguara from "@/assets/cultura-associacao-potiguara.jpeg";
 import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
-import { Badge, Box, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import { ChevronLeft, ChevronRight, Gem, Globe, MapPin, Sprout, UsersRound } from "lucide-react";
+import { Box, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { ChevronLeft, ChevronRight, Gem, Sprout, UsersRound } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const artesas = [
@@ -273,75 +275,29 @@ const Artesas = () => {
         </Container>
       </Box>
 
-      <Box as="section" bg={CORES.CINZA_CLARINHO} py={{ base: 8, md: 14 }}>
-        <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
-          <Stack gap={3} mb={{ base: 6, md: 8 }}>
-            <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
+      <Box as="section" position="relative" overflow="hidden" py={{ base: 8, md: 14 }}>
+        <HoneycombBackgroundBlack />
+        <Container maxW="container.lg" position="relative" zIndex={1} px={{ base: 5, md: 8 }}>
+          <Stack gap={3} mb={{ base: 8, md: 12 }}>
+            <Heading as="h2" color={CORES.BRANCO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
               Histórias das artesãs
             </Heading>
-            <Text color={CORES.CINZA_ESCURO} maxW="68ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-              Esta primeira versão apresenta cinco perfis representativos para facilitar a implementação enquanto
-              os nomes, fotos individuais e redes sociais reais são cadastrados pela fundação.
-            </Text>
           </Stack>
 
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={5}>
+          <Box>
             {artesas.map((artesa, index) => (
-              <Box key={artesa.nome} bg={CORES.BRANCO} borderRadius="4px" overflow="hidden">
-                <Box position="relative" h={{ base: "190px", md: "220px" }} bg={CORES.PRETO}>
-                  <Image
-                    src={fotoPotiguara}
-                    alt={artesa.nome}
-                    objectFit="cover"
-                    objectPosition={index % 2 === 0 ? "center" : "left center"}
-                    w="100%"
-                    h="100%"
-                    opacity={0.9}
-                  />
-                  <Flex
-                    position="absolute"
-                    left={4}
-                    bottom={4}
-                    align="center"
-                    gap={2}
-                    bg={CORES.PRETO}
-                    color={CORES.BRANCO}
-                    borderRadius="4px"
-                    px={3}
-                    py={2}
-                  >
-                    <MapPin size={16} />
-                    <Text fontSize={`${TAMANHO.TEXTO_PEQUENO}px`} fontWeight="700">
-                      {artesa.aldeia}
-                    </Text>
-                  </Flex>
-                </Box>
-
-                <Stack gap={3} p={{ base: 4, md: 5 }}>
-                  <Heading as="h3" color={CORES.PRETO} fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
-                    {artesa.nome}
-                  </Heading>
-                  <Text color={CORES.CINZA_ESCURO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
-                    {artesa.historia}
-                  </Text>
-                  <Text color={CORES.PRETO} fontWeight="800" fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
-                    Produz: {artesa.producao}.
-                  </Text>
-                  <Flex gap={2} wrap="wrap">
-                    {artesa.materiais.map((material) => (
-                      <Badge key={material} bg={CORES.VERMELHO_CLARINHO} color={CORES.VERMELHO_ESCURO}>
-                        {material}
-                      </Badge>
-                    ))}
-                  </Flex>
-                  <Flex align="center" gap={2} color={CORES.CINZA_ESCURO}>
-                    <Globe size={16} />
-                    <Text fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>Redes sociais a confirmar</Text>
-                  </Flex>
-                </Stack>
-              </Box>
+              <PerfilArtesa
+                key={artesa.nome}
+                nome={artesa.nome}
+                aldeia={artesa.aldeia}
+                historia={artesa.historia}
+                foto={fotoPotiguara}
+                inverterLado={index % 2 === 1}
+                // redesSociais ainda não vem do backend/dados reais;
+                // ao integrar, basta passar aqui, ex: [{ tipo: 'instagram', url: '...' }]
+              />
             ))}
-          </SimpleGrid>
+          </Box>
         </Container>
       </Box>
     </Box>
