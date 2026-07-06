@@ -11,44 +11,44 @@ import { useEffect, useState } from "react";
 
 const artesas = [
   {
-    nome: "Artesa da Aldeia Sao Francisco",
-    aldeia: "Sao Francisco",
+    nome: "Artesã da Aldeia São Francisco",
+    aldeia: "São Francisco",
     producao: "biojoias, colares e pulseiras",
     historia:
-      "Aprendeu observando as mulheres da familia e transforma sementes em pecas de uso cotidiano e de memoria afetiva.",
-    materiais: ["sementes", "micangas", "fios"],
+      "Aprendeu observando as mulheres da família e transforma sementes em peças de uso cotidiano e de memória afetiva.",
+    materiais: ["sementes", "miçangas", "fios"],
   },
   {
-    nome: "Artesa da Aldeia Forte",
+    nome: "Artesã da Aldeia Forte",
     aldeia: "Forte",
     producao: "cestaria e trancados",
     historia:
-      "Trabalha com fibras e cipos, mantendo tecnicas de trancado que organizam tempo, paciencia e conhecimento do territorio.",
-    materiais: ["cipos", "fibras", "palha"],
+      "Trabalha com fibras e cipós, mantendo técnicas de trancado que organizam tempo, paciência e conhecimento do território.",
+    materiais: ["cipós", "fibras", "palha"],
   },
   {
-    nome: "Artesa da Aldeia Galego",
+    nome: "Artesã da Aldeia Galego",
     aldeia: "Galego",
     producao: "brincos, adornos e chaveiros",
     historia:
-      "Produz pequenas pecas para feiras e encomendas, buscando renda mais justa sem depender de atravessadores.",
+      "Produz pequenas peças para feiras e encomendas, buscando renda mais justa sem depender de atravessadores.",
     materiais: ["sementes", "conchas", "linhas"],
   },
   {
-    nome: "Artesa da Aldeia Cumaru",
+    nome: "Artesã da Aldeia Cumaru",
     aldeia: "Cumaru",
-    producao: "pinturas e pecas decorativas",
+    producao: "pinturas e peças decorativas",
     historia:
-      "Usa grafismos e cores para aproximar a peca da identidade potiguara e das historias contadas na comunidade.",
+      "Usa grafismos e cores para aproximar a peça da identidade potiguara e das histórias contadas na comunidade.",
     materiais: ["pigmentos", "madeira", "fibras"],
   },
   {
-    nome: "Artesa da Aldeia Tramataia",
+    nome: "Artesã da Aldeia Tramataia",
     aldeia: "Tramataia",
     producao: "colares, tornozeleiras e amuletos",
     historia:
-      "Cria adornos ligados ao mar e aos caminhos da aldeia, valorizando a autonomia economica das mulheres.",
-    materiais: ["conchas", "sementes", "cordoes"],
+      "Cria adornos ligados ao mar e aos caminhos da aldeia, valorizando a autonomia econômica das mulheres.",
+    materiais: ["conchas", "sementes", "cordões"],
   },
 ];
 
@@ -60,13 +60,13 @@ const fotosArtesas = [
   },
   {
     src: fotoAldeasColetivo,
-    alt: "Grupo de mulheres potiguara em espaco cultural",
+    alt: "Grupo de mulheres potiguara em espaço cultural",
     legenda: "Artesãs em espaço cultural",
   },
   {
     src: fotoArtesasRetrato,
-    alt: "Tres mulheres usando adornos potiguara",
-    legenda: "Artesas potiguara",
+    alt: "Três mulheres usando adornos potiguara",
+    legenda: "Artesãs potiguara",
   },
   {
     src: fotoAssociacaoPotiguara,
@@ -75,7 +75,7 @@ const fotosArtesas = [
   },
   {
     src: fotoPotiguara,
-    alt: "Artesa potiguara ao lado de uma mesa com colares artesanais",
+    alt: "Artesã potiguara ao lado de uma mesa com colares artesanais",
     legenda: "Artesanato ancestral",
   },
 ];
@@ -121,7 +121,7 @@ const Artesas = () => {
               >
                 <Box as="span" w="8px" h="8px" borderRadius="full" bg={CORES.VERMELHO_VIVO} />
                 <Text as="span" fontStyle="italic" color={CORES.PRETO} fontSize={{ base: "13px", md: `${TAMANHO.TEXTO_PEQUENO}px` }}>
-                  Mulheres que mantem o saber vivo
+                  Mulheres que mantêm o saber vivo
                 </Text>
               </Flex>
 
@@ -135,12 +135,12 @@ const Artesas = () => {
                 maxW="100%"
                 wordBreak="break-word"
               >
-                Artesas Potiguara
+                Artesãs Potiguara
               </Heading>
 
               <Text color={CORES.CINZA_CLARO} fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }} lineHeight={1.35}>
-                Das aldeias de Baia da Traicao, Marcacao e Rio Tinto, as artesas produzem renda, memoria e
-                pertencimento com sementes, cipos, fibras, conchas e grafismos.
+                Das aldeias de Baía da Traição, Marcação e Rio Tinto, as artesãs produzem renda, memória e
+                pertencimento com sementes, cipós, fibras, conchas e grafismos.
               </Text>
             </Stack>
 
@@ -220,7 +220,7 @@ const Artesas = () => {
 
                 <Flex
                   as="button"
-                  aria-label="Proxima foto"
+                  aria-label="Próxima foto"
                   onClick={avancarFoto}
                   w={{ base: "36px", md: "40px" }}
                   h={{ base: "36px", md: "40px" }}
@@ -248,7 +248,7 @@ const Artesas = () => {
                 17 aldeias mapeadas
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
-                O diagnostico citado no PDF aponta artesas distribuidas por diferentes aldeias do territorio.
+                O diagnóstico citado no PDF aponta artesãs distribuídas por diferentes aldeias do território.
               </Text>
             </Box>
             <Box bg={CORES.PRETO} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
@@ -257,7 +257,7 @@ const Artesas = () => {
                 Saber tradicional
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
-                A producao preserva tecnicas familiares, modos de coleta e relacoes com a mata e o mar.
+                A produção preserva técnicas familiares, modos de coleta e relações com a mata e o mar.
               </Text>
             </Box>
             <Box bg={CORES.MARROM} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
@@ -266,7 +266,7 @@ const Artesas = () => {
                 Renda mais justa
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
-                A pagina valoriza as produtoras e ajuda a reduzir invisibilidade e dependencia de atravessadores.
+                A página valoriza as produtoras e ajuda a reduzir invisibilidade e dependência de atravessadores.
               </Text>
             </Box>
           </SimpleGrid>
@@ -277,11 +277,11 @@ const Artesas = () => {
         <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
           <Stack gap={3} mb={{ base: 6, md: 8 }}>
             <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
-              Historias das artesas
+              Histórias das artesãs
             </Heading>
             <Text color={CORES.CINZA_ESCURO} maxW="68ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-              Esta primeira versao apresenta cinco perfis representativos para facilitar a implementacao enquanto
-              os nomes, fotos individuais e redes sociais reais sao cadastrados pela fundacao.
+              Esta primeira versão apresenta cinco perfis representativos para facilitar a implementação enquanto
+              os nomes, fotos individuais e redes sociais reais são cadastrados pela fundação.
             </Text>
           </Stack>
 

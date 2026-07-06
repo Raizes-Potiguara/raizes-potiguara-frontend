@@ -14,17 +14,17 @@ const simbolos: BlocoCultural[] = [
   {
     titulo: "Grafismos",
     descricao:
-      "Linhas, tramas e marcas visuais ajudam a contar pertencimento, memoria e relacao com o territorio.",
+      "Linhas, tramas e marcas visuais ajudam a contar pertencimento, memória e relação com o território.",
     icon: Sparkles,
   },
   {
     titulo: "Conchas e mar",
     descricao:
-      "A presenca do litoral aparece como caminho, alimento e lembranca da vida entre rios, mangues e praias.",
+      "A presença do litoral aparece como caminho, alimento e lembrança da vida entre rios, mangues e praias.",
     icon: Shell,
   },
   {
-    titulo: "Protecao",
+    titulo: "Proteção",
     descricao:
       "Adornos e amuletos podem carregar sentidos de cuidado, espiritualidade e fortalecimento coletivo.",
     icon: ShieldCheck,
@@ -35,13 +35,13 @@ const materiais: BlocoCultural[] = [
   {
     titulo: "Sementes",
     descricao:
-      "Usadas em biojoias, aproximam a peca dos ciclos da mata, da coleta e do cuidado com a natureza.",
+      "Usadas em biojoias, aproximam a peça dos ciclos da mata, da coleta e do cuidado com a natureza.",
     icon: Gem,
   },
   {
-    titulo: "Cipos e fibras",
+    titulo: "Cipós e fibras",
     descricao:
-      "Aparecem na cestaria e nos trancados, mostrando paciencia, tecnica e saber passado entre geracoes.",
+      "Aparecem na cestaria e nos trancados, mostrando paciência, técnica e saber passado entre gerações.",
     icon: Leaf,
   },
   {
@@ -53,10 +53,10 @@ const materiais: BlocoCultural[] = [
 ];
 
 const topicos = [
-  "Comercializacao justa para reduzir a dependencia de atravessadores.",
-  "Certificacao do artesanato indigena como reconhecimento de origem.",
-  "Autonomia economica das mulheres potiguara e fortalecimento das familias.",
-  "Organizacao coletiva entre aldeias para preservar renda, memoria e tecnica.",
+  "Comercialização justa para reduzir a dependência de atravessadores.",
+  "Certificação do artesanato indígena como reconhecimento de origem.",
+  "Autonomia econômica das mulheres potiguara e fortalecimento das famílias.",
+  "Organização coletiva entre aldeias para preservar renda, memória e técnica.",
 ];
 
 const Cultura = () => {
@@ -80,7 +80,7 @@ const Cultura = () => {
             >
               <Box as="span" w="8px" h="8px" borderRadius="full" bg={CORES.VERMELHO_VIVO} />
               <Text as="span" fontStyle="italic" color={CORES.PRETO} fontSize={{ base: "13px", md: `${TAMANHO.TEXTO_PEQUENO}px` }}>
-                Memoria, territorio e artesanato
+                Memória, território e artesanato
               </Text>
             </Flex>
 
@@ -98,8 +98,8 @@ const Cultura = () => {
             </Heading>
 
             <Text color={CORES.CINZA_CLARO} fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }} lineHeight={1.35}>
-              O artesanato potiguara guarda simbolos, materiais e palavras que nascem da relacao com as aldeias,
-              com o litoral norte da Paraiba e com os saberes transmitidos pelas mulheres.
+              O artesanato potiguara guarda símbolos, materiais e palavras que nascem da relação com as aldeias,
+              com o litoral norte da Paraíba e com os saberes transmitidos pelas mulheres.
             </Text>
           </Stack>
         </Container>
@@ -109,11 +109,11 @@ const Cultura = () => {
         <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
           <Stack gap={3} mb={{ base: 6, md: 8 }}>
             <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
-              Simbolos e crencas
+              Símbolos e crenças
             </Heading>
             <Text color={CORES.CINZA_ESCURO} maxW="66ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-              Cada peca pode carregar um sentido que vai alem do uso decorativo: proteger, lembrar a origem,
-              marcar a presenca do povo Potiguara e aproximar quem compra da historia de quem cria.
+              Cada peça pode carregar um sentido que vai além do uso decorativo: proteger, lembrar a origem,
+              marcar a presença do povo Potiguara e aproximar quem compra da história de quem cria.
             </Text>
           </Stack>
 
@@ -141,8 +141,8 @@ const Cultura = () => {
                 Materiais e significados
               </Heading>
               <Text color={CORES.CINZA_ESCURO} fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-                Sementes, cipos, fibras e pigmentos nao sao apenas insumos. Eles revelam deslocamentos, coleta,
-                memoria ambiental e a dificuldade de produzir quando o territorio e a materia-prima ficam distantes.
+                Sementes, cipós, fibras e pigmentos não são apenas insumos. Eles revelam deslocamentos, coleta,
+                memória ambiental e a dificuldade de produzir quando o território e a matéria-prima ficam distantes.
               </Text>
             </Stack>
 
@@ -187,8 +187,8 @@ const Cultura = () => {
                 </Heading>
               </Flex>
               <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-                A lingua e parte da retomada cultural. No produto artesanal, palavras em tupi potiguara podem
-                aproximar nome, origem e significado, ajudando o cliente a conhecer a peca sem apagar sua raiz.
+                A língua e parte da retomada cultural. No produto artesanal, palavras em tupi potiguara podem
+                aproximar nome, origem e significado, ajudando o cliente a conhecer a peça sem apagar sua raiz.
               </Text>
             </Stack>
 
