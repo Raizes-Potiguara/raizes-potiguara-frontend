@@ -3,7 +3,6 @@ import Header from "@/components/general/Header";
 import { Outlet, useLocation } from "react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { CORES } from "@/util/constants";
-import { Toaster } from "@/components/ui/toaster";
 
 const MotionDiv = motion.div;
 
@@ -54,5 +53,6 @@ export default function Layout() {
         </MotionDiv>
       </AnimatePresence>
     </div>
+    </>
   );
 }
