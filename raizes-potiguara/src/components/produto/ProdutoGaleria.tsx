@@ -1,9 +1,7 @@
-// src/components/produto/ProdutoGaleria.tsx
 import React, { useState } from 'react';
 import { Box, Flex, Image } from '@chakra-ui/react';
 import { CORES, RADIUS_PADRAO_CARD, RADIUS_PADRAO_BOTAO } from '../../util/constants';
 import type { Produto } from '../../types/produto';
-import HoneycombBackgroundProduto from '../general/HoneycombBackgroundProduto';
 
 interface ProdutoGaleriaProps {
   produto: Produto;

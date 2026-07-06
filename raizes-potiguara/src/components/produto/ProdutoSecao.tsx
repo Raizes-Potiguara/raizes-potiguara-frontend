@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Container, Flex, Grid, GridItem, Spinner, Text } from '@chakra-ui/react';
 import { CORES, TAMANHO } from '../../util/constants';
-import { buscarProdutoPorId, buscarProdutosRelacionados } from '../../services/produtoService';
+import { buscarProdutoPorId} from '../../services/produtoService';
 import { ProdutoGaleria } from './ProdutoGaleria';
 import { ProdutoInfo } from './ProdutoInfo';
 import { ProdutoDetalhes } from './ProdutoDetalhes';
