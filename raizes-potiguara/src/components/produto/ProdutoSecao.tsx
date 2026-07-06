@@ -14,23 +14,16 @@ interface ProdutoSecaoProps {
 
 const ProdutoSecao: React.FC<ProdutoSecaoProps> = ({ produtoId }) => {
   const [produto, setProduto] = useState<Produto | null | undefined>(undefined);
-  const [relacionados, setRelacionados] = useState<Produto[]>([]);
 
   useEffect(() => {
     let ativo = true;
 
     const carregar = async () => {
       setProduto(undefined);
-      setRelacionados([]);
 
       const encontrado = await buscarProdutoPorId(produtoId);
       if (!ativo) return;
       setProduto(encontrado ?? null);
-
-      if (encontrado) {
-        const relacionadosEncontrados = await buscarProdutosRelacionados(encontrado);
-        if (ativo) setRelacionados(relacionadosEncontrados);
-      }
     };
 
     carregar();
