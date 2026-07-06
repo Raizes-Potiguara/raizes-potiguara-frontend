@@ -22,7 +22,7 @@ export default function Layout() {
           <MotionDiv
             key={location.pathname}
             initial={{
-              y: "60%",
+              y: "100%",
             }}
             animate={{
               y: 0,
@@ -31,7 +31,7 @@ export default function Layout() {
               opacity: 1,
             }}
             transition={{
-              duration: 0.35,
+              duration: 0.5,
             }}
             style={{
               position: "absolute",

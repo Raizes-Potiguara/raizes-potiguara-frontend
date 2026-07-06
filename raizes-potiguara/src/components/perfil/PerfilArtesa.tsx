@@ -14,7 +14,7 @@ const PerfilArtesa = () => {
     <>
         <Box 
         w={"full"} 
-        bgColor={CORES.PRETO} /* incorporar o padrão aqui depois */
+        bgColor={CORES.PRETO}
         color={CORES.BRANCO}
         pt={16}
         >
@@ -41,7 +41,6 @@ const PerfilArtesa = () => {
                 <Card.Root
                     bg={CORES.PRETO}
                     blur={"lg"}
-                    boxShadow={"md"}
                     borderTopRadius={24}
                     borderBottomRadius={0}
                     pt="50px"
@@ -101,7 +100,10 @@ const PerfilArtesa = () => {
 
                         <Button 
                         rounded={"full"}
-                        bgColor={CORES.VERMELHO_MEDIO}
+                        borderWidth={2}
+                        borderColor={CORES.CREME+"/60"}
+                        color={CORES.CREME}
+                        bgColor={CORES.PRETO}
                         my={4}
                         fontSize={TAMANHO.TEXTO_BOTAO}
                         py={4}

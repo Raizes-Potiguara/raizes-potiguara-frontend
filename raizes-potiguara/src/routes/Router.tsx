@@ -10,6 +10,7 @@ import ConfigVenda from "@/pages/ConfigVenda";
 import InfoArtesas from "@/pages/InfoArtesas";
 import CadastroArtesas from "@/pages/CadastroArtesas";
 import PerfilFundacao from "@/components/perfil/PerfilFundacao";
+import ConfigVendaProduto from "@/pages/ConfigVendaProduto";
 
 export const PublicRoutes: RouteObject[] = [
     {
@@ -24,6 +25,7 @@ export const PublicRoutes: RouteObject[] = [
             { path: '/perfil/:id', element: <Perfil/> },
             { path: '/perfil/:id/info', element: <InfoArtesas/> },
             { path: '/perfil/:id/config', element: <ConfigVenda/> },
+            { path: '/perfil/:id/config/:idp', element: <ConfigVendaProduto/> },
             { path: '/perfil/:id/cadastro', element: <CadastroArtesas/> },
 
 			// Rotas fundacao

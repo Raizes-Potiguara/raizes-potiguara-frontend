@@ -15,8 +15,11 @@ const ChangePassword = () => {
         <Button 
         fontSize={TAMANHO.TEXTO_BOTAO}
         w={"full"} 
-        bgColor={CORES.CINZA_ESCURO} 
-        boxShadow={"md"}
+        variant={"outline"}
+        color={CORES.PRETO}
+        borderColor={CORES.CINZA_CLARO}
+        borderWidth={2}
+        boxShadow={"sm"}
         rounded={"full"}>
         Alterar senha
         </Button>

@@ -9,7 +9,7 @@ export const CORES = {
     VERMELHO_ESCURO: "#671212",
     VERMELHO_MEDIO: "#892424",
     VERMELHO_VIVO: "#D21717",
-    VERMELHO_CLARINHO: "#e6cbcb",
+    VERMELHO_CLARINHO: "#ece1e1",
 } as const;
 
 export const TAMANHO = {
@@ -18,6 +18,8 @@ export const TAMANHO = {
     SUBTITULO_PAGINA: 36,
     TITULO_SECAO: 40,
     SUBTITULO_SECAO: 28,
+    TITULO_SUBSECAO: 28,
+    SUBTITULO_SUBSECAO: 20,
     TEXTO_GRANDE: 20,
     TEXTO_BOTAO: 18,
     CORPO_TEXTO: 16,
