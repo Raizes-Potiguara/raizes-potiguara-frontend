@@ -19,12 +19,12 @@ const artesas = [
     materiais: ["sementes", "miçangas", "fios"],
   },
   {
-    nome: "Artesã da Aldeia Forte",
+    nome: "Creuza Gomes",
     aldeia: "Forte",
-    producao: "cestaria e trancados",
+    producao: "biojoias, brincos com plumagens, filtro dos sonhos e abajur",
     historia:
-      "Trabalha com fibras e cipós, mantendo técnicas de trancado que organizam tempo, paciência e conhecimento do território.",
-    materiais: ["cipós", "fibras", "palha"],
+      "Produz peças que unem sementes, plumagens e técnicas artesanais, valorizando a criatividade e os saberes da Aldeia Forte.",
+    materiais: ["sementes", "plumagens", "fibras"],
   },
   {
     nome: "Artesã da Aldeia Galego",
