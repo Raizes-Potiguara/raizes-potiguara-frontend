@@ -1,8 +1,8 @@
 import { CORES, TAMANHO } from "@/util/constants";
 import { aplicarMascaraCpf } from "@/util/mascaras";
 import { ApiService } from "@/services/apiService";
-import { Box, Button, Card, Circle, DatePicker, Field, Flex, IconButton, Image, Input, InputGroup, PinInput, Portal, Stack, Text } from "@chakra-ui/react";
-import { ArrowLeft, Eye, EyeOff, Pencil, UserPlus } from "lucide-react";
+import { Box, Button, Card, Circle, Field, Flex, IconButton, Image, Input, InputGroup, PinInput, Stack, Text } from "@chakra-ui/react";
+import { ArrowLeft, Pencil, UserPlus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toaster } from "@/components/ui/toaster";
@@ -12,17 +12,19 @@ const CadastroArtesas = () => {
 	const navigate = useNavigate();
 
 	const [fotoPreview, setFotoPreview] = useState("");
-	const [arquivoFoto, setArquivoFoto] = useState<File | null>(null);
+	const [carregando, setCarregando] = useState(false);
 
     const [dados, setDados] = useState({
         nome: "",
         dataNascimento: "",
         cpf: "",
         aldeia: "",
+        telefone: "",
         chavePix: "",
         email: "",
         senha: ""
     });
+	const senhaPin = dados.senha.split("").slice(0, 6);
 
 	const handleChange = (campo: keyof typeof dados, valor: string) => {
 		setDados({ ...dados, [campo]: valor });
@@ -37,12 +39,11 @@ const CadastroArtesas = () => {
 			const file = e.target.files[0];
 			const urlOpcao = URL.createObjectURL(file);
 			setFotoPreview(urlOpcao);
-			setArquivoFoto(file);
 		}
 	};
 
 	const handleCadastrar = async () => {
-		if (!dados.nome || !dados.dataNascimento || !dados.cpf || !dados.aldeia || !dados.chavePix || !dados.senha) {
+		if (!dados.nome || !dados.dataNascimento || !dados.cpf || !dados.aldeia || !dados.telefone || !dados.chavePix || !dados.senha) {
 			toaster.create({
 				title: "Campos obrigatórios",
 				description: "Preencha todos os campos com asterisco (*) para continuar.",
@@ -53,11 +54,32 @@ const CadastroArtesas = () => {
 		}
 
 		try {
-			await ApiService.request("CADASTRAR_ARTESA", dados, arquivoFoto);
+			setCarregando(true);
+			const resposta = await ApiService.cadastrarArtesaAdmin({
+				tipo_conta: "ADMIN",
+				nome: dados.nome.trim(),
+				data_nascimento: dados.dataNascimento,
+				cpf: dados.cpf.trim(),
+				aldeia: dados.aldeia.trim(),
+				telefone: dados.telefone.trim(),
+				chave_pix: dados.chavePix.trim(),
+				email: dados.email.trim() || undefined,
+				senha: dados.senha.trim(),
+			});
+
+			if (resposta.status !== "sucesso") {
+				toaster.create({
+					title: "Não foi possível cadastrar",
+					description: resposta.mensagem,
+					type: "error",
+					duration: 4000,
+				});
+				return;
+			}
 
 			toaster.create({
 				title: "Artesã Cadastrada!",
-				description: `${dados.nome} foi adicionada.`,
+				description: resposta.mensagem,
 				type: "success",
 				duration: 3000,
 			});
@@ -65,8 +87,10 @@ const CadastroArtesas = () => {
 			setTimeout(() => {
 				navigate("/admin");
 			}, 1000);
-		} catch (error) {
+		} catch {
 
+		} finally {
+			setCarregando(false);
 		}
 	};
 
@@ -184,34 +208,16 @@ const CadastroArtesas = () => {
                                     <Field.Label>
                                         Data de Nascimento <Field.RequiredIndicator />
                                     </Field.Label>
-                                    <DatePicker.Root maxWidth="20rem">
-                                    <DatePicker.Control>
-                                        <DatePicker.Input />
-                                        <DatePicker.IndicatorGroup>
-                                        <DatePicker.Trigger>
-                                            <LuCalendar />
-                                        </DatePicker.Trigger>
-                                        </DatePicker.IndicatorGroup>
-                                    </DatePicker.Control>
-                                    <Portal>
-                                        <DatePicker.Positioner>
-                                        <DatePicker.Content bgColor={CORES.PRETO} color={CORES.BRANCO}>
-                                            <DatePicker.View view="day">
-                                            <DatePicker.Header />
-                                            <DatePicker.DayTable />
-                                            </DatePicker.View>
-                                            <DatePicker.View view="month">
-                                            <DatePicker.Header />
-                                            <DatePicker.MonthTable />
-                                            </DatePicker.View>
-                                            <DatePicker.View view="year">
-                                            <DatePicker.Header />
-                                            <DatePicker.YearTable />
-                                            </DatePicker.View>
-                                        </DatePicker.Content>
-                                        </DatePicker.Positioner>
-                                    </Portal>
-                                    </DatePicker.Root>
+                                    <InputGroup startElement={<LuCalendar />}>
+                                    <Input
+                                        type="date"
+                                        value={dados.dataNascimento}
+                                        onChange={(e) => handleChange("dataNascimento", e.target.value)}
+                                        boxShadow="xs"
+                                        rounded="md"
+                                        bg={CORES.BRANCO}
+                                    />
+                                    </InputGroup>
                                     </Field.Root>
 
                                 <Field.Root required flex={2}>
@@ -256,6 +262,8 @@ const CadastroArtesas = () => {
                                 </Field.Label>
                                 <InputGroup startElement={<LuPhone />}>
                                     <Input
+                                    value={dados.telefone}
+                                    onChange={(e) => handleChange("telefone", e.target.value)}
                                     placeholder="(99) 99999-9999"
                                     boxShadow="xs"
                                     rounded="md"
@@ -302,8 +310,8 @@ const CadastroArtesas = () => {
                                     Senha de Acesso (PIN) <Field.RequiredIndicator />
                                 </Field.Label>
                                   <PinInput.Root
-                                    value={dados.senha}
-                                    onValueChange={(e) => handleChange("senha", e.value)}
+                                    value={senhaPin}
+                                    onValueChange={(e) => handleChange("senha", e.value.join(""))}
                                     otp
                                 >
                                     <PinInput.HiddenInput />
@@ -321,6 +329,7 @@ const CadastroArtesas = () => {
                                     <Button
                                     fontSize={TAMANHO.TEXTO_BOTAO}
                                     onClick={handleCadastrar}
+                                    loading={carregando}
                                     mt={6}
                                     mb={2}
                                     boxShadow={"sm"}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Container, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import { CORES, TAMANHO } from '../../util/constants';
 import { LojaHeader } from './LojaHeader';
@@ -6,15 +6,36 @@ import { FiltroCategorias, type CategoriaFiltro } from './FiltroCategorias';
 import { ProdutoCard } from './ProdutoCard';
 import { PRODUTOS_MOCK } from './produtosMock';
 import type { Produto } from '../../types/produto';
+import { buscarProdutosLoja } from '../../services/produtoService';
 
 interface LojaSecaoProps {
   produtos?: Produto[];
 }
 
-const LojaSecao: React.FC<LojaSecaoProps> = ({ produtos = PRODUTOS_MOCK }) => {
+const LojaSecao: React.FC<LojaSecaoProps> = ({ produtos }) => {
   const [categoriaAtiva, setCategoriaAtiva] = useState<CategoriaFiltro>('Todos');
+  const [produtosDaLoja, setProdutosDaLoja] = useState<Produto[]>(produtos ?? PRODUTOS_MOCK);
 
-  const produtosFiltrados = produtos.filter((produto) => {
+  useEffect(() => {
+    if (produtos) {
+      setProdutosDaLoja(produtos);
+      return;
+    }
+
+    let ativo = true;
+
+    buscarProdutosLoja().then((produtosCarregados) => {
+      if (ativo) {
+        setProdutosDaLoja(produtosCarregados);
+      }
+    });
+
+    return () => {
+      ativo = false;
+    };
+  }, [produtos]);
+
+  const produtosFiltrados = produtosDaLoja.filter((produto) => {
     if (categoriaAtiva === 'Todos') return true;
     return produto.categorias.includes(categoriaAtiva);
   });

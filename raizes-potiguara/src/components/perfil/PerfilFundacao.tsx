@@ -1,12 +1,21 @@
 import { CORES, RADIUS_PADRAO_CARD, TAMANHO } from "@/util/constants";
 import { aplicarMascaraCnpj, aplicarMascaraTelefone } from "@/util/mascaras";
 import { ApiService } from "@/services/apiService";
-import { Avatar, Box, Button, Card, Center, Circle, CloseButton, Dialog, Field, Flex, HStack, Icon, Image, Input, InputGroup, Stack, Text } from "@chakra-ui/react";
-import { Badge, Building2, Eye, EyeOff, LucidePlusCircle, Plus, Settings, Users } from "lucide-react";
+import { Avatar, Box, Button, Card, Center, Circle, CloseButton, Dialog, Field, Flex, Icon, Input, InputGroup, Stack, Text } from "@chakra-ui/react";
+import { Building2, Eye, EyeOff, LucidePlusCircle, Settings, Users } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toaster } from "@/components/ui/toaster";
 import { LuBuilding2, LuBadgeInfo, LuPhone, LuMail } from "react-icons/lu";
+
+interface ArtesaFundacao {
+	id: number;
+	uuid?: string | null;
+	nome: string;
+	aldeia?: string | null;
+	foto_url?: string | null;
+	produtos?: number;
+}
 
 const PerfilFundacao = () => {
 	const navigate = useNavigate();
@@ -23,22 +32,14 @@ const PerfilFundacao = () => {
 	});
 
 	const [draft, setDraft] = useState(dados);
-	const [artesas, setArtesas] = useState<any[]>([]);
+	const [artesas, setArtesas] = useState<ArtesaFundacao[]>([]);
 
 	useEffect(() => {
 		const carregarDados = async () => {
 			try {
-				const dadosFundacao = await ApiService.request<typeof dados>("OBTER_PERFIL");
-				if (dadosFundacao) {
-					setDados(dadosFundacao);
-					setDraft(dadosFundacao);
-				}
-
-				const listaArtesas = await ApiService.request<any[]>("LISTAR_ARTESAS");
-				if (listaArtesas) {
-					setArtesas(listaArtesas);
-				}
-			} catch (error) {
+				const listaArtesas = await ApiService.listarArtesasAdmin();
+				setArtesas(listaArtesas);
+			} catch {
 				console.error("Falha ao inicializar a tela.");
 			}
 		};
@@ -87,7 +88,7 @@ const PerfilFundacao = () => {
 				type: "success",
 				duration: 3000,
 			});
-		} catch (error) {
+		} catch {
 
 		}
 	};
@@ -243,6 +244,7 @@ const PerfilFundacao = () => {
 								</Card.Root>
 								{artesas.map((artesa) => (
 									<Card.Root
+									key={artesa.uuid || artesa.id}
 									flexDirection="row"
 									boxShadow={"sm"}
 									bgColor={"white/40"}
@@ -258,7 +260,7 @@ const PerfilFundacao = () => {
 										<Flex gap={4}>
 
 										<Avatar.Root>
-											<Avatar.Image src={artesa.foto} />
+											<Avatar.Image src={artesa.foto_url || undefined} />
 											<Avatar.Fallback name={artesa.nome} />
 										</Avatar.Root>
 											<Flex flexDir={"column"}>
@@ -266,8 +268,8 @@ const PerfilFundacao = () => {
 												<Text
 														fontSize={TAMANHO.TEXTO_PEQUENO}
 														color={CORES.CINZA_ESCURO}>
-															{artesa.aldeia} •{" "}
-															{artesa.produtos} produtos
+															{artesa.aldeia || "Aldeia não informada"} •{" "}
+															{artesa.produtos || 0} produtos
 												</Text>
 											</Flex>
 										</Flex>

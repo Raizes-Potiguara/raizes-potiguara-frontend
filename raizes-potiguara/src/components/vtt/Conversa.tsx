@@ -8,6 +8,10 @@ export interface MensagemChat {
 	id: string;
 	texto: string;
 	autor: "user" | "bot";
+	imagemUrl?: string;
+	audioUrl?: string;
+	carregandoAudio?: boolean;
+	erroAudio?: boolean;
 }
 
 interface ConversaProps {
@@ -24,14 +28,17 @@ const Conversa = ({ mensagens }: ConversaProps) => {
 	return (
 		<>
 			<Box w="100%" px={4}>
-				{mensagens.map((msg, index) => {
+				{mensagens.map((msg) => {
 					const Balao = msg.autor === "bot" ? BalaoBot : BalaoUser;
 
 					return (
-						<MessageAnimation key={index}>
+						<MessageAnimation key={msg.id}>
 							<Balao
-								key={msg.id}
 								msg={msg.texto}
+								imagemUrl={msg.imagemUrl}
+								audioUrl={msg.audioUrl}
+								carregandoAudio={msg.carregandoAudio}
+								erroAudio={msg.erroAudio}
 							/>
 						</MessageAnimation>
 					);

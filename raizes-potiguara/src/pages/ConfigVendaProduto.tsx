@@ -1,298 +1,423 @@
-import MicButton from "@/components/general/MicButton";
-import { CORES, TAMANHO } from "@/util/constants";
-import { Box, Button, Image, Text, Card, Flex, IconButton, Skeleton, Center, Input, InputGroup, Textarea, Field, NumberInput, HStack, Carousel, VStack, Icon } from "@chakra-ui/react";
-import { ArrowLeft, PlusCircle } from "lucide-react";
-import { LuPencil, LuPlus, LuMinus, LuChevronLeft, LuChevronRight } from "react-icons/lu";
-import { useNavigate, useParams } from "react-router";
-import { useState, useEffect } from "react";
-import { ApiService } from "@/services/apiService";
 import { toaster } from "@/components/ui/toaster";
+import { ApiService } from "@/services/apiService";
+import { CORES, TAMANHO } from "@/util/constants";
+import {
+	Box,
+	Button,
+	Card,
+	Center,
+	Flex,
+	IconButton,
+	Image,
+	Text,
+	VStack,
+} from "@chakra-ui/react";
+import { ArrowLeft, Camera, CheckCircle2, ImagePlus, Mic, RefreshCw, SendHorizonal, Square } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import type { ChangeEvent } from "react";
+import { useNavigate, useParams } from "react-router";
 
 const ConfigVendaProduto = () => {
 	const navigate = useNavigate();
-	const { idProd } = useParams();
-	const userId = 1;
+	const { id } = useParams<{ id?: string }>();
+	const perfilId = id || "1";
 
-	const isNovaPeca = !idProd || idProd === "0";
+	const [imagem, setImagem] = useState<File | null>(null);
+	const [imagemPreview, setImagemPreview] = useState("");
+	const [audio, setAudio] = useState<Blob | null>(null);
+	const [audioPreviewUrl, setAudioPreviewUrl] = useState("");
+	const [gravando, setGravando] = useState(false);
+	const [enviando, setEnviando] = useState(false);
 
-	const [dados, setDados] = useState({
-		nome: "",
-		nome_potiguar: "",
-		preco: "",
-		quantidade_estoque: 0,
-		descricao: "",
-	});
-
-	const [fotoPreview, setFotoPreview] = useState("");
-	const [arquivoFoto, setArquivoFoto] = useState<File | null>(null);
-
-	const items = Array.from({ length: 5 });
+	const imagemInputRef = useRef<HTMLInputElement>(null);
+	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+	const audioChunksRef = useRef<Blob[]>([]);
+	const audioStreamRef = useRef<MediaStream | null>(null);
+	const audioPreviewUrlRef = useRef("");
 
 	useEffect(() => {
-		if (!isNovaPeca) {
-			const carregarProduto = async () => {
-				try {
-					const produto = await ApiService.request<any>("OBTER_PRODUTO", { id: idProd });
-					if (produto) {
-						setDados({
-							nome: produto.nome || "",
-							nome_potiguar: produto.nome_potiguar || "",
-							preco: produto.preco || "",
-							quantidade_estoque: produto.quantidade_estoque || 0,
-							descricao: produto.descricao || "",
-						});
-						if (produto.foto_url) {
-							setFotoPreview(produto.foto_url);
-						}
-					}
-				} catch (error) {
-					console.error("Falha ao carregar a peça.");
-				}
-			};
-			carregarProduto();
-		}
-	}, [idProd, isNovaPeca]);
+		return () => {
+			audioStreamRef.current?.getTracks().forEach((track) => track.stop());
 
-	const handleChange = (campo: string, valor: any) => {
-		setDados({ ...dados, [campo]: valor });
+			if (audioPreviewUrlRef.current) {
+				URL.revokeObjectURL(audioPreviewUrlRef.current);
+			}
+		};
+	}, []);
+
+	const definirAudioPreviewUrl = (url: string) => {
+		if (audioPreviewUrlRef.current) {
+			URL.revokeObjectURL(audioPreviewUrlRef.current);
+		}
+
+		audioPreviewUrlRef.current = url;
+		setAudioPreviewUrl(url);
 	};
 
-	const handleFotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files[0]) {
-			const file = e.target.files[0];
-			setFotoPreview(URL.createObjectURL(file));
-			setArquivoFoto(file);
-		}
+	const handleImagemChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const arquivo = event.target.files?.[0];
+		if (!arquivo) return;
+
+		setImagem(arquivo);
+
+		const leitor = new FileReader();
+		leitor.onload = () => {
+			if (typeof leitor.result === "string") {
+				setImagemPreview(leitor.result);
+			}
+		};
+		leitor.readAsDataURL(arquivo);
 	};
 
-	const handleSalvar = async () => {
-		if (!dados.nome || !dados.preco || !dados.descricao) {
+	const iniciarGravacao = async () => {
+		if (gravando || enviando) return;
+
+		if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
 			toaster.create({
-				title: "Campos obrigatórios",
-				description: "Preencha o nome, preço e descrição da peça.",
+				title: "Microfone indisponível",
+				description: "Este navegador não permitiu gravar áudio agora.",
 				type: "error",
+				duration: 4000,
 			});
 			return;
 		}
 
 		try {
-			const action = isNovaPeca ? "CADASTRAR_PRODUTO" : "ATUALIZAR_PRODUTO";
+			const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+			const mimeType = MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "";
+			const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
 
-			await ApiService.request(action, { ...dados, id: idProd }, arquivoFoto);
+			audioChunksRef.current = [];
+			audioStreamRef.current = stream;
+			mediaRecorderRef.current = recorder;
 
+			recorder.ondataavailable = (event) => {
+				if (event.data.size > 0) {
+					audioChunksRef.current.push(event.data);
+				}
+			};
+
+			recorder.onstop = () => {
+				const audioGravado = new Blob(audioChunksRef.current, {
+					type: recorder.mimeType || "audio/webm",
+				});
+
+				audioStreamRef.current?.getTracks().forEach((track) => track.stop());
+				audioStreamRef.current = null;
+				mediaRecorderRef.current = null;
+				setGravando(false);
+
+				if (audioGravado.size === 0) {
+					toaster.create({
+						title: "Áudio vazio",
+						description: "Grave novamente descrevendo a peça.",
+						type: "error",
+						duration: 3000,
+					});
+					return;
+				}
+
+				setAudio(audioGravado);
+				definirAudioPreviewUrl(URL.createObjectURL(audioGravado));
+			};
+
+			recorder.start();
+			setGravando(true);
+		} catch {
+			setGravando(false);
 			toaster.create({
-				title: "Sucesso!",
-				description: isNovaPeca ? "Peça cadastrada com sucesso." : "Peça atualizada.",
-				type: "success",
+				title: "Permissão de microfone",
+				description: "Autorize o uso do microfone para gravar a descrição da peça.",
+				type: "error",
+				duration: 4000,
+			});
+		}
+	};
+
+	const pararGravacao = () => {
+		const recorder = mediaRecorderRef.current;
+		if (recorder?.state === "recording") {
+			recorder.stop();
+		}
+	};
+
+	const limparAudio = () => {
+		setAudio(null);
+		definirAudioPreviewUrl("");
+	};
+
+	const enviarPeca = async () => {
+		if (!imagem) {
+			toaster.create({
+				title: "Foto obrigatória",
+				description: "Tire ou selecione uma foto da peça para continuar.",
+				type: "error",
+				duration: 3500,
+			});
+			return;
+		}
+
+		if (!audio) {
+			toaster.create({
+				title: "Áudio obrigatório",
+				description: "Grave um áudio dizendo o que é a peça e quantas unidades existem.",
+				type: "error",
+				duration: 3500,
+			});
+			return;
+		}
+
+		try {
+			setEnviando(true);
+			const resposta = await ApiService.enviarAssistente({
+				texto: "",
+				imagem,
+				audio,
+				tipo_conta: "ARTESA",
+				usuario_id: resolverUsuarioIdArtesa(perfilId),
+				contexto: {
+					origem: "nova_peca",
+					tela: window.location.pathname,
+					fluxo: "cadastro_produto_audio_imagem",
+				},
 			});
 
-			navigate(`/perfil/${userId}/config`);
-		} catch (error) {
+			if (resposta.status === "erro" || resposta.status === "nao_permitido") {
+				toaster.create({
+					title: "Não foi possível cadastrar",
+					description: resposta.mensagem || "Tente novamente em instantes.",
+					type: "error",
+					duration: 4500,
+				});
+				return;
+			}
 
+			toaster.create({
+				title: "Peça enviada",
+				description: resposta.mensagem || "A peça foi enviada para cadastro.",
+				type: "success",
+				duration: 4500,
+			});
+
+			navigate(`/perfil/${perfilId}/config`);
+		} catch {
+			// O ApiService já exibe o erro de comunicação no toaster.
+		} finally {
+			setEnviando(false);
 		}
 	};
 
 	return (
-		<>
-			<Box color={CORES.PRETO}>
-				<Card.Root
+		<Box color={CORES.PRETO}>
+			<Card.Root
+				m={0}
+				p={0}
+				mt={8}
+				borderTopRadius={24}
+				borderWidth={0}
+				borderBottomRadius={0}
+			>
+				<Card.Body
 					m={0}
 					p={0}
-					mt={8}
 					borderTopRadius={24}
 					borderWidth={0}
 					borderBottomRadius={0}
+					overflow="hidden"
+					bgColor={CORES.BRANCO}
+					minH="calc(100vh - 32px)"
 				>
-					<Card.Body
-						m={0}
-						p={0}
-						borderTopRadius={24}
-						borderWidth={0}
-						borderBottomRadius={0}
-						overflow={"hidden"}
-						bgColor={CORES.BRANCO}
-					>
-						<Box as="label" position="relative" w="full" h="50vh" cursor="pointer" display="block">
-							<input
-								type="file"
-								accept="image/*"
-								style={{ display: "none" }}
-								onChange={handleFotoChange}
-							/>
-							{fotoPreview ? (
-								<Image src={fotoPreview} w="full" h="full" objectFit="cover" alt="Foto da peça" />
-							) : (
-								<Skeleton w="full" h="full" />
-							)}
-							<Center
-								position="absolute"
-								inset={0}
-								bg="blackAlpha.500"
-								color="white"
-								pointerEvents="none"
+					<Box p={{ base: 6, md: 8 }} color={CORES.CINZA_ESCURO}>
+						<Flex mb={8} alignItems="center" justifyContent="space-between" gap={4}>
+							<Text
+								color={CORES.PRETO}
+								className="hashira"
+								lineHeight={1.1}
+								fontWeight="bold"
+								fontSize={TAMANHO.TITULO_SECAO}
 							>
-								<LuPencil size={40} />
-							</Center>
-						</Box>
+								Nova Peça
+							</Text>
 
-						<Box p={8} color={CORES.CINZA_ESCURO}>
-							<Flex mb={8} alignItems={"center"} placeContent={"space-between"}>
-								<Text color={CORES.PRETO} className="hashira" lineHeight={1.1} fontWeight={"bold"} fontSize={TAMANHO.TITULO_SECAO}>
-									{isNovaPeca ? "Nova" : "Editar"} Peça
+							<IconButton
+								aria-label="Voltar"
+								bgColor={CORES.PRETO}
+								color={CORES.BRANCO}
+								size="xl"
+								boxShadow="md"
+								rounded="full"
+								onClick={() => navigate(`/perfil/${perfilId}/config`)}
+							>
+								<ArrowLeft />
+							</IconButton>
+						</Flex>
+
+						<VStack align="stretch" gap={6}>
+							<Box>
+								<Text color={CORES.PRETO} fontWeight="bold" fontSize={TAMANHO.CORPO_TEXTO}>
+									1. Tire uma foto da peça
 								</Text>
-								{
+								<Text mt={1} fontSize={TAMANHO.TEXTO_PEQUENO} lineHeight={1.35}>
+									Use boa luz, deixe a peça inteira aparecer e evite fundo muito bagunçado.
+								</Text>
+
+								<input
+									ref={imagemInputRef}
+									type="file"
+									accept="image/*"
+									capture="environment"
+									hidden
+									onChange={handleImagemChange}
+								/>
+
+								<Center
+									mt={4}
+									minH={{ base: "240px", md: "320px" }}
+									aspectRatio={1}
+									borderWidth={imagemPreview ? 0 : "1px"}
+									borderStyle="dashed"
+									borderColor={CORES.CINZA_CLARO}
+									bgColor={CORES.VERMELHO_CLARINHO}
+									rounded="2xl"
+									overflow="hidden"
+									position="relative"
+								>
+									{imagemPreview ? (
+										<Image
+											src={imagemPreview}
+											alt={imagem?.name || "Foto da peça"}
+											w="full"
+											h="full"
+											objectFit="cover"
+										/>
+									) : (
+										<VStack gap={3} textAlign="center" px={5}>
+											<ImagePlus size={44} strokeWidth={1.4} color={CORES.MARROM} />
+											<Text fontWeight="bold" color={CORES.PRETO}>
+												Nenhuma foto adicionada
+											</Text>
+										</VStack>
+									)}
+								</Center>
+
+								<Button
+									mt={4}
+									w="full"
+									bgColor={CORES.PRETO}
+									color={CORES.BRANCO}
+									rounded="full"
+									fontSize={TAMANHO.TEXTO_BOTAO}
+									onClick={() => imagemInputRef.current?.click()}
+								>
+									<Camera size={18} />
+									{imagem ? "Trocar foto" : "Abrir câmera"}
+								</Button>
+							</Box>
+
+							<Box>
+								<Text color={CORES.PRETO} fontWeight="bold" fontSize={TAMANHO.CORPO_TEXTO}>
+									2. Grave um áudio descrevendo
+								</Text>
+								<Text mt={1} fontSize={TAMANHO.TEXTO_PEQUENO} lineHeight={1.35}>
+									Diga o nome da peça, a quantidade pronta, os materiais e o preço, se já souber.
+								</Text>
+
+								<Flex
+									mt={4}
+									p={4}
+									gap={4}
+									align="center"
+									bgColor={CORES.VERMELHO_CLARINHO}
+									rounded="2xl"
+								>
 									<IconButton
-										bgColor={CORES.PRETO}
+										aria-label={gravando ? "Parar gravação" : "Gravar áudio"}
+										size="xl"
+										rounded="full"
+										bgColor={gravando ? CORES.PRETO : CORES.VERMELHO_VIVO}
 										color={CORES.BRANCO}
-										size={"xl"}
-										boxShadow={"md"}
-										rounded={"full"}
-										onClick={() => navigate(`/perfil/${userId}/config`)}
+										disabled={enviando}
+										onClick={gravando ? pararGravacao : iniciarGravacao}
 									>
-										<ArrowLeft/>
+										{gravando ? <Square size={20} /> : <Mic size={22} />}
 									</IconButton>
-								}
-							</Flex>
 
-							<Flex flexDir={"column"} gap={4}>
-								<Field.Root required>
-									<Field.Label>
-										Nome da peça <Field.RequiredIndicator />
-									</Field.Label>
-									<Input
-										value={dados.nome}
-										onChange={(e) => handleChange("nome", e.target.value)}
-										boxShadow={"xs"}
-										rounded={"md"}
-										placeholder="Nome da peça em português..."
-									/>
-									<Input
-										value={dados.nome_potiguar}
-										onChange={(e) => handleChange("nome_potiguar", e.target.value)}
-										boxShadow={"xs"}
-										rounded={"md"}
-										placeholder="Nome da peça em tupi potiguara..."
-										mt={2}
-									/>
-								</Field.Root>
+									<Box flex={1} minW={0}>
+										<Text color={CORES.PRETO} fontWeight="bold">
+											{gravando ? "Gravando..." : audio ? "Áudio gravado" : "Toque para gravar"}
+										</Text>
+										<Text fontSize={TAMANHO.TEXTO_PEQUENO}>
+											{gravando
+												? "Toque no botão novamente quando terminar."
+												: audio
+													? "Você pode ouvir ou gravar outra vez."
+													: "Fale de forma calma, como se estivesse explicando para uma cliente."}
+										</Text>
+									</Box>
 
-								<Field.Root required>
-									<Field.Label>
-										Preço <Field.RequiredIndicator />
-									</Field.Label>
-									<InputGroup startElement="R$">
-										<Input
-											value={dados.preco}
-											onChange={(e) => handleChange("preco", e.target.value)}
-											boxShadow={"xs"}
-											rounded={"md"}
-											placeholder="0,00"
-										/>
-									</InputGroup>
-								</Field.Root>
-
-								<Field.Root required>
-									<Field.Label>
-										Quantidade em estoque <Field.RequiredIndicator />
-									</Field.Label>
-									<NumberInput.Root
-										value={dados.quantidade_estoque.toString()}
-										onValueChange={(e) => handleChange("quantidade_estoque", Number(e.value))}
-										unstyled
-										spinOnPress={false}
-									>
-										<HStack gap="2">
-											<NumberInput.DecrementTrigger asChild>
-												<IconButton variant="outline" size="sm">
-													<LuMinus />
-												</IconButton>
-											</NumberInput.DecrementTrigger>
-											<NumberInput.ValueText textAlign="center" fontSize="lg" minW="3ch" />
-											<NumberInput.IncrementTrigger asChild>
-												<IconButton variant="outline" size="sm">
-													<LuPlus />
-												</IconButton>
-											</NumberInput.IncrementTrigger>
-										</HStack>
-									</NumberInput.Root>
-								</Field.Root>
-
-								<Field.Root required>
-									<Field.Label>
-										Descrição <Field.RequiredIndicator />
-									</Field.Label>
-									<InputGroup>
-										<Textarea
-											value={dados.descricao}
-											onChange={(e) => handleChange("descricao", e.target.value)}
-											boxShadow={"xs"}
-											rounded={"md"}
-											placeholder="Descreva a peça. Como foi feita? Com que materiais? Quanto tempo levou para fazer? Qual é o seu significado?"
-										/>
-									</InputGroup>
-								</Field.Root>
-							</Flex>
-
-							<Carousel.Root
-								slidesPerPage={1.7}
-								slideCount={items.length}
-								mx="auto"
-								mt={4}
-							>
-								<Carousel.ItemGroup>
-									<Carousel.Item py={2} pl={1} key={0} index={0}>
-										<Box w="50vw" h="300px" rounded="lg" boxShadow={"sm"}>
-											<Center h={"full"}>
-												<VStack textAlign={"center"}>
-													<Icon><PlusCircle size={48} strokeWidth={1.2}/></Icon>
-													<Text fontWeight={"bold"} fontSize={TAMANHO.CORPO_TEXTO}>Adicionar<br/>Imagem ou Vídeo</Text>
-												</VStack>
-											</Center>
-										</Box>
-									</Carousel.Item>
-									{items.map((_, index) => (
-										<Carousel.Item p={2} key={index + 1} index={index + 1}>
-											<Skeleton w="50vw" h="300px" rounded="lg"/>
-										</Carousel.Item>
-									))}
-								</Carousel.ItemGroup>
-
-								<Carousel.Control justifyContent="center" gap="4">
-									<Carousel.PrevTrigger asChild>
-										<IconButton size="xs" variant="ghost">
-											<LuChevronLeft />
+									{audio && !gravando && (
+										<IconButton
+											aria-label="Gravar novamente"
+											size="sm"
+											rounded="full"
+											variant="ghost"
+											color={CORES.PRETO}
+											onClick={limparAudio}
+										>
+											<RefreshCw size={18} />
 										</IconButton>
-									</Carousel.PrevTrigger>
+									)}
+								</Flex>
 
-									<Carousel.Indicators />
-
-									<Carousel.NextTrigger asChild>
-										<IconButton size="xs" variant="ghost">
-											<LuChevronRight />
-										</IconButton>
-									</Carousel.NextTrigger>
-								</Carousel.Control>
-							</Carousel.Root>
+								{audioPreviewUrl && (
+									<audio
+										controls
+										src={audioPreviewUrl}
+										style={{ width: "100%", marginTop: 12 }}
+									/>
+								)}
+							</Box>
 
 							<Button
-								onClick={handleSalvar}
+								onClick={enviarPeca}
+								disabled={!imagem || !audio || gravando}
+								loading={enviando}
 								fontSize={TAMANHO.TEXTO_BOTAO}
-								mt={6}
-								boxShadow={"sm"}
-								w={"full"}
+								mt={2}
+								boxShadow="sm"
+								w="full"
 								bgColor={CORES.VERMELHO_MEDIO}
-								rounded={"full"}
+								color={CORES.BRANCO}
+								rounded="full"
 							>
-								Salvar peça
+								{enviando ? (
+									"Enviando peça..."
+								) : (
+									<>
+										<SendHorizonal size={18} />
+										Cadastrar peça
+									</>
+								)}
 							</Button>
 
-						</Box>
-					</Card.Body>
-				</Card.Root>
-			</Box>
-			<MicButton />
-		</>
+							<Flex align="center" gap={2} color={CORES.CINZA_ESCURO}>
+								<CheckCircle2 size={16} />
+								<Text fontSize={TAMANHO.TEXTO_PEQUENO}>
+									A descrição, preço e estoque serão organizados pelo assistente a partir da foto e do áudio.
+								</Text>
+							</Flex>
+						</VStack>
+					</Box>
+				</Card.Body>
+			</Card.Root>
+		</Box>
 	);
+};
+
+const resolverUsuarioIdArtesa = (id?: string) => {
+	if (!id) return "01";
+	if (id.length === 1 && /^\d$/.test(id)) return id.padStart(2, "0");
+	return id;
 };
 
 export default ConfigVendaProduto;
