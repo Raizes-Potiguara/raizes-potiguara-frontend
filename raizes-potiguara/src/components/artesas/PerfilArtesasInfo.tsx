@@ -1,9 +1,10 @@
 import { Badge, Box, Flex, Image, Text } from "@chakra-ui/react";
-import { AtSign, Mail, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
+import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
 
 export interface RedeSocialArtesa {
-  tipo: "instagram" | "email";
+  tipo: "instagram" | "email" | "whatsapp";
   url: string;
 }
 
@@ -20,8 +21,9 @@ export interface PerfilArtesaProps {
 }
 
 const ICONE_REDE_SOCIAL = {
-  instagram: AtSign,
+  instagram: FaInstagram,
   email: Mail,
+  whatsapp: FaWhatsapp,
 } as const;
 
 const PerfilArtesa = ({
@@ -133,7 +135,7 @@ const PerfilArtesa = ({
 
       {/* espaço reservado para redes sociais; sem link cadastrado, some como placeholder desativado */}
       <Flex gap={3}>
-        {(["instagram", "email"] as const).map((tipo) => {
+        {(["instagram", "whatsapp", "email"] as const).map((tipo) => {
           const rede = redesSociais.find((r) => r.tipo === tipo);
           const Icone = ICONE_REDE_SOCIAL[tipo];
 
@@ -154,9 +156,15 @@ const PerfilArtesa = ({
             >
               <a
                 href={rede?.url ?? "#"}
-                target={rede && tipo === "instagram" ? "_blank" : undefined}
+                target={rede && tipo !== "email" ? "_blank" : undefined}
                 rel={rede ? "noreferrer" : undefined}
-                aria-label={tipo === "instagram" ? `Instagram de ${nome}` : `E-mail de ${nome}`}
+                aria-label={
+                  tipo === "instagram"
+                    ? `Instagram de ${nome}`
+                    : tipo === "whatsapp"
+                      ? `WhatsApp de ${nome}`
+                      : `E-mail de ${nome}`
+                }
               >
                 <Icone size={18} />
               </a>

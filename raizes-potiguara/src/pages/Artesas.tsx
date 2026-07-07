@@ -41,6 +41,10 @@ const artesas: ArtesaResumo[] = [
         tipo: "email",
         url: "mailto:talitabrito@gmail.com",
       },
+      {
+        tipo: "whatsapp",
+        url: "https://wa.me/5583999910101",
+      },
     ],
   },
   {
@@ -58,6 +62,10 @@ const artesas: ArtesaResumo[] = [
       {
         tipo: "email",
         url: "mailto:creuzagomes@gmail.com",
+      },
+      {
+        tipo: "whatsapp",
+        url: "https://wa.me/5583999920202",
       },
     ],
   },
@@ -77,6 +85,10 @@ const artesas: ArtesaResumo[] = [
       {
         tipo: "email",
         url: "mailto:ivanildarocha@gmail.com",
+      },
+      {
+        tipo: "whatsapp",
+        url: "https://wa.me/5583999930303",
       },
     ],
   },
