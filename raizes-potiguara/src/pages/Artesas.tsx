@@ -1,6 +1,6 @@
 import HoneycombBackgroundRed from "@/components/general/HoneycombBackgroundRed";
 import HoneycombBackgroundBlack from "@/components/general/HoneycombBackgroundBlack";
-import PerfilArtesa from "@/components/artesas/PerfilArtesasInfo";
+import PerfilArtesa, { type RedeSocialArtesa } from "@/components/artesas/PerfilArtesasInfo";
 import fotoPotiguara from "@/assets/artesa-potiguara.jpeg";
 import fotoTalitaBrito from "@/assets/artesa-talita-brito.jpeg";
 import fotoIvanildaRocha from "@/assets/artesa-ivanilda-rocha.jpeg";
@@ -13,7 +13,17 @@ import { Box, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@
 import { ChevronLeft, ChevronRight, Gem, Sprout, UsersRound } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const artesas = [
+interface ArtesaResumo {
+  nome: string;
+  aldeia: string;
+  producao: string;
+  historia: string;
+  materiais: string[];
+  foto?: string;
+  redesSociais: RedeSocialArtesa[];
+}
+
+const artesas: ArtesaResumo[] = [
   {
     nome: "Talita Brito",
     aldeia: "Baía da Traição",
@@ -22,6 +32,16 @@ const artesas = [
       "Vive na zona urbana de Baía da Traição e produz joias com miçangas de vidro, criando peças delicadas e coloridas.",
     materiais: ["miçangas de vidro", "joias", "fios"],
     foto: fotoTalitaBrito,
+    redesSociais: [
+      {
+        tipo: "instagram",
+        url: "https://www.instagram.com/tara_arteindigena?igsh=MTJ6MDY2OXpxM24xNw==",
+      },
+      {
+        tipo: "email",
+        url: "mailto:talitabrito@gmail.com",
+      },
+    ],
   },
   {
     nome: "Creuza Gomes",
@@ -30,6 +50,16 @@ const artesas = [
     historia:
       "Produz peças que unem sementes, plumagens e técnicas artesanais, valorizando a criatividade e os saberes da Aldeia Forte.",
     materiais: ["sementes", "plumagens", "fibras"],
+    redesSociais: [
+      {
+        tipo: "instagram",
+        url: "https://www.instagram.com/creuzapotiguara?igsh=MWE3Mm9uZHg2d2F1Mw==",
+      },
+      {
+        tipo: "email",
+        url: "mailto:creuzagomes@gmail.com",
+      },
+    ],
   },
   {
     nome: "Ivanilda Rocha",
@@ -39,6 +69,16 @@ const artesas = [
       "Na Aldeia Alto do Tambá, cria biojoias, joias com miçangas e peças de costura criativa ligadas ao fazer potiguara.",
     materiais: ["biojoias", "miçangas", "costura criativa"],
     foto: fotoIvanildaRocha,
+    redesSociais: [
+      {
+        tipo: "instagram",
+        url: "https://www.instagram.com/ivanildaartesapotiguara?igsh=MXd5czJld3ptZXQzdw==",
+      },
+      {
+        tipo: "email",
+        url: "mailto:ivanildarocha@gmail.com",
+      },
+    ],
   },
 ];
 
@@ -283,9 +323,8 @@ const Artesas = () => {
                 materiais={artesa.materiais}
                 foto={artesa.foto ?? fotoPotiguara}
                 ajustarFoto={Boolean(artesa.foto)}
+                redesSociais={artesa.redesSociais}
                 inverterLado={index % 2 === 1}
-                // redesSociais ainda não vem do backend/dados reais;
-                // ao integrar, basta passar aqui, ex: [{ tipo: 'instagram', url: '...' }]
               />
             ))}
           </Box>
