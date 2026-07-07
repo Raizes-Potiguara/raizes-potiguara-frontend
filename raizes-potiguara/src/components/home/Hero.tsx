@@ -58,7 +58,7 @@ const Hero = ({ aoClicarConhecerArtesanato }: HeroProps) => {
             fontSize={`${TAMANHO.SUBTITULO_SECAO}px`}
             mt={8}
           >
-            O artesanato potiguara contado pelas mãos que o criam.
+            O Artesanato Potiguara contado pelas mãos que o criam.
           </Text>
 
           <Button

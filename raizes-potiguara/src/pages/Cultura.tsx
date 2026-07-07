@@ -404,7 +404,7 @@ const Cultura = () => {
               <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
                 A língua é parte da retomada cultural. No produto artesanal, palavras em tupi potiguara podem
                 aproximar nome, origem e significado, ajudando o cliente a conhecer a peça sem apagar sua raiz.
-              </Text>AS
+              </Text>
             </Stack>
 
             <Stack gap={3}>
@@ -419,13 +419,13 @@ const Cultura = () => {
         </Container>
       </Box>
 
-      <Box as="section" bg={CORES.CINZA_CLARINHO} py={{ base: 8, md: 14 }}>
+      <Box as="section" bg={CORES.VERMELHO_ESCURO} py={{ base: 8, md: 14 }}>
         <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
           <Stack gap={3} mb={{ base: 6, md: 8 }}>
-            <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
+            <Heading as="h2" color={CORES.BRANCO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
               Termos e Conceitos
             </Heading>
-            <Text color={CORES.CINZA_ESCURO} maxW="78ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+            <Text color={CORES.CINZA_CLARO} maxW="78ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
               Explore os principais termos, materiais, técnicas e elementos culturais presentes nas peças artesanais. 
               </Text>
           </Stack>
@@ -487,7 +487,7 @@ const Cultura = () => {
                   </Text>
 
                   <Text mt={3} color={CORES.CINZA_ESCURO} fontSize={{ base: "11px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} fontWeight="800">
-                    Tradução em tupi
+                    Tradução em Tupi
                   </Text>
                   <Text mt={1} color={CORES.VERMELHO_ESCURO} fontWeight="800" fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
                     {tupi}
