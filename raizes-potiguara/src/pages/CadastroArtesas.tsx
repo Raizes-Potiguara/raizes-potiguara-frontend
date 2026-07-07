@@ -1,5 +1,6 @@
 import { CORES, TAMANHO } from "@/util/constants";
 import { aplicarMascaraCpf } from "@/util/mascaras";
+import { ApiService } from "@/services/apiService";
 import { Box, Button, Card, Circle, DatePicker, Field, Flex, IconButton, Image, Input, InputGroup, PinInput, Portal, Stack, Text } from "@chakra-ui/react";
 import { ArrowLeft, Eye, EyeOff, Pencil, UserPlus } from "lucide-react";
 import { useState } from "react";
@@ -11,7 +12,7 @@ const CadastroArtesas = () => {
 	const navigate = useNavigate();
 
 	const [fotoPreview, setFotoPreview] = useState("");
-	const [mostrarSenha, setMostrarSenha] = useState(false);
+	const [arquivoFoto, setArquivoFoto] = useState<File | null>(null);
 
     const [dados, setDados] = useState({
         nome: "",
@@ -33,32 +34,40 @@ const CadastroArtesas = () => {
 
 	const handleFotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
-			const urlOpcao = URL.createObjectURL(e.target.files[0]);
+			const file = e.target.files[0];
+			const urlOpcao = URL.createObjectURL(file);
 			setFotoPreview(urlOpcao);
+			setArquivoFoto(file);
 		}
 	};
 
-    const handleCadastrar = () => {
-        if (!dados.nome || !dados.dataNascimento || !dados.cpf || !dados.aldeia || !dados.chavePix || !dados.senha) {
-            toaster.create({
-                title: "Campos obrigatórios",
-                description: "Preencha todos os campos com asterisco (*) para continuar.",
-                type: "error",
-                duration: 4000,
-            });
-            return;
-        }
+	const handleCadastrar = async () => {
+		if (!dados.nome || !dados.dataNascimento || !dados.cpf || !dados.aldeia || !dados.chavePix || !dados.senha) {
+			toaster.create({
+				title: "Campos obrigatórios",
+				description: "Preencha todos os campos com asterisco (*) para continuar.",
+				type: "error",
+				duration: 4000,
+			});
+			return;
+		}
 
-		toaster.create({
-			title: "Artesã Cadastrada!",
-			description: `${dados.nome} foi adicionada.`,
-			type: "success",
-			duration: 3000,
-		});
+		try {
+			await ApiService.request("CADASTRAR_ARTESA", dados, arquivoFoto);
 
-		setTimeout(() => {
-			navigate("/admin");
-		}, 1000);
+			toaster.create({
+				title: "Artesã Cadastrada!",
+				description: `${dados.nome} foi adicionada.`,
+				type: "success",
+				duration: 3000,
+			});
+
+			setTimeout(() => {
+				navigate("/admin");
+			}, 1000);
+		} catch (error) {
+
+		}
 	};
 
     return (
@@ -123,7 +132,7 @@ const CadastroArtesas = () => {
                         borderBottomRadius={0}
                         pt="60px"
                         zIndex={1}
-                        minH={"85vh"} 
+                        minH={"85vh"}
                         px={2}
                     >
                         <Card.Body color={CORES.CINZA_ESCURO}>
@@ -132,10 +141,10 @@ const CadastroArtesas = () => {
                                     Cadastrar <br/> Artesã
                                 </Text>
                                 {
-                                <IconButton 
-                                bgColor={CORES.PRETO} 
-                                color={CORES.BRANCO} 
-                                size={"xl"} 
+                                <IconButton
+                                bgColor={CORES.PRETO}
+                                color={CORES.BRANCO}
+                                size={"xl"}
                                 boxShadow={"md"}
                                 rounded={"full"}
                                 onClick={()=>navigate(`/admin`)}
@@ -214,7 +223,7 @@ const CadastroArtesas = () => {
                                         value={dados.cpf}
                                         onChange={handleCpfChange}
                                         placeholder="000.000.000-00"
-                                        
+
                                         maxLength={14}
                                         boxShadow="xs"
                                         rounded="md"
@@ -247,7 +256,7 @@ const CadastroArtesas = () => {
                                 </Field.Label>
                                 <InputGroup startElement={<LuPhone />}>
                                     <Input
-                                    placeholder="(99) 99999-9999" 
+                                    placeholder="(99) 99999-9999"
                                     boxShadow="xs"
                                     rounded="md"
                                     px={4}
@@ -309,13 +318,13 @@ const CadastroArtesas = () => {
                                 </PinInput.Root>
                                 </Field.Root>
 
-                                    <Button 
-                                    fontSize={TAMANHO.TEXTO_BOTAO} 
+                                    <Button
+                                    fontSize={TAMANHO.TEXTO_BOTAO}
                                     onClick={handleCadastrar}
-                                    mt={6} 
+                                    mt={6}
                                     mb={2}
-                                    boxShadow={"sm"} 
-                                    bgColor={CORES.VERMELHO_MEDIO} 
+                                    boxShadow={"sm"}
+                                    bgColor={CORES.VERMELHO_MEDIO}
                                     rounded={"full"}>
                                         Salvar alterações
                                     </Button>

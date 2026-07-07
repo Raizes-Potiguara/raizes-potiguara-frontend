@@ -1,8 +1,9 @@
 import { CORES, RADIUS_PADRAO_CARD, TAMANHO } from "@/util/constants";
 import { aplicarMascaraCnpj, aplicarMascaraTelefone } from "@/util/mascaras";
+import { ApiService } from "@/services/apiService";
 import { Avatar, Box, Button, Card, Center, Circle, CloseButton, Dialog, Field, Flex, HStack, Icon, Image, Input, InputGroup, Stack, Text } from "@chakra-ui/react";
 import { Badge, Building2, Eye, EyeOff, LucidePlusCircle, Plus, Settings, Users } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toaster } from "@/components/ui/toaster";
 import { LuBuilding2, LuBadgeInfo, LuPhone, LuMail } from "react-icons/lu";
@@ -22,30 +23,28 @@ const PerfilFundacao = () => {
 	});
 
 	const [draft, setDraft] = useState(dados);
+	const [artesas, setArtesas] = useState<any[]>([]);
 
-	const artesasMock = [
-		{
-			id: 1,
-			nome: "Emile Silva",
-			aldeia: "Aldeia Jacaré",
-			produtos: 12,
-			foto: "https://i.pravatar.cc/150?u=emile"
-		},
-		{
-			id: 2,
-			nome: "João Souza",
-			aldeia: "Aldeia Alto",
-			produtos: 5,
-			foto: "https://i.pravatar.cc/150?u=joao"
-		},
-		{
-			id: 3,
-			nome: "Leo Santos",
-			aldeia: "Aldeia Jacaré",
-			produtos: 8,
-			foto: "https://i.pravatar.cc/150?u=leo"
-		},
-	];
+	useEffect(() => {
+		const carregarDados = async () => {
+			try {
+				const dadosFundacao = await ApiService.request<typeof dados>("OBTER_PERFIL");
+				if (dadosFundacao) {
+					setDados(dadosFundacao);
+					setDraft(dadosFundacao);
+				}
+
+				const listaArtesas = await ApiService.request<any[]>("LISTAR_ARTESAS");
+				if (listaArtesas) {
+					setArtesas(listaArtesas);
+				}
+			} catch (error) {
+				console.error("Falha ao inicializar a tela.");
+			}
+		};
+
+		carregarDados();
+	}, []);
 
 	const abrirModal = () => {
 		setDraft(dados);
@@ -65,7 +64,7 @@ const PerfilFundacao = () => {
 		handleChange("telefone", aplicarMascaraTelefone(e.target.value));
 	};
 
-	const handleSalvarEdicao = () => {
+	const handleSalvarEdicao = async () => {
 		if (!draft.nome || !draft.cnpj || !draft.telefone || !draft.email) {
 			toaster.create({
 				title: "Campos obrigatórios",
@@ -76,15 +75,21 @@ const PerfilFundacao = () => {
 			return;
 		}
 
-		setDados(draft);
-		setModalAberto(false);
+		try {
+			await ApiService.request("ATUALIZAR_ADMIN", draft);
 
-		toaster.create({
-			title: "Sucesso!",
-			description: "Dados atualizados com sucesso.",
-			type: "success",
-			duration: 3000,
-		});
+			setDados(draft);
+			setModalAberto(false);
+
+			toaster.create({
+				title: "Sucesso!",
+				description: "Dados atualizados com sucesso.",
+				type: "success",
+				duration: 3000,
+			});
+		} catch (error) {
+
+		}
 	};
 
 	return (
@@ -120,7 +125,7 @@ const PerfilFundacao = () => {
 						<Card.Body>
 							<Flex flexDir="column" align="center" mb={6}>
 								<Center>
-									<Text 
+									<Text
 									fontSize={TAMANHO.SUBTITULO_PAGINA}
 									fontWeight={"bold"}
 									textAlign={"center"}
@@ -200,7 +205,7 @@ const PerfilFundacao = () => {
 												fontSize={TAMANHO.SUBTITULO_SECAO}
 												fontWeight={900}
 											>
-												{artesasMock.length} cadastradas
+												{artesas.length} cadastradas
 											</Text>
 										</Box>
 									</Flex>
@@ -218,10 +223,10 @@ const PerfilFundacao = () => {
 
 							<Stack gap={3}>
 								<Card.Root
-								flexDirection="row" 
+								flexDirection="row"
 								boxShadow={"sm"}
 								bgColor={"white/40"}
-								overflow="hidden" 
+								overflow="hidden"
 								w={"full"}
 								h={"10vh"}
 								alignItems={"center"}
@@ -236,12 +241,12 @@ const PerfilFundacao = () => {
 									</Flex>
 									</Card.Body>
 								</Card.Root>
-								{artesasMock.map((artesa) => (
-									<Card.Root 
-									flexDirection="row" 
+								{artesas.map((artesa) => (
+									<Card.Root
+									flexDirection="row"
 									boxShadow={"sm"}
 									bgColor={"white/40"}
-									overflow="hidden" 
+									overflow="hidden"
 									w={"full"}
 									h={"10vh"}
 									alignItems={"center"}
@@ -249,9 +254,9 @@ const PerfilFundacao = () => {
 									>
 										<Card.Body p={4}  >
 										<Flex w={"full"} gap={4} placeContent={"space-between"}>
-										
+
 										<Flex gap={4}>
-										
+
 										<Avatar.Root>
 											<Avatar.Image src={artesa.foto} />
 											<Avatar.Fallback name={artesa.nome} />
@@ -266,7 +271,7 @@ const PerfilFundacao = () => {
 												</Text>
 											</Flex>
 										</Flex>
-												<Button alignSelf={"end"} 
+												<Button alignSelf={"end"}
 												rounded={"full"}
 												boxShadow={"sm"}
 												variant={"outline"}
