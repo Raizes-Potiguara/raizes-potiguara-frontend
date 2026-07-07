@@ -9,9 +9,9 @@ import fotoAldeasColetivo from "@/assets/cultura-aldeas-coletivo.jpeg";
 import fotoArtesasRetrato from "@/assets/cultura-artesas-retrato.jpeg";
 import fotoAssociacaoPotiguara from "@/assets/cultura-associacao-potiguara.jpeg";
 import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
-import { Box, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { Box, Carousel, Container, Flex, Heading, IconButton, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight, Gem, Sprout, UsersRound } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface ArtesaResumo {
   nome: string;
@@ -130,23 +130,6 @@ const fotosArtesas = [
 
 const Artesas = () => {
   const [fotoAtual, setFotoAtual] = useState(0);
-  const fotoSelecionada = fotosArtesas[fotoAtual];
-
-  useEffect(() => {
-    const intervalo = window.setInterval(() => {
-      setFotoAtual((atual) => (atual === fotosArtesas.length - 1 ? 0 : atual + 1));
-    }, 4000);
-
-    return () => window.clearInterval(intervalo);
-  }, []);
-
-  const voltarFoto = () => {
-    setFotoAtual((atual) => (atual === 0 ? fotosArtesas.length - 1 : atual - 1));
-  };
-
-  const avancarFoto = () => {
-    setFotoAtual((atual) => (atual === fotosArtesas.length - 1 ? 0 : atual + 1));
-  };
 
   return (
     <Box bg={CORES.BRANCO}>
@@ -193,95 +176,117 @@ const Artesas = () => {
             </Stack>
 
             <Box w="100%">
-              <Box
-                position="relative"
-                mx="auto"
-                w="100%"
-                maxW={{ base: "340px", sm: "420px", md: "500px" }}
-                aspectRatio="1 / 1"
-                borderRadius="4px"
-                overflow="hidden"
-                bg="transparent"
-                boxShadow={{ base: `7px 7px 0 ${CORES.VERMELHO_ESCURO}`, md: `12px 12px 0 ${CORES.VERMELHO_ESCURO}` }}
+              <Carousel.Root
+                slideCount={fotosArtesas.length}
+                page={fotoAtual}
+                onPageChange={(details) => setFotoAtual(details.page)}
+                loop
+                autoplay={{ delay: 4000 }}
+                spacing="0px"
               >
-                <Image
-                  src={fotoSelecionada.src}
-                  alt={fotoSelecionada.alt}
+                <Box
+                  position="relative"
+                  mx="auto"
                   w="100%"
-                  h="100%"
-                  objectFit="cover"
-                  objectPosition="center"
-                />
-
-                <Flex
-                  position="absolute"
-                  insetX={0}
-                  bottom={0}
-                  align="center"
-                  justify="space-between"
-                  gap={4}
-                  px={{ base: 3, md: 5 }}
-                  py={{ base: 2, md: 3 }}
-                  bg="rgba(43, 33, 33, 0.78)"
-                >
-                  <Text color={CORES.BRANCO} fontWeight="800" fontSize={{ base: "14px", md: `${TAMANHO.CORPO_TEXTO}px` }} lineHeight={1.15}>
-                    {fotoSelecionada.legenda}
-                  </Text>
-                  <Text color={CORES.CINZA_CLARO} fontSize={{ base: "12px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} flexShrink={0}>
-                    {fotoAtual + 1}/{fotosArtesas.length}
-                  </Text>
-                </Flex>
-              </Box>
-
-              <Flex mt={{ base: 4, md: 5 }} align="center" justify="center" gap={{ base: 3, md: 4 }}>
-                <Flex
-                  as="button"
-                  aria-label="Foto anterior"
-                  onClick={voltarFoto}
-                  w={{ base: "36px", md: "40px" }}
-                  h={{ base: "36px", md: "40px" }}
-                  align="center"
-                  justify="center"
-                  bg={CORES.BRANCO}
-                  color={CORES.VERMELHO_ESCURO}
+                  maxW={{ base: "340px", sm: "420px", md: "500px" }}
+                  aspectRatio="1 / 1"
                   borderRadius="4px"
-                  _hover={{ bg: CORES.VERMELHO_CLARINHO }}
+                  overflow="hidden"
+                  bg="transparent"
+                  boxShadow={{ base: `7px 7px 0 ${CORES.VERMELHO_ESCURO}`, md: `12px 12px 0 ${CORES.VERMELHO_ESCURO}` }}
                 >
-                  <ChevronLeft size={22} />
-                </Flex>
+                  <Carousel.ItemGroup h="100%">
+                    {fotosArtesas.map((foto, index) => (
+                      <Carousel.Item key={foto.legenda} index={index} h="100%">
+                        <Image src={foto.src} alt={foto.alt} w="100%" h="100%" objectFit="cover" objectPosition="center" />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel.ItemGroup>
 
-                <Flex gap={2} align="center">
-                  {fotosArtesas.map((foto, index) => (
-                    <Box
-                      as="button"
-                      aria-label={`Ver foto: ${foto.legenda}`}
-                      key={foto.legenda}
-                      onClick={() => setFotoAtual(index)}
-                      w={{ base: index === fotoAtual ? "22px" : "10px", md: index === fotoAtual ? "28px" : "10px" }}
-                      h="10px"
-                      borderRadius="full"
-                      bg={index === fotoAtual ? CORES.VERMELHO_VIVO : CORES.CINZA_CLARO}
-                      transition="width 0.2s ease, background 0.2s ease"
-                    />
-                  ))}
-                </Flex>
+                  <Flex
+                    position="absolute"
+                    insetX={0}
+                    bottom={0}
+                    align="center"
+                    justify="space-between"
+                    gap={4}
+                    px={{ base: 3, md: 5 }}
+                    py={{ base: 2, md: 3 }}
+                    bg="rgba(43, 33, 33, 0.78)"
+                  >
+                    <Text color={CORES.BRANCO} fontWeight="800" fontSize={{ base: "14px", md: `${TAMANHO.CORPO_TEXTO}px` }} lineHeight={1.15}>
+                      {fotosArtesas[fotoAtual].legenda}
+                    </Text>
+                    <Text color={CORES.CINZA_CLARO} fontSize={{ base: "12px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} flexShrink={0}>
+                      {fotoAtual + 1}/{fotosArtesas.length}
+                    </Text>
+                  </Flex>
 
-                <Flex
-                  as="button"
-                  aria-label="Próxima foto"
-                  onClick={avancarFoto}
-                  w={{ base: "36px", md: "40px" }}
-                  h={{ base: "36px", md: "40px" }}
-                  align="center"
-                  justify="center"
-                  bg={CORES.BRANCO}
-                  color={CORES.VERMELHO_ESCURO}
-                  borderRadius="4px"
-                  _hover={{ bg: CORES.VERMELHO_CLARINHO }}
-                >
-                  <ChevronRight size={22} />
+                  {/* Setas sobrepostas na própria imagem: em telas pequenas, ficam como
+                      círculos discretos nas bordas, sem disputar espaço com os indicadores */}
+                  <Carousel.Control>
+                    <Carousel.PrevTrigger asChild>
+                      <IconButton
+                        aria-label="Foto anterior"
+                        position="absolute"
+                        left={2}
+                        top="42%"
+                        transform="translateY(-50%)"
+                        size="sm"
+                        minW={{ base: "36px", md: "40px" }}
+                        h={{ base: "36px", md: "40px" }}
+                        borderRadius="full"
+                        bg="rgba(0,0,0,0.4)"
+                        backdropFilter="blur(2px)"
+                        color={CORES.BRANCO}
+                        _hover={{ bg: "rgba(0,0,0,0.6)" }}
+                        _active={{ bg: "rgba(0,0,0,0.7)" }}
+                      >
+                        <ChevronLeft size={18} />
+                      </IconButton>
+                    </Carousel.PrevTrigger>
+
+                    <Carousel.NextTrigger asChild>
+                      <IconButton
+                        aria-label="Próxima foto"
+                        position="absolute"
+                        right={2}
+                        top="42%"
+                        transform="translateY(-50%)"
+                        size="sm"
+                        minW={{ base: "36px", md: "40px" }}
+                        h={{ base: "36px", md: "40px" }}
+                        borderRadius="full"
+                        bg="rgba(0,0,0,0.4)"
+                        backdropFilter="blur(2px)"
+                        color={CORES.BRANCO}
+                        _hover={{ bg: "rgba(0,0,0,0.6)" }}
+                        _active={{ bg: "rgba(0,0,0,0.7)" }}
+                      >
+                        <ChevronRight size={18} />
+                      </IconButton>
+                    </Carousel.NextTrigger>
+                  </Carousel.Control>
+                </Box>
+
+                <Flex mt={{ base: 4, md: 5 }} align="center" justify="center">
+                  <Carousel.IndicatorGroup display="flex" alignItems="center" gap={2}>
+                    {fotosArtesas.map((foto, index) => (
+                      <Carousel.Indicator key={foto.legenda} index={index} asChild>
+                        <Box
+                          as="button"
+                          aria-label={`Ver foto: ${foto.legenda}`}
+                          w={{ base: index === fotoAtual ? "22px" : "10px", md: index === fotoAtual ? "28px" : "10px" }}
+                          h="10px"
+                          borderRadius="full"
+                          bg={index === fotoAtual ? CORES.VERMELHO_VIVO : CORES.CINZA_CLARO}
+                          transition="width 0.2s ease, background 0.2s ease"
+                        />
+                      </Carousel.Indicator>
+                    ))}
+                  </Carousel.IndicatorGroup>
                 </Flex>
-              </Flex>
+              </Carousel.Root>
             </Box>
           </SimpleGrid>
         </Container>

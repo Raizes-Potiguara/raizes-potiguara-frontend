@@ -5,8 +5,8 @@ import grafismoCeramicaPotiguara from "@/assets/grafismo-ceramica-potiguara.png"
 import grafismoEcologia from "@/assets/grafismo-ecologia.png";
 import grafismoTerraFertil from "@/assets/grafismo-terra-fertil.png";
 import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
-import { Box, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import { BookOpenText, Feather, Gem, Languages, Leaf, Paintbrush, Shell, ShieldCheck, Sparkles } from "lucide-react";
+import { Box, chakra, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { BookOpenText, Feather, Gem, Languages, Leaf, Paintbrush, Shell, Shrimp, ShieldCheck, Sparkles } from "lucide-react";
 import { useState } from "react";
 import type { LucideIcon } from "lucide-react";
 
@@ -19,7 +19,6 @@ interface BlocoCultural {
 interface GrafismoPotiguara {
   nome: string;
   descricao: string;
-  significado: string[];
   imagem: string;
 }
 
@@ -68,32 +67,32 @@ const materiais: BlocoCultural[] = [
 const grafismos: GrafismoPotiguara[] = [
   {
     nome: "Terra Fértil",
-    descricao: "Pintura facial",
-    significado: ["Terra, fogo, ar e água", "Força da mulher", "Terras férteis"],
+    descricao:
+      "Usado na pintura facial, representa a terra, o fogo, o ar e a água, além da força da mulher e da fertilidade das terras.",
     imagem: grafismoTerraFertil,
   },
   {
     nome: "Camarão",
-    descricao: "Potiguara, comedores de camarão e caçadores de camarão",
-    significado: ["Subsistência dos Potiguara"],
+    descricao:
+      "Remete aos Potiguara enquanto comedores e caçadores de camarão, simbolizando a subsistência do povo.",
     imagem: grafismoCamarao,
   },
   {
     nome: "Ecologia",
-    descricao: "Desmatamento e extrativismo",
-    significado: ["Valor ecológico", "Meio ambiente"],
+    descricao:
+      "Fala sobre o desmatamento e o extrativismo, reforçando o valor ecológico e o cuidado com o meio ambiente.",
     imagem: grafismoEcologia,
   },
   {
     nome: "Caminhos de Monte-Mór",
-    descricao: "Precariedade dos territórios",
-    significado: ["Caminhos para educação", "Proteção", "Terra sem males"],
+    descricao:
+      "Retrata a precariedade dos territórios e aponta caminhos para a educação, a proteção e a busca pela terra sem males.",
     imagem: grafismoCaminhosMonteMor,
   },
   {
     nome: "Cerâmica Potiguara",
-    descricao: "Registro histórico",
-    significado: ["Reprodução", "Resistência"],
+    descricao:
+      "Registro histórico que simboliza a reprodução e a resistência do povo Potiguara ao longo do tempo.",
     imagem: grafismoCeramicaPotiguara,
   },
 ];
@@ -157,13 +156,6 @@ const conceitosCulturais = [
     significado:
       "Língua ligada à retomada cultural e ao fortalecimento da identidade, presente em nomes, memórias e aprendizagens.",
   },
-];
-
-const topicos = [
-  "Comercialização justa para reduzir a dependência de atravessadores.",
-  "Certificação do artesanato indígena como reconhecimento de origem.",
-  "Autonomia econômica das mulheres potiguara e fortalecimento das famílias.",
-  "Organização coletiva entre aldeias para preservar renda, memória e técnica.",
 ];
 
 const Cultura = () => {
@@ -263,87 +255,88 @@ const Cultura = () => {
               </Text>
             </Stack>
 
-            <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} gap={{ base: 4, md: 5 }} justifyItems="center">
-              {grafismos.map(({ nome, descricao, significado, imagem }) => {
+            <Flex wrap="wrap" justify="center" align="flex-start" columnGap={{ base: 8, sm: 10, md: 14 }} rowGap={{ base: 10, md: 4 }} py={{ base: 2, md: 4 }}>
+              {grafismos.map(({ nome, descricao, imagem }, index) => {
                 const ativo = grafismoAtivo === nome;
+                const rotacaoBase = [-5, 4, -3, 5, -4][index % 5];
+                const deslocamentoY = [0, 34, 12, 40, 4][index % 5];
+                const corBorda = index % 2 === 0 ? CORES.VERMELHO_CLARINHO : CORES.CINZA_CLARO;
+
+                const ehUltimoSozinho = index === grafismos.length - 1 && index % 2 === 0;
+                const alinhamentoDescricaoMobile = ehUltimoSozinho
+                  ? "center"
+                  : index % 2 === 0
+                  ? "right"
+                  : "left";
 
                 return (
-                <Box
-                  key={nome}
-                  as="button"
-                  type="button"
-                  onClick={() => destacarGrafismo(nome)}
-                  bg={CORES.BRANCO}
-                  color={CORES.PRETO}
-                  borderRadius="4px"
-                  overflow="hidden"
-                  aspectRatio="1 / 1"
-                  display="flex"
-                  flexDirection="column"
-                  w="100%"
-                  maxW={{ base: "320px", md: "340px" }}
-                  border="2px solid transparent"
-                  transform={ativo ? "translateY(-10px)" : "none"}
-                  transition="transform 0.18s ease"
-                  textAlign="left"
-                  _hover={{ transform: ativo ? "translateY(-10px)" : "translateY(-3px)" }}
-                  _focusVisible={{ outline: `3px solid ${CORES.VERMELHO_CLARINHO}`, outlineOffset: "3px" }}
-                >
-                  <Flex
-                    minH={{ base: "104px", md: "132px" }}
-                    align="center"
-                    justify="center"
-                    bg="transparent"
-                    px={{ base: 3, md: 4 }}
-                    pt={{ base: 3, md: 4 }}
+                  <chakra.button
+                    key={nome}
+                    type="button"
+                    role="group"
+                    onClick={() => destacarGrafismo(nome)}
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    w={{ base: "128px", sm: "150px", md: "168px" }}
+                    flexShrink={0}
+                    transform={{
+                      base: `scale(${ativo ? 1.05 : 1})`,
+                      md: `translateY(${deslocamentoY}px) scale(${ativo ? 1.06 : 1})`,
+                    }}
+                    transition="transform 0.25s ease"
+                    _hover={{
+                      transform: {
+                        base: `scale(1.05)`,
+                        md: `translateY(${deslocamentoY}px) scale(1.06)`,
+                      },
+                    }}
+                    _focusVisible={{ outline: `3px solid ${CORES.VERMELHO_CLARINHO}`, outlineOffset: "4px", borderRadius: "full" }}
                   >
-                    <Image
-                      src={imagem}
-                      alt={`Grafismo ${nome}`}
-                      w={{ base: "104px", md: "128px" }}
-                      h={{ base: "98px", md: "120px" }}
-                      objectFit="contain"
-                    />
-                  </Flex>
-
-                  <Stack gap={{ base: 2, md: 2.5 }} p={{ base: 3, md: 4 }} pt={{ base: 2, md: 3 }} flex="1">
-                    <Box>
-                      <Text color={CORES.CINZA_ESCURO} fontSize={{ base: "11px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} fontWeight="800">
-                        Nome
-                      </Text>
-                      <Text color={CORES.PRETO} fontWeight="800" fontSize={{ base: "17px", md: "18px" }} lineHeight={1.15}>
-                        {nome}
-                      </Text>
+                    <Box
+                      position="relative"
+                      w={{ base: "112px", sm: "128px", md: "148px" }}
+                      h={{ base: "112px", sm: "128px", md: "148px" }}
+                      borderRadius="full"
+                      bg={CORES.CINZA_CLARINHO}
+                      border={`3px solid ${ativo ? CORES.VERMELHO_VIVO : corBorda}`}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      boxShadow={ativo ? `0 0 0 7px rgba(233, 148, 148, 0.22)` : "0 6px 16px rgba(0,0,0,0.35)"}
+                      transition="box-shadow 0.25s ease, border-color 0.25s ease"
+                    >
+                      <Image src={imagem} alt={`Grafismo ${nome}`} w="62%" h="62%" objectFit="contain" />
                     </Box>
 
-                    <Box>
-                      <Text color={CORES.CINZA_ESCURO} fontSize={{ base: "11px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} fontWeight="800">
-                        Descrição
-                      </Text>
-                      <Text color={CORES.CINZA_ESCURO} fontSize={{ base: "13px", md: "13px" }} lineHeight={1.2}>
-                        {descricao}
-                      </Text>
-                    </Box>
+                    <Text
+                      mt={4}
+                      fontFamily="'Hashira', serif"
+                      fontWeight="normal"
+                      color={CORES.BRANCO}
+                      fontSize={{ base: "17px", md: "19px" }}
+                      lineHeight={1.1}
+                      textAlign="center"
+                      transform={`rotate(${ativo ? 0 : rotacaoBase}deg)`}
+                      transition="transform 0.25s ease"
+                      _groupHover={{ transform: "rotate(0deg)" }}
+                    >
+                      {nome}
+                    </Text>
 
-                    <Box>
-                      <Text color={CORES.CINZA_ESCURO} fontSize={{ base: "11px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} fontWeight="800">
-                        Significado
-                      </Text>
-                      <Flex gap={{ base: 1.5, md: 2 }} mt={{ base: 1.5, md: 2 }} wrap="wrap">
-                        {significado.map((item) => (
-                          <Box key={item} bg={CORES.VERMELHO_CLARINHO} color={CORES.VERMELHO_ESCURO} borderRadius="4px" px={{ base: 2, md: 3 }} py={1}>
-                            <Text fontSize={{ base: "12px", md: "12px" }} fontWeight="700" lineHeight={1.2}>
-                              {item}
-                            </Text>
-                          </Box>
-                        ))}
-                      </Flex>
-                    </Box>
-                  </Stack>
-                </Box>
+                    <Text
+                      mt={2}
+                      color={CORES.CINZA_CLARO}
+                      fontSize={{ base: "13.5px", md: "14.5px" }}
+                      lineHeight={1.45}
+                      textAlign={{ base: alinhamentoDescricaoMobile, md: "center" }}
+                    >
+                      {descricao}
+                    </Text>
+                  </chakra.button>
                 );
               })}
-            </SimpleGrid>
+            </Flex>
           </Stack>
         </Container>
       </Box>
@@ -405,15 +398,6 @@ const Cultura = () => {
                 A língua é parte da retomada cultural. No produto artesanal, palavras em tupi potiguara podem
                 aproximar nome, origem e significado, ajudando o cliente a conhecer a peça sem apagar sua raiz.
               </Text>
-            </Stack>
-
-            <Stack gap={3}>
-              {topicos.map((topico) => (
-                <Flex key={topico} gap={3} align="flex-start" color={CORES.BRANCO}>
-                  <Box as="span" mt="8px" w="8px" h="8px" borderRadius="full" bg={CORES.VERMELHO_VIVO} flexShrink={0} />
-                  <Text fontSize={`${TAMANHO.CORPO_TEXTO}px`}>{topico}</Text>
-                </Flex>
-              ))}
             </Stack>
           </SimpleGrid>
         </Container>
@@ -495,6 +479,56 @@ const Cultura = () => {
                 </Box>
               </Flex>
             ))}
+          </SimpleGrid>
+        </Container>
+      </Box>
+
+      <Box as="section" position="relative" bg={CORES.PRETO} overflow="hidden" py={{ base: 8, md: 14 }}>
+        <HoneycombBackgroundRed />
+        <Box
+          position="absolute"
+          inset={0}
+          bgGradient="to-b"
+          gradientFrom="transparent"
+          gradientTo={CORES.PRETO}
+          pointerEvents="none"
+        />
+        <Container maxW="container.lg" position="relative" zIndex={1} px={{ base: 5, md: 8 }}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 8, md: 12 }} alignItems="center">
+            <Flex justify="center">
+              <Box
+                position="relative"
+                w={{ base: "180px", sm: "200px", md: "230px" }}
+                h={{ base: "180px", sm: "200px", md: "230px" }}
+                borderRadius="full"
+                bg={CORES.PRETO}
+                border={`4px solid ${CORES.BRANCO}`}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                boxShadow="0 10px 24px rgba(0,0,0,0.3)"
+                transform="rotate(-3deg)"
+              >
+                <Shrimp size={92} color={CORES.VERMELHO_VIVO} strokeWidth={1.5} />
+              </Box>
+            </Flex>
+
+            <Stack gap={4}>
+              <Heading as="h2" color={CORES.BRANCO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
+                Por Que Um Camarão?
+              </Heading>
+
+              <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.CORPO_TEXTO}px`} lineHeight={1.6}>
+                O povo Potiguara é historicamente reconhecido como comedor e caçador de camarão nos manguezais,
+                rios e estuários do litoral norte da Paraíba. Muito antes de virar adorno, o camarão já era
+                subsistência: alimento, trabalho e memória de gerações que viveram entre a maré e a terra.
+              </Text>
+
+              <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.CORPO_TEXTO}px`} lineHeight={1.6}>
+                Por isso ele segue presente até hoje como símbolo do povo Potiguara: para lembrar, em cada peça
+                vendida, que por trás do artesanato existe um povo, um território e uma história que seguem vivos.
+              </Text>
+            </Stack>
           </SimpleGrid>
         </Container>
       </Box>
