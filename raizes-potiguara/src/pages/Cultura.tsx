@@ -126,6 +126,39 @@ const glossario = [
   },
 ];
 
+const conceitosCulturais = [
+  {
+    termo: "Potiguara",
+    significado:
+      "Povo indígena do litoral norte da Paraíba, com presença marcante em Baía da Traição, Marcação e Rio Tinto.",
+  },
+  {
+    termo: "Grafismo",
+    significado:
+      "Conjunto de traços, formas e padrões visuais usados para expressar identidade, memória e relação com o território.",
+  },
+  {
+    termo: "Biojoia",
+    significado:
+      "Adorno produzido com sementes, fibras, conchas, miçangas e outros materiais ligados à natureza e ao trabalho manual.",
+  },
+  {
+    termo: "Cipó",
+    significado:
+      "Fibra vegetal usada em trançados, amarrações e cestarias, exigindo coleta, preparo e técnica.",
+  },
+  {
+    termo: "Miçanga",
+    significado:
+      "Pequena conta colorida usada em colares, brincos, pulseiras e bordados, formando desenhos e combinações simbólicas.",
+  },
+  {
+    termo: "Tupi potiguara",
+    significado:
+      "Língua ligada à retomada cultural e ao fortalecimento da identidade, presente em nomes, memórias e aprendizagens.",
+  },
+];
+
 const topicos = [
   "Comercialização justa para reduzir a dependência de atravessadores.",
   "Certificação do artesanato indígena como reconhecimento de origem.",
@@ -382,6 +415,32 @@ const Cultura = () => {
                 </Flex>
               ))}
             </Stack>
+          </SimpleGrid>
+        </Container>
+      </Box>
+
+      <Box as="section" bg={CORES.CINZA_CLARINHO} py={{ base: 8, md: 14 }}>
+        <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
+          <Stack gap={3} mb={{ base: 6, md: 8 }}>
+            <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
+              Palavras do artesanato
+            </Heading>
+            <Text color={CORES.CINZA_ESCURO} maxW="68ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+              Termos gerais que ajudam a entender materiais, técnicas e referências culturais presentes nas peças.
+            </Text>
+          </Stack>
+
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4}>
+            {conceitosCulturais.map(({ termo, significado }) => (
+              <Box key={termo} bg={CORES.BRANCO} borderRadius="4px" p={{ base: 4, md: 5 }}>
+                <Text color={CORES.PRETO} fontWeight="800" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+                  {termo}
+                </Text>
+                <Text mt={2} color={CORES.CINZA_ESCURO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+                  {significado}
+                </Text>
+              </Box>
+            ))}
           </SimpleGrid>
         </Container>
       </Box>
