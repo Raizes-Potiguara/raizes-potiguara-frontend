@@ -1,7 +1,7 @@
 import HoneycombBackgroundRed from "@/components/general/HoneycombBackgroundRed";
 import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
 import { Box, Container, Flex, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import { Feather, Gem, Leaf, Languages, Shell, ShieldCheck, Sparkles } from "lucide-react";
+import { BookOpenText, Feather, Gem, Languages, Leaf, Paintbrush, Shell, ShieldCheck, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 interface BlocoCultural {
@@ -12,7 +12,7 @@ interface BlocoCultural {
 
 const simbolos: BlocoCultural[] = [
   {
-    titulo: "Grafismos",
+    titulo: "Memória visual",
     descricao:
       "Linhas, tramas e marcas visuais ajudam a contar pertencimento, memória e relação com o território.",
     icon: Sparkles,
@@ -49,6 +49,62 @@ const materiais: BlocoCultural[] = [
     descricao:
       "Quando presentes, conectam cor, rito e identidade, sempre respeitando o sentido cultural de cada uso.",
     icon: Feather,
+  },
+];
+
+const grafismos = [
+  {
+    titulo: "Identidade visual",
+    descricao:
+      "Os traços presentes em pinturas, adornos e peças artesanais ajudam a reconhecer pertencimento e continuidade cultural.",
+  },
+  {
+    titulo: "Território",
+    descricao:
+      "Linhas, caminhos e formas remetem à relação com as aldeias, a mata, os rios, os mangues e o litoral potiguara.",
+  },
+  {
+    titulo: "Memória coletiva",
+    descricao:
+      "Cada grafismo pode carregar lembranças, ensinamentos e modos de viver que atravessam gerações.",
+  },
+  {
+    titulo: "Expressão e proteção",
+    descricao:
+      "No corpo e no artesanato, os grafismos também comunicam força, cuidado espiritual e presença do povo Potiguara.",
+  },
+];
+
+const glossario = [
+  {
+    termo: "Potiguara",
+    significado:
+      "Povo indígena do litoral norte da Paraíba, com presença marcante em Baía da Traição, Marcação e Rio Tinto.",
+  },
+  {
+    termo: "Grafismo",
+    significado:
+      "Conjunto de traços, formas e padrões visuais usados para expressar identidade, memória e relação com o território.",
+  },
+  {
+    termo: "Biojoia",
+    significado:
+      "Adorno produzido com sementes, fibras, conchas, miçangas e outros materiais ligados à natureza e ao trabalho manual.",
+  },
+  {
+    termo: "Cipó",
+    significado:
+      "Fibra vegetal usada em trançados, amarrações e cestarias, exigindo coleta, preparo e técnica.",
+  },
+  {
+    termo: "Miçanga",
+    significado:
+      "Pequena conta colorida usada em colares, brincos, pulseiras e bordados, formando desenhos e combinações simbólicas.",
+  },
+  {
+    termo: "Tupi potiguara",
+    significado:
+      "Língua ligada à retomada cultural e ao fortalecimento da identidade, presente em nomes, memórias e aprendizagens.",
   },
 ];
 
@@ -133,6 +189,38 @@ const Cultura = () => {
         </Container>
       </Box>
 
+      <Box as="section" bg={CORES.PRETO} py={{ base: 8, md: 14 }}>
+        <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 6, md: 10 }} alignItems="start">
+            <Stack gap={4}>
+              <Flex color={CORES.VERMELHO_CLARINHO} align="center" gap={3}>
+                <Paintbrush size={28} />
+                <Heading as="h2" color={CORES.BRANCO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
+                  Grafismos
+                </Heading>
+              </Flex>
+              <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+                Os grafismos potiguara aparecem como linguagem visual. Eles não funcionam apenas como enfeite:
+                comunicam território, proteção, memória e a presença de um povo que mantém seus saberes vivos.
+              </Text>
+            </Stack>
+
+            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
+              {grafismos.map(({ titulo, descricao }) => (
+                <Box key={titulo} bg={CORES.BRANCO} color={CORES.PRETO} borderRadius="4px" p={{ base: 4, md: 5 }}>
+                  <Text fontWeight="800" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+                    {titulo}
+                  </Text>
+                  <Text mt={2} color={CORES.CINZA_ESCURO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+                    {descricao}
+                  </Text>
+                </Box>
+              ))}
+            </SimpleGrid>
+          </SimpleGrid>
+        </Container>
+      </Box>
+
       <Box as="section" bg={CORES.CINZA_CLARINHO} py={{ base: 8, md: 14 }}>
         <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 8, md: 10 }} alignItems="start">
@@ -187,7 +275,7 @@ const Cultura = () => {
                 </Heading>
               </Flex>
               <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-                A língua e parte da retomada cultural. No produto artesanal, palavras em tupi potiguara podem
+                A língua é parte da retomada cultural. No produto artesanal, palavras em tupi potiguara podem
                 aproximar nome, origem e significado, ajudando o cliente a conhecer a peça sem apagar sua raiz.
               </Text>
             </Stack>
@@ -200,6 +288,46 @@ const Cultura = () => {
                 </Flex>
               ))}
             </Stack>
+          </SimpleGrid>
+        </Container>
+      </Box>
+
+      <Box as="section" bg={CORES.BRANCO} py={{ base: 8, md: 14 }}>
+        <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
+          <Stack gap={3} mb={{ base: 6, md: 8 }}>
+            <Flex color={CORES.VERMELHO_ESCURO} align="center" gap={3}>
+              <BookOpenText size={28} />
+              <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
+                Glossário
+              </Heading>
+            </Flex>
+            <Text color={CORES.CINZA_ESCURO} maxW="68ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+              Algumas palavras ajudam a compreender melhor as peças, os materiais e os sentidos culturais do
+              artesanato indígena Potiguara.
+            </Text>
+          </Stack>
+
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+            {glossario.map(({ termo, significado }) => (
+              <Flex
+                key={termo}
+                gap={{ base: 3, md: 4 }}
+                bg={CORES.CINZA_CLARINHO}
+                borderRadius="4px"
+                p={{ base: 4, md: 5 }}
+                align="flex-start"
+              >
+                <Box as="span" mt="7px" w="9px" h="9px" borderRadius="full" bg={CORES.VERMELHO_VIVO} flexShrink={0} />
+                <Box>
+                  <Text color={CORES.PRETO} fontWeight="800" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+                    {termo}
+                  </Text>
+                  <Text mt={1} color={CORES.CINZA_ESCURO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+                    {significado}
+                  </Text>
+                </Box>
+              </Flex>
+            ))}
           </SimpleGrid>
         </Container>
       </Box>
