@@ -32,7 +32,7 @@ export const ProdutoCard: React.FC<ProdutoCardProps> = ({ produto, aoAdicionarAo
       <Box h="220px" w="100%" borderBottom={`2px solid ${CORES.CINZA_CLARO}`} overflow="hidden">
         <Image
           src={produto.imagemUrl}
-          alt={produto.nome}
+          alt={produto.nomePortugues}
           objectFit="cover"
           w="100%"
           h="100%"
@@ -40,9 +40,22 @@ export const ProdutoCard: React.FC<ProdutoCardProps> = ({ produto, aoAdicionarAo
       </Box>
 
       <Flex direction="column" p={5} flex="1" gap={2}>
-        <Text fontSize={`${TAMANHO.TEXTO_PEQUENO}px`} color={CORES.CINZA_ESCURO} fontWeight="bold">
-          {produto.categoria}
-        </Text>
+        <Flex gap={1} wrap="wrap">
+          {produto.categorias.map((categoria) => (
+            <Text
+              key={categoria}
+              fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}
+              color={CORES.CINZA_ESCURO}
+              fontWeight="bold"
+              bg={CORES.CINZA_CLARINHO}
+              borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
+              px={2}
+              py={0.5}
+            >
+              {categoria}
+            </Text>
+          ))}
+        </Flex>
 
         <Text
           fontFamily="'CabinetGrotesk-Variable', 'Fraunces', serif"
@@ -51,7 +64,7 @@ export const ProdutoCard: React.FC<ProdutoCardProps> = ({ produto, aoAdicionarAo
           color={CORES.PRETO}
           lineHeight={1.2}
         >
-          {produto.nome}
+          {produto.nomePortugues}
         </Text>
         <Text fontSize={`${TAMANHO.TEXTO_PEQUENO}px`} color={CORES.CINZA_ESCURO} flex="1">
           {produto.descricao}

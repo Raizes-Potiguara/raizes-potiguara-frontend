@@ -16,11 +16,11 @@ const LojaSecao: React.FC<LojaSecaoProps> = ({ produtos = PRODUTOS_MOCK }) => {
 
   const produtosFiltrados = produtos.filter((produto) => {
     if (categoriaAtiva === 'Todos') return true;
-    return produto.categoria === categoriaAtiva;
+    return produto.categorias.includes(categoriaAtiva);
   });
 
   const lidarComAdicionarCarrinho = (produto: Produto) => {
-    console.log('Adicionado ao carrinho:', produto.nome);
+    console.log('Adicionado ao carrinho:', produto.nomePortugues);
   };
 
   return (

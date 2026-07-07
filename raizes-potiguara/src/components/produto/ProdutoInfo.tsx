@@ -10,13 +10,36 @@ interface ProdutoInfoProps {
 }
 
 export const ProdutoInfo: React.FC<ProdutoInfoProps> = ({ produto, aoAdicionarAoCarrinho }) => {
-    const [quantidade, setQuantidade] = useState(1);
+    const semEstoque = produto.quantidadeEstoque <= 0;
+    const [quantidade, setQuantidade] = useState(semEstoque ? 0 : 1);
+
+    // false = nome exibido em português; true = nome exibido em tupi potiguara
+    const [mostrarTupi, setMostrarTupi] = useState(false);
+
+    const nomeExibido = mostrarTupi ? produto.nomeTupi : produto.nomePortugues;
+    const corNome = mostrarTupi ? CORES.VERMELHO_VIVO : CORES.PRETO;
+
+    const diminuirQuantidade = () => setQuantidade((q) => Math.max(1, q - 1));
+    const aumentarQuantidade = () => setQuantidade((q) => Math.min(produto.quantidadeEstoque, q + 1));
 
     return (
         <Flex direction="column" gap={4}>
-            <Text fontSize={`${TAMANHO.TEXTO_PEQUENO}px`} color={CORES.CINZA_ESCURO} fontWeight="bold">
-                {produto.categoria}
-            </Text>
+            <Flex gap={2} wrap="wrap">
+                {produto.categorias.map((categoria) => (
+                    <Text
+                        key={categoria}
+                        fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}
+                        color={CORES.CINZA_ESCURO}
+                        fontWeight="bold"
+                        bg={CORES.CINZA_CLARINHO}
+                        borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
+                        px={2}
+                        py={0.5}
+                    >
+                        {categoria}
+                    </Text>
+                ))}
+            </Flex>
 
             <Flex align="center" gap={3}>
                 <Text
@@ -24,15 +47,16 @@ export const ProdutoInfo: React.FC<ProdutoInfoProps> = ({ produto, aoAdicionarAo
                     fontFamily="'Hashira', 'Fraunces', serif"
                     fontWeight="800"
                     fontSize={`${TAMANHO.TITULO_PAGINA}px`}
-                    color={CORES.PRETO}
+                    color={corNome}
                     lineHeight={1.15}
+                    transition="color 0.15s ease"
                 >
-                    {produto.nome}
+                    {nomeExibido}
                 </Text>
 
                 <Button
-                    aria-label="Comparar produto"
-                    onClick={() => {/* TODO: ação e traduzir */ }}
+                    aria-label={mostrarTupi ? 'Ver nome em português' : 'Ver nome em tupi potiguara'}
+                    onClick={() => setMostrarTupi((atual) => !atual)}
                     bg="transparent"
                     borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
                     minW="auto"
@@ -45,7 +69,7 @@ export const ProdutoInfo: React.FC<ProdutoInfoProps> = ({ produto, aoAdicionarAo
                     _hover={{ bg: CORES.CINZA_CLARINHO }}
                     _active={{ bg: CORES.CREME }}
                 >
-                    <ArrowLeftRight color={CORES.PRETO} size={18} />
+                    <ArrowLeftRight color={corNome} size={18} />
                 </Button>
             </Flex>
 
@@ -57,15 +81,41 @@ export const ProdutoInfo: React.FC<ProdutoInfoProps> = ({ produto, aoAdicionarAo
                 {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(produto.preco)}
             </Text>
 
+            <Text
+                fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}
+                color={semEstoque ? CORES.VERMELHO_VIVO : CORES.CINZA_ESCURO}
+                fontWeight="bold"
+            >
+                {semEstoque ? 'Esgotado' : `${produto.quantidadeEstoque} em estoque`}
+            </Text>
+
             <Flex direction={{ base: 'column', sm: 'row' }} align={{ base: 'stretch', sm: 'center' }} gap={4} mt={4}>
-                <Flex align="center" justify="center" border={`2px solid ${CORES.CINZA_CLARINHO}`} borderRadius={`${RADIUS_PADRAO_BOTAO}px`}>
-                    <Button onClick={() => setQuantidade((q) => Math.max(1, q - 1))} variant="ghost" px={3} _hover={{ bg: CORES.CINZA_CLARINHO }}>
+                <Flex
+                    align="center"
+                    justify="center"
+                    border={`2px solid ${CORES.CINZA_CLARINHO}`}
+                    borderRadius={`${RADIUS_PADRAO_BOTAO}px`}
+                    opacity={semEstoque ? 0.5 : 1}
+                >
+                    <Button
+                        onClick={diminuirQuantidade}
+                        variant="ghost"
+                        px={3}
+                        disabled={semEstoque || quantidade <= 1}
+                        _hover={{ bg: CORES.CINZA_CLARINHO }}
+                    >
                         <Minus size={16} />
                     </Button>
                     <Text minW="32px" textAlign="center" fontWeight="bold" color={CORES.PRETO}>
                         {quantidade}
                     </Text>
-                    <Button onClick={() => setQuantidade((q) => q + 1)} variant="ghost" px={3} _hover={{ bg: CORES.CINZA_CLARINHO }}>
+                    <Button
+                        onClick={aumentarQuantidade}
+                        variant="ghost"
+                        px={3}
+                        disabled={semEstoque || quantidade >= produto.quantidadeEstoque}
+                        _hover={{ bg: CORES.CINZA_CLARINHO }}
+                    >
                         <Plus size={16} />
                     </Button>
                 </Flex>
@@ -83,11 +133,13 @@ export const ProdutoInfo: React.FC<ProdutoInfoProps> = ({ produto, aoAdicionarAo
                     alignItems="center"
                     justifyContent="center"
                     gap={2}
+                    disabled={semEstoque}
                     _hover={{ bg: CORES.VERMELHO_MEDIO }}
                     _active={{ bg: CORES.VERMELHO_ESCURO }}
+                    _disabled={{ bg: CORES.CINZA_CLARO, cursor: 'not-allowed' }}
                 >
                     <ShoppingBasket size={18} />
-                    Adicionar ao carrinho
+                    {semEstoque ? 'Esgotado' : 'Adicionar ao carrinho'}
                 </Button>
             </Flex>
         </Flex>
