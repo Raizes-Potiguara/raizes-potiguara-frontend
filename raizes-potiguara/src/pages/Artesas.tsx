@@ -20,6 +20,8 @@ interface ArtesaResumo {
   historia: string;
   materiais: string[];
   foto?: string;
+  posicaoFoto?: string;
+  zoomFoto?: number;
   redesSociais: RedeSocialArtesa[];
 }
 
@@ -32,6 +34,8 @@ const artesas: ArtesaResumo[] = [
       "Vive na zona urbana de Baía da Traição e produz joias com miçangas de vidro, criando peças delicadas e coloridas.",
     materiais: ["miçangas de vidro", "joias", "fios"],
     foto: fotoTalitaBrito,
+    posicaoFoto: "center 32%",
+    zoomFoto: 1.35,
     redesSociais: [
       {
         tipo: "instagram",
@@ -77,6 +81,8 @@ const artesas: ArtesaResumo[] = [
       "Na Aldeia Alto do Tambá, cria biojoias, joias com miçangas e peças de costura criativa ligadas ao fazer potiguara.",
     materiais: ["biojoias", "miçangas", "costura criativa"],
     foto: fotoIvanildaRocha,
+    posicaoFoto: "center 42%",
+    zoomFoto: 1.25,
     redesSociais: [
       {
         tipo: "instagram",
@@ -335,6 +341,8 @@ const Artesas = () => {
                 materiais={artesa.materiais}
                 foto={artesa.foto ?? fotoPotiguara}
                 ajustarFoto={Boolean(artesa.foto)}
+                posicaoFoto={artesa.posicaoFoto}
+                zoomFoto={artesa.zoomFoto}
                 redesSociais={artesa.redesSociais}
                 inverterLado={index % 2 === 1}
               />

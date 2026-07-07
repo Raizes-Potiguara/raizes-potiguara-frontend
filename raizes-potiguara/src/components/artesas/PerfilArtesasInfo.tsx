@@ -16,6 +16,8 @@ export interface PerfilArtesaProps {
   materiais: string[];
   foto: string;
   ajustarFoto?: boolean;
+  posicaoFoto?: string;
+  zoomFoto?: number;
   redesSociais?: RedeSocialArtesa[];
   inverterLado?: boolean;
 }
@@ -34,6 +36,8 @@ const PerfilArtesa = ({
   materiais,
   foto,
   ajustarFoto = false,
+  posicaoFoto = "center",
+  zoomFoto = 1,
   redesSociais = [],
   inverterLado = false,
 }: PerfilArtesaProps) => {
@@ -56,33 +60,15 @@ const PerfilArtesa = ({
           boxShadow={`5px 5px 0 ${CORES.VERMELHO_ESCURO}`}
           position="relative"
         >
-          {ajustarFoto ? (
-            <>
-              <Image
-                src={foto}
-                alt=""
-                position="absolute"
-                inset={0}
-                w="100%"
-                h="100%"
-                objectFit="cover"
-                filter="blur(10px)"
-                transform="scale(1.08)"
-                opacity={0.45}
-              />
-              <Image
-                src={foto}
-                alt={nome}
-                position="relative"
-                zIndex={1}
-                w="100%"
-                h="100%"
-                objectFit="contain"
-              />
-            </>
-          ) : (
-            <Image src={foto} alt={nome} w="100%" h="100%" objectFit="cover" />
-          )}
+          <Image
+            src={foto}
+            alt={nome}
+            w="100%"
+            h="100%"
+            objectFit="cover"
+            objectPosition={ajustarFoto ? posicaoFoto : "center"}
+            transform={ajustarFoto ? `scale(${zoomFoto})` : undefined}
+          />
         </Box>
 
         {/* etiqueta torta com o nome, "pendurada" na base da foto */}
