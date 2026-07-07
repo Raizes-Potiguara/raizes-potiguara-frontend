@@ -1,13 +1,26 @@
 import HoneycombBackgroundRed from "@/components/general/HoneycombBackgroundRed";
+import grafismoCamarao from "@/assets/grafismo-camarao.png";
+import grafismoCaminhosMonteMor from "@/assets/grafismo-caminhos-monte-mor.png";
+import grafismoCeramicaPotiguara from "@/assets/grafismo-ceramica-potiguara.png";
+import grafismoEcologia from "@/assets/grafismo-ecologia.png";
+import grafismoTerraFertil from "@/assets/grafismo-terra-fertil.png";
 import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
-import { Box, Container, Flex, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { BookOpenText, Feather, Gem, Languages, Leaf, Paintbrush, Shell, ShieldCheck, Sparkles } from "lucide-react";
+import { useState } from "react";
 import type { LucideIcon } from "lucide-react";
 
 interface BlocoCultural {
   titulo: string;
   descricao: string;
   icon: LucideIcon;
+}
+
+interface GrafismoPotiguara {
+  nome: string;
+  descricao: string;
+  significado: string[];
+  imagem: string;
 }
 
 const simbolos: BlocoCultural[] = [
@@ -52,59 +65,64 @@ const materiais: BlocoCultural[] = [
   },
 ];
 
-const grafismos = [
+const grafismos: GrafismoPotiguara[] = [
   {
-    titulo: "Identidade visual",
-    descricao:
-      "Os traços presentes em pinturas, adornos e peças artesanais ajudam a reconhecer pertencimento e continuidade cultural.",
+    nome: "Terra Fértil",
+    descricao: "Pintura facial",
+    significado: ["Terra, fogo, ar e água", "Força da mulher", "Terras férteis"],
+    imagem: grafismoTerraFertil,
   },
   {
-    titulo: "Território",
-    descricao:
-      "Linhas, caminhos e formas remetem à relação com as aldeias, a mata, os rios, os mangues e o litoral potiguara.",
+    nome: "Camarão",
+    descricao: "Potiguara, comedores de camarão e caçadores de camarão",
+    significado: ["Subsistência dos Potiguara"],
+    imagem: grafismoCamarao,
   },
   {
-    titulo: "Memória coletiva",
-    descricao:
-      "Cada grafismo pode carregar lembranças, ensinamentos e modos de viver que atravessam gerações.",
+    nome: "Ecologia",
+    descricao: "Desmatamento e extrativismo",
+    significado: ["Valor ecológico", "Meio ambiente"],
+    imagem: grafismoEcologia,
   },
   {
-    titulo: "Expressão e proteção",
-    descricao:
-      "No corpo e no artesanato, os grafismos também comunicam força, cuidado espiritual e presença do povo Potiguara.",
+    nome: "Caminhos de Monte-Mór",
+    descricao: "Precariedade dos territórios",
+    significado: ["Caminhos para educação", "Proteção", "Terra sem males"],
+    imagem: grafismoCaminhosMonteMor,
+  },
+  {
+    nome: "Cerâmica Potiguara",
+    descricao: "Registro histórico",
+    significado: ["Reprodução", "Resistência"],
+    imagem: grafismoCeramicaPotiguara,
   },
 ];
 
 const glossario = [
   {
-    termo: "Potiguara",
-    significado:
-      "Povo indígena do litoral norte da Paraíba, com presença marcante em Baía da Traição, Marcação e Rio Tinto.",
+    palavra: "Raízes",
+    significado: "Representa origem, pertencimento, memória e ligação com o território.",
+    tupi: "Ybyrá (Apó)",
   },
   {
-    termo: "Grafismo",
-    significado:
-      "Conjunto de traços, formas e padrões visuais usados para expressar identidade, memória e relação com o território.",
+    palavra: "Colmeia",
+    significado: "Representa união, coletividade e trabalho em equipe.",
+    tupi: "Eiretama",
   },
   {
-    termo: "Biojoia",
-    significado:
-      "Adorno produzido com sementes, fibras, conchas, miçangas e outros materiais ligados à natureza e ao trabalho manual.",
+    palavra: "Folha de Jurema",
+    significado: "Representa proteção espiritual, sabedoria e força.",
+    tupi: "Yurema rogwé",
   },
   {
-    termo: "Cipó",
-    significado:
-      "Fibra vegetal usada em trançados, amarrações e cestarias, exigindo coleta, preparo e técnica.",
+    palavra: "Folha",
+    significado: "Representa natureza, cuidado e presença da mata nos símbolos Potiguara.",
+    tupi: "Rogwé",
   },
   {
-    termo: "Miçanga",
-    significado:
-      "Pequena conta colorida usada em colares, brincos, pulseiras e bordados, formando desenhos e combinações simbólicas.",
-  },
-  {
-    termo: "Tupi potiguara",
-    significado:
-      "Língua ligada à retomada cultural e ao fortalecimento da identidade, presente em nomes, memórias e aprendizagens.",
+    palavra: "Cobra Coral",
+    significado: "Representa sabedoria e prudência.",
+    tupi: "Mboikorá",
   },
 ];
 
@@ -116,6 +134,13 @@ const topicos = [
 ];
 
 const Cultura = () => {
+  const [grafismoAtivo, setGrafismoAtivo] = useState<string | null>(null);
+
+  const destacarGrafismo = (nome: string) => {
+    setGrafismoAtivo(nome);
+    window.setTimeout(() => setGrafismoAtivo((atual) => (atual === nome ? null : atual)), 260);
+  };
+
   return (
     <Box bg={CORES.BRANCO}>
       <Box as="section" position="relative" bg={CORES.PRETO} overflow="hidden">
@@ -191,8 +216,8 @@ const Cultura = () => {
 
       <Box as="section" bg={CORES.PRETO} py={{ base: 8, md: 14 }}>
         <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
-          <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 6, md: 10 }} alignItems="start">
-            <Stack gap={4}>
+          <Stack gap={{ base: 6, md: 8 }}>
+            <Stack gap={4} maxW="740px">
               <Flex color={CORES.VERMELHO_CLARINHO} align="center" gap={3}>
                 <Paintbrush size={28} />
                 <Heading as="h2" color={CORES.BRANCO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
@@ -200,24 +225,93 @@ const Cultura = () => {
                 </Heading>
               </Flex>
               <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-                Os grafismos potiguara aparecem como linguagem visual. Eles não funcionam apenas como enfeite:
-                comunicam território, proteção, memória e a presença de um povo que mantém seus saberes vivos.
+                Os grafismos potiguara são linguagens visuais que carregam memória, território, proteção e modos
+                de viver. Cada traço comunica um sentido cultural.
               </Text>
             </Stack>
 
-            <SimpleGrid columns={{ base: 1, sm: 2 }} gap={4}>
-              {grafismos.map(({ titulo, descricao }) => (
-                <Box key={titulo} bg={CORES.BRANCO} color={CORES.PRETO} borderRadius="4px" p={{ base: 4, md: 5 }}>
-                  <Text fontWeight="800" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-                    {titulo}
-                  </Text>
-                  <Text mt={2} color={CORES.CINZA_ESCURO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
-                    {descricao}
-                  </Text>
+            <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} gap={{ base: 4, md: 5 }} justifyItems="center">
+              {grafismos.map(({ nome, descricao, significado, imagem }) => {
+                const ativo = grafismoAtivo === nome;
+
+                return (
+                <Box
+                  key={nome}
+                  as="button"
+                  type="button"
+                  onClick={() => destacarGrafismo(nome)}
+                  bg={CORES.BRANCO}
+                  color={CORES.PRETO}
+                  borderRadius="4px"
+                  overflow="hidden"
+                  aspectRatio="1 / 1"
+                  display="flex"
+                  flexDirection="column"
+                  w="100%"
+                  maxW={{ base: "320px", md: "340px" }}
+                  border="2px solid transparent"
+                  transform={ativo ? "translateY(-10px)" : "none"}
+                  transition="transform 0.18s ease"
+                  textAlign="left"
+                  _hover={{ transform: ativo ? "translateY(-10px)" : "translateY(-3px)" }}
+                  _focusVisible={{ outline: `3px solid ${CORES.VERMELHO_CLARINHO}`, outlineOffset: "3px" }}
+                >
+                  <Flex
+                    minH={{ base: "104px", md: "132px" }}
+                    align="center"
+                    justify="center"
+                    bg="transparent"
+                    px={{ base: 3, md: 4 }}
+                    pt={{ base: 3, md: 4 }}
+                  >
+                    <Image
+                      src={imagem}
+                      alt={`Grafismo ${nome}`}
+                      w={{ base: "104px", md: "128px" }}
+                      h={{ base: "98px", md: "120px" }}
+                      objectFit="contain"
+                    />
+                  </Flex>
+
+                  <Stack gap={{ base: 2, md: 2.5 }} p={{ base: 3, md: 4 }} pt={{ base: 2, md: 3 }} flex="1">
+                    <Box>
+                      <Text color={CORES.CINZA_ESCURO} fontSize={{ base: "11px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} fontWeight="800">
+                        Nome
+                      </Text>
+                      <Text color={CORES.PRETO} fontWeight="800" fontSize={{ base: "17px", md: "18px" }} lineHeight={1.15}>
+                        {nome}
+                      </Text>
+                    </Box>
+
+                    <Box>
+                      <Text color={CORES.CINZA_ESCURO} fontSize={{ base: "11px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} fontWeight="800">
+                        Descrição
+                      </Text>
+                      <Text color={CORES.CINZA_ESCURO} fontSize={{ base: "13px", md: "13px" }} lineHeight={1.2}>
+                        {descricao}
+                      </Text>
+                    </Box>
+
+                    <Box>
+                      <Text color={CORES.CINZA_ESCURO} fontSize={{ base: "11px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} fontWeight="800">
+                        Significado
+                      </Text>
+                      <Flex gap={{ base: 1.5, md: 2 }} mt={{ base: 1.5, md: 2 }} wrap="wrap">
+                        {significado.map((item) => (
+                          <Box key={item} bg={CORES.VERMELHO_CLARINHO} color={CORES.VERMELHO_ESCURO} borderRadius="4px" px={{ base: 2, md: 3 }} py={1}>
+                            <Text fontSize={{ base: "12px", md: "12px" }} fontWeight="700" lineHeight={1.2}>
+                              {item}
+                            </Text>
+                          </Box>
+                        ))}
+                      </Flex>
+                    </Box>
+                  </Stack>
                 </Box>
-              ))}
+                );
+              })}
             </SimpleGrid>
-          </SimpleGrid>
+          </Stack>
         </Container>
       </Box>
 
@@ -298,19 +392,19 @@ const Cultura = () => {
             <Flex color={CORES.VERMELHO_ESCURO} align="center" gap={3}>
               <BookOpenText size={28} />
               <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
-                Glossário
+                Glossário de palavras em tupi
               </Heading>
             </Flex>
             <Text color={CORES.CINZA_ESCURO} maxW="68ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-              Algumas palavras ajudam a compreender melhor as peças, os materiais e os sentidos culturais do
-              artesanato indígena Potiguara.
+              Palavras, sentidos culturais e traduções em tupi usadas para aproximar o artesanato Potiguara de sua
+              memória e de seus símbolos.
             </Text>
           </Stack>
 
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
-            {glossario.map(({ termo, significado }) => (
+            {glossario.map(({ palavra, significado, tupi }) => (
               <Flex
-                key={termo}
+                key={palavra}
                 gap={{ base: 3, md: 4 }}
                 bg={CORES.CINZA_CLARINHO}
                 borderRadius="4px"
@@ -319,11 +413,25 @@ const Cultura = () => {
               >
                 <Box as="span" mt="7px" w="9px" h="9px" borderRadius="full" bg={CORES.VERMELHO_VIVO} flexShrink={0} />
                 <Box>
+                  <Text color={CORES.CINZA_ESCURO} fontSize={{ base: "11px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} fontWeight="800">
+                    Palavra
+                  </Text>
                   <Text color={CORES.PRETO} fontWeight="800" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-                    {termo}
+                    {palavra}
+                  </Text>
+
+                  <Text mt={3} color={CORES.CINZA_ESCURO} fontSize={{ base: "11px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} fontWeight="800">
+                    Significado
                   </Text>
                   <Text mt={1} color={CORES.CINZA_ESCURO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
                     {significado}
+                  </Text>
+
+                  <Text mt={3} color={CORES.CINZA_ESCURO} fontSize={{ base: "11px", md: `${TAMANHO.TEXTO_PEQUENO}px` }} fontWeight="800">
+                    Tradução em tupi
+                  </Text>
+                  <Text mt={1} color={CORES.VERMELHO_ESCURO} fontWeight="800" fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
+                    {tupi}
                   </Text>
                 </Box>
               </Flex>
