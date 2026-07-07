@@ -10,7 +10,7 @@ const TILE_H = 407;
 const SCALE = 0.25;
 
 const TARGET_H = Math.round(TILE_H * SCALE);
-const PERFECT_SCALE = TARGET_H / TILE_H; 
+const PERFECT_SCALE = TARGET_H / TILE_H;
 const maskSize = `${TILE_W * PERFECT_SCALE}px ${TARGET_H}px`;
 
 const HoneycombBackgroundProduto = () => {
@@ -37,10 +37,16 @@ const HoneycombBackgroundProduto = () => {
             />
 
             {/* fade pro preto, só no final */}
+            {/* fade pro branco - percentual diferente no desktop pra compensar a seção mais alta */}
             <Box
                 position="absolute"
                 inset={0}
-                bgImage={`linear-gradient(to bottom, transparent 25%, ${CORES.BRANCO} 50%)`}
+                css={{
+                    backgroundImage: `linear-gradient(to bottom, transparent 25%, ${CORES.BRANCO} 50%)`,
+                    '@media (min-width: 48em)': {
+                        backgroundImage: `linear-gradient(to bottom, transparent 0%, ${CORES.BRANCO} 22%)`,
+                    },
+                }}
             />
         </Box>
     );

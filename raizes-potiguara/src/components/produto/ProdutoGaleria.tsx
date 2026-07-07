@@ -11,6 +11,8 @@ export const ProdutoGaleria: React.FC<ProdutoGaleriaProps> = ({ produto }) => {
   return (
     <Box
       w="100%"
+      maxW={{ base: '100%', md: '480px' }}
+      mx={{ base: 0, md: 'auto' }}
       aspectRatio={1}
       border={`2px solid ${CORES.CINZA_CLARO}`}
       dropShadow='sm'
