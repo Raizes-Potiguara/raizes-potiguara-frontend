@@ -25,13 +25,13 @@ interface GrafismoPotiguara {
 
 const simbolos: BlocoCultural[] = [
   {
-    titulo: "Memória visual",
+    titulo: "Memória Visual",
     descricao:
       "Linhas, tramas e marcas visuais ajudam a contar pertencimento, memória e relação com o território.",
     icon: Sparkles,
   },
   {
-    titulo: "Conchas e mar",
+    titulo: "Conchas e Mar",
     descricao:
       "A presença do litoral aparece como caminho, alimento e lembrança da vida entre rios, mangues e praias.",
     icon: Shell,
@@ -52,13 +52,13 @@ const materiais: BlocoCultural[] = [
     icon: Gem,
   },
   {
-    titulo: "Cipós e fibras",
+    titulo: "Cipós e Fibras",
     descricao:
       "Aparecem na cestaria e nos trancados, mostrando paciência, técnica e saber passado entre gerações.",
     icon: Leaf,
   },
   {
-    titulo: "Penas e pigmentos",
+    titulo: "Penas e Pigmentos",
     descricao:
       "Quando presentes, conectam cor, rito e identidade, sempre respeitando o sentido cultural de cada uso.",
     icon: Feather,
@@ -153,7 +153,7 @@ const conceitosCulturais = [
       "Pequena conta colorida usada em colares, brincos, pulseiras e bordados, formando desenhos e combinações simbólicas.",
   },
   {
-    termo: "Tupi potiguara",
+    termo: "Tupi Potiguara",
     significado:
       "Língua ligada à retomada cultural e ao fortalecimento da identidade, presente em nomes, memórias e aprendizagens.",
   },
@@ -223,7 +223,7 @@ const Cultura = () => {
         <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
           <Stack gap={3} mb={{ base: 6, md: 8 }}>
             <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
-              Símbolos e crenças
+              Símbolos e Crenças
             </Heading>
             <Text color={CORES.CINZA_ESCURO} maxW="66ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
               Cada peça pode carregar um sentido que vai além do uso decorativo: proteger, lembrar a origem,
@@ -353,7 +353,7 @@ const Cultura = () => {
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 8, md: 10 }} alignItems="start">
             <Stack gap={4}>
               <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
-                Materiais e significados
+                Materiais e Significados
               </Heading>
               <Text color={CORES.CINZA_ESCURO} fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
                 Sementes, cipós, fibras e pigmentos não são apenas insumos. Eles revelam deslocamentos, coleta,
@@ -398,13 +398,13 @@ const Cultura = () => {
               <Flex color={CORES.VERMELHO_CLARINHO} align="center" gap={3}>
                 <Languages size={28} />
                 <Heading as="h2" color={CORES.BRANCO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
-                  O tupi potiguara
+                  Tupi Potiguara
                 </Heading>
               </Flex>
               <Text color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
                 A língua é parte da retomada cultural. No produto artesanal, palavras em tupi potiguara podem
                 aproximar nome, origem e significado, ajudando o cliente a conhecer a peça sem apagar sua raiz.
-              </Text>
+              </Text>AS
             </Stack>
 
             <Stack gap={3}>
@@ -423,11 +423,11 @@ const Cultura = () => {
         <Container maxW="container.lg" px={{ base: 5, md: 8 }}>
           <Stack gap={3} mb={{ base: 6, md: 8 }}>
             <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
-              Palavras do artesanato
+              Termos e Conceitos
             </Heading>
-            <Text color={CORES.CINZA_ESCURO} maxW="68ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
-              Termos gerais que ajudam a entender materiais, técnicas e referências culturais presentes nas peças.
-            </Text>
+            <Text color={CORES.CINZA_ESCURO} maxW="78ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>
+              Explore os principais termos, materiais, técnicas e elementos culturais presentes nas peças artesanais. 
+              </Text>
           </Stack>
 
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4}>
@@ -451,7 +451,7 @@ const Cultura = () => {
             <Flex color={CORES.VERMELHO_ESCURO} align="center" gap={3}>
               <BookOpenText size={28} />
               <Heading as="h2" color={CORES.PRETO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
-                Glossário de palavras em tupi
+                Glossário de Palavras em Tupi
               </Heading>
             </Flex>
             <Text color={CORES.CINZA_ESCURO} maxW="68ch" fontSize={`${TAMANHO.CORPO_TEXTO}px`}>

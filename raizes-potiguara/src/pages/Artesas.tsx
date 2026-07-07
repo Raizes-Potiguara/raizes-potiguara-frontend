@@ -104,27 +104,27 @@ const fotosArtesas = [
   {
     src: fotoArtesanatoMesa,
     alt: "Mesa com colares e biojoias potiguara feitos com sementes",
-    legenda: "Biojoias e sementes",
+    legenda: "Biojoias E Sementes",
   },
   {
     src: fotoAldeasColetivo,
     alt: "Grupo de mulheres potiguara em espaço cultural",
-    legenda: "Artesãs em espaço cultural",
+    legenda: "Artesãs Em Espaço Cultural",
   },
   {
     src: fotoArtesasRetrato,
     alt: "Três mulheres usando adornos potiguara",
-    legenda: "Artesãs potiguara",
+    legenda: "Artesãs Potiguara",
   },
   {
     src: fotoAssociacaoPotiguara,
     alt: "Representantes em frente a grafismo e cocar potiguara",
-    legenda: "Organização coletiva",
+    legenda: "Organização Coletiva",
   },
   {
     src: fotoPotiguara,
     alt: "Artesã potiguara ao lado de uma mesa com colares artesanais",
-    legenda: "Artesanato ancestral",
+    legenda: "Artesanato Ancestral",
   },
 ];
 
@@ -293,7 +293,7 @@ const Artesas = () => {
             <Box bg={CORES.VERMELHO_ESCURO} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
               <UsersRound size={28} strokeWidth={1.75} />
               <Text mt={4} fontWeight="800" fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
-                17 aldeias mapeadas
+                17 Aldeias Mapeadas
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
                 O diagnóstico citado no PDF aponta artesãs distribuídas por diferentes aldeias do território.
@@ -302,7 +302,7 @@ const Artesas = () => {
             <Box bg={CORES.PRETO} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
               <Sprout size={28} strokeWidth={1.75} />
               <Text mt={4} fontWeight="800" fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
-                Saber tradicional
+                Saber Tradicional
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
                 A produção preserva técnicas familiares, modos de coleta e relações com a mata e o mar.
@@ -311,7 +311,7 @@ const Artesas = () => {
             <Box bg={CORES.MARROM} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
               <Gem size={28} strokeWidth={1.75} />
               <Text mt={4} fontWeight="800" fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
-                Renda mais justa
+                Renda Mais Justa
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
                 A página valoriza as produtoras e ajuda a reduzir invisibilidade e dependência de atravessadores.
@@ -326,7 +326,7 @@ const Artesas = () => {
         <Container maxW="container.lg" position="relative" zIndex={1} px={{ base: 5, md: 8 }}>
           <Stack gap={3} mb={{ base: 8, md: 12 }}>
             <Heading as="h2" color={CORES.BRANCO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
-              Histórias das artesãs
+              Histórias das Artesãs
             </Heading>
           </Stack>
 
