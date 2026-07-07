@@ -201,7 +201,7 @@ const Artesas = () => {
                 aspectRatio="1 / 1"
                 borderRadius="4px"
                 overflow="hidden"
-                bg={CORES.PRETO}
+                bg="transparent"
                 boxShadow={{ base: `7px 7px 0 ${CORES.VERMELHO_ESCURO}`, md: `12px 12px 0 ${CORES.VERMELHO_ESCURO}` }}
               >
                 <Image
@@ -209,7 +209,7 @@ const Artesas = () => {
                   alt={fotoSelecionada.alt}
                   w="100%"
                   h="100%"
-                  objectFit="contain"
+                  objectFit="cover"
                   objectPosition="center"
                 />
 
