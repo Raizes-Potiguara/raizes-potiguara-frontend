@@ -2,12 +2,11 @@ export type CategoriaProduto = 'Cestaria' | 'Biojoias' | 'Pinturas';
 
 export interface Produto {
   id: string;
-  nome: string;
+  nomePortugues: string;
+  nomeTupi: string;
   descricao: string;
   preco: number;
-  categoria: CategoriaProduto;
+  categorias: CategoriaProduto[];
   imagemUrl: string;
-  imagens?: string[];
-  materiaisInsumos?: string;
-  simbologia?: string;//categoria cultural
+  quantidadeEstoque: number;
 }

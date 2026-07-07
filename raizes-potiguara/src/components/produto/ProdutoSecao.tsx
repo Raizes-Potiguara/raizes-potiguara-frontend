@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Container, Flex, Grid, GridItem, Spinner, Text } from '@chakra-ui/react';
 import { CORES, TAMANHO } from '../../util/constants';
-import { buscarProdutoPorId} from '../../services/produtoService';
+import { buscarProdutoPorId } from '../../services/produtoService';
 import { ProdutoGaleria } from './ProdutoGaleria';
 import { ProdutoInfo } from './ProdutoInfo';
-import { ProdutoDetalhes } from './ProdutoDetalhes';
 import type { Produto } from '../../types/produto';
-import HoneycombBackgroundProduto from '../general/HoneycombBackgroundProduto';
+import HoneycombBackgroundProduto from './HoneycombBackgroundProduto';
 
 interface ProdutoSecaoProps {
   produtoId: string;
@@ -33,7 +32,7 @@ const ProdutoSecao: React.FC<ProdutoSecaoProps> = ({ produtoId }) => {
   }, [produtoId]);
 
   const lidarComAdicionarCarrinho = (produtoSelecionado: Produto, quantidade: number) => {
-    console.log('Adicionado ao carrinho:', produtoSelecionado.nome, 'x', quantidade);
+    console.log('Adicionado ao carrinho:', produtoSelecionado.nomePortugues, 'x', quantidade);
   };
 
   if (produto === undefined) {
@@ -58,11 +57,15 @@ const ProdutoSecao: React.FC<ProdutoSecaoProps> = ({ produtoId }) => {
   }
 
   return (
-    <Box as="main" bg={CORES.BRANCO} minH="100vh" py={{ base: 6, md:12 }} position="relative">
+    <Box as="main" bg={CORES.BRANCO} minH="100vh" py={{ base: 6, md: 12 }} position="relative">
 
       <HoneycombBackgroundProduto />
       <Container maxW="container.xl" position="relative" zIndex={1}>
-        <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={{ base: 8, md: 12 }} mb={16}>
+        <Grid
+          templateColumns={{ base: '1fr', md: '1fr 1fr' }}
+          gap={{ base: 8, md: 12 }}
+          alignItems="start"
+        >
           <GridItem>
             <ProdutoGaleria produto={produto} />
           </GridItem>
@@ -70,8 +73,6 @@ const ProdutoSecao: React.FC<ProdutoSecaoProps> = ({ produtoId }) => {
             <ProdutoInfo produto={produto} aoAdicionarAoCarrinho={lidarComAdicionarCarrinho} />
           </GridItem>
         </Grid>
-
-        <ProdutoDetalhes produto={produto} />
       </Container>
 
     </Box>
