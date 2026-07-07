@@ -1,9 +1,10 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import { AtSign, MapPin, MessageCircle } from "lucide-react";
+import { Badge, Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Mail, MapPin } from "lucide-react";
+import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
 
 export interface RedeSocialArtesa {
-  tipo: "instagram" | "whatsapp";
+  tipo: "instagram" | "email" | "whatsapp";
   url: string;
 }
 
@@ -11,21 +12,32 @@ export interface PerfilArtesaProps {
   nome: string;
   aldeia: string;
   historia: string;
+  producao: string;
+  materiais: string[];
   foto: string;
+  ajustarFoto?: boolean;
+  posicaoFoto?: string;
+  zoomFoto?: number;
   redesSociais?: RedeSocialArtesa[];
   inverterLado?: boolean;
 }
 
 const ICONE_REDE_SOCIAL = {
-  instagram: AtSign,
-  whatsapp: MessageCircle,
+  instagram: FaInstagram,
+  email: Mail,
+  whatsapp: FaWhatsapp,
 } as const;
 
 const PerfilArtesa = ({
   nome,
   aldeia,
   historia,
+  producao,
+  materiais,
   foto,
+  ajustarFoto = false,
+  posicaoFoto = "center",
+  zoomFoto = 1,
   redesSociais = [],
   inverterLado = false,
 }: PerfilArtesaProps) => {
@@ -46,8 +58,17 @@ const PerfilArtesa = ({
           aspectRatio="1 / 1"
           bg={CORES.PRETO}
           boxShadow={`5px 5px 0 ${CORES.VERMELHO_ESCURO}`}
+          position="relative"
         >
-          <Image src={foto} alt={nome} w="100%" h="100%" objectFit="cover" />
+          <Image
+            src={foto}
+            alt={nome}
+            w="100%"
+            h="100%"
+            objectFit="cover"
+            objectPosition={ajustarFoto ? posicaoFoto : "center"}
+            transform={ajustarFoto ? `scale(${zoomFoto})` : undefined}
+          />
         </Box>
 
         {/* etiqueta torta com o nome, "pendurada" na base da foto */}
@@ -86,9 +107,21 @@ const PerfilArtesa = ({
         {historia}
       </Text>
 
+      <Text color={CORES.BRANCO} fontSize={`${TAMANHO.CORPO_TEXTO}px`} fontWeight="800" mb={3}>
+        Produz: {producao}.
+      </Text>
+
+      <Flex gap={2} wrap="wrap" mb={4}>
+        {materiais.map((material) => (
+          <Badge key={material} bg={CORES.VERMELHO_CLARINHO} color={CORES.VERMELHO_ESCURO}>
+            {material}
+          </Badge>
+        ))}
+      </Flex>
+
       {/* espaço reservado para redes sociais; sem link cadastrado, some como placeholder desativado */}
       <Flex gap={3}>
-        {(["instagram", "whatsapp"] as const).map((tipo) => {
+        {(["instagram", "whatsapp", "email"] as const).map((tipo) => {
           const rede = redesSociais.find((r) => r.tipo === tipo);
           const Icone = ICONE_REDE_SOCIAL[tipo];
 
@@ -109,8 +142,15 @@ const PerfilArtesa = ({
             >
               <a
                 href={rede?.url ?? "#"}
-                target={rede ? "_blank" : undefined}
+                target={rede && tipo !== "email" ? "_blank" : undefined}
                 rel={rede ? "noreferrer" : undefined}
+                aria-label={
+                  tipo === "instagram"
+                    ? `Instagram de ${nome}`
+                    : tipo === "whatsapp"
+                      ? `WhatsApp de ${nome}`
+                      : `E-mail de ${nome}`
+                }
               >
                 <Icone size={18} />
               </a>

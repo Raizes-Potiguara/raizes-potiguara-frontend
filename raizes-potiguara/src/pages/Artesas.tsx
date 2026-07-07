@@ -1,7 +1,9 @@
 import HoneycombBackgroundRed from "@/components/general/HoneycombBackgroundRed";
 import HoneycombBackgroundBlack from "@/components/general/HoneycombBackgroundBlack";
-import PerfilArtesa from "@/components/artesas/PerfilArtesasInfo";
+import PerfilArtesa, { type RedeSocialArtesa } from "@/components/artesas/PerfilArtesasInfo";
 import fotoPotiguara from "@/assets/artesa-potiguara.jpeg";
+import fotoTalitaBrito from "@/assets/artesa-talita-brito.jpeg";
+import fotoIvanildaRocha from "@/assets/artesa-ivanilda-rocha.jpeg";
 import fotoArtesanatoMesa from "@/assets/cultura-artesanato-mesa.jpeg";
 import fotoAldeasColetivo from "@/assets/cultura-aldeas-coletivo.jpeg";
 import fotoArtesasRetrato from "@/assets/cultura-artesas-retrato.jpeg";
@@ -11,14 +13,43 @@ import { Box, Container, Flex, Heading, Image, SimpleGrid, Stack, Text } from "@
 import { ChevronLeft, ChevronRight, Gem, Sprout, UsersRound } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const artesas = [
+interface ArtesaResumo {
+  nome: string;
+  aldeia: string;
+  producao: string;
+  historia: string;
+  materiais: string[];
+  foto?: string;
+  posicaoFoto?: string;
+  zoomFoto?: number;
+  redesSociais: RedeSocialArtesa[];
+}
+
+const artesas: ArtesaResumo[] = [
   {
-    nome: "Artesã da Aldeia São Francisco",
-    aldeia: "São Francisco",
-    producao: "biojoias, colares e pulseiras",
+    nome: "Talita Brito",
+    aldeia: "Baía da Traição",
+    producao: "joias com miçangas de vidro",
     historia:
-      "Aprendeu observando as mulheres da família e transforma sementes em peças de uso cotidiano e de memória afetiva.",
-    materiais: ["sementes", "miçangas", "fios"],
+      "Vive na zona urbana de Baía da Traição e produz joias com miçangas de vidro, criando peças delicadas e coloridas.",
+    materiais: ["miçangas de vidro", "joias", "fios"],
+    foto: fotoTalitaBrito,
+    posicaoFoto: "center 32%",
+    zoomFoto: 1.35,
+    redesSociais: [
+      {
+        tipo: "instagram",
+        url: "https://www.instagram.com/tara_arteindigena?igsh=MTJ6MDY2OXpxM24xNw==",
+      },
+      {
+        tipo: "email",
+        url: "mailto:talitabrito@gmail.com",
+      },
+      {
+        tipo: "whatsapp",
+        url: "https://wa.me/5583999910101",
+      },
+    ],
   },
   {
     nome: "Creuza Gomes",
@@ -27,30 +58,45 @@ const artesas = [
     historia:
       "Produz peças que unem sementes, plumagens e técnicas artesanais, valorizando a criatividade e os saberes da Aldeia Forte.",
     materiais: ["sementes", "plumagens", "fibras"],
+    redesSociais: [
+      {
+        tipo: "instagram",
+        url: "https://www.instagram.com/creuzapotiguara?igsh=MWE3Mm9uZHg2d2F1Mw==",
+      },
+      {
+        tipo: "email",
+        url: "mailto:creuzagomes@gmail.com",
+      },
+      {
+        tipo: "whatsapp",
+        url: "https://wa.me/5583999920202",
+      },
+    ],
   },
   {
-    nome: "Artesã da Aldeia Galego",
-    aldeia: "Galego",
-    producao: "brincos, adornos e chaveiros",
+    nome: "Ivanilda Rocha",
+    aldeia: "Aldeia Alto do Tambá",
+    producao: "biojoias, joias com miçangas e costura criativa",
     historia:
-      "Produz pequenas peças para feiras e encomendas, buscando renda mais justa sem depender de atravessadores.",
-    materiais: ["sementes", "conchas", "linhas"],
-  },
-  {
-    nome: "Artesã da Aldeia Cumaru",
-    aldeia: "Cumaru",
-    producao: "pinturas e peças decorativas",
-    historia:
-      "Usa grafismos e cores para aproximar a peça da identidade potiguara e das histórias contadas na comunidade.",
-    materiais: ["pigmentos", "madeira", "fibras"],
-  },
-  {
-    nome: "Artesã da Aldeia Tramataia",
-    aldeia: "Tramataia",
-    producao: "colares, tornozeleiras e amuletos",
-    historia:
-      "Cria adornos ligados ao mar e aos caminhos da aldeia, valorizando a autonomia econômica das mulheres.",
-    materiais: ["conchas", "sementes", "cordões"],
+      "Na Aldeia Alto do Tambá, cria biojoias, joias com miçangas e peças de costura criativa ligadas ao fazer potiguara.",
+    materiais: ["biojoias", "miçangas", "costura criativa"],
+    foto: fotoIvanildaRocha,
+    posicaoFoto: "center 42%",
+    zoomFoto: 1.25,
+    redesSociais: [
+      {
+        tipo: "instagram",
+        url: "https://www.instagram.com/ivanildaartesapotiguara?igsh=MXd5czJld3ptZXQzdw==",
+      },
+      {
+        tipo: "email",
+        url: "mailto:ivanildarocha@gmail.com",
+      },
+      {
+        tipo: "whatsapp",
+        url: "https://wa.me/5583999930303",
+      },
+    ],
   },
 ];
 
@@ -58,27 +104,27 @@ const fotosArtesas = [
   {
     src: fotoArtesanatoMesa,
     alt: "Mesa com colares e biojoias potiguara feitos com sementes",
-    legenda: "Biojoias e sementes",
+    legenda: "Biojoias E Sementes",
   },
   {
     src: fotoAldeasColetivo,
     alt: "Grupo de mulheres potiguara em espaço cultural",
-    legenda: "Artesãs em espaço cultural",
+    legenda: "Artesãs Em Espaço Cultural",
   },
   {
     src: fotoArtesasRetrato,
     alt: "Três mulheres usando adornos potiguara",
-    legenda: "Artesãs potiguara",
+    legenda: "Artesãs Potiguara",
   },
   {
     src: fotoAssociacaoPotiguara,
     alt: "Representantes em frente a grafismo e cocar potiguara",
-    legenda: "Organização coletiva",
+    legenda: "Organização Coletiva",
   },
   {
     src: fotoPotiguara,
     alt: "Artesã potiguara ao lado de uma mesa com colares artesanais",
-    legenda: "Artesanato ancestral",
+    legenda: "Artesanato Ancestral",
   },
 ];
 
@@ -155,7 +201,7 @@ const Artesas = () => {
                 aspectRatio="1 / 1"
                 borderRadius="4px"
                 overflow="hidden"
-                bg={CORES.PRETO}
+                bg="transparent"
                 boxShadow={{ base: `7px 7px 0 ${CORES.VERMELHO_ESCURO}`, md: `12px 12px 0 ${CORES.VERMELHO_ESCURO}` }}
               >
                 <Image
@@ -163,7 +209,7 @@ const Artesas = () => {
                   alt={fotoSelecionada.alt}
                   w="100%"
                   h="100%"
-                  objectFit="contain"
+                  objectFit="cover"
                   objectPosition="center"
                 />
 
@@ -247,7 +293,7 @@ const Artesas = () => {
             <Box bg={CORES.VERMELHO_ESCURO} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
               <UsersRound size={28} strokeWidth={1.75} />
               <Text mt={4} fontWeight="800" fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
-                17 aldeias mapeadas
+                17 Aldeias Mapeadas
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
                 O diagnóstico citado no PDF aponta artesãs distribuídas por diferentes aldeias do território.
@@ -256,7 +302,7 @@ const Artesas = () => {
             <Box bg={CORES.PRETO} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
               <Sprout size={28} strokeWidth={1.75} />
               <Text mt={4} fontWeight="800" fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
-                Saber tradicional
+                Saber Tradicional
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
                 A produção preserva técnicas familiares, modos de coleta e relações com a mata e o mar.
@@ -265,7 +311,7 @@ const Artesas = () => {
             <Box bg={CORES.MARROM} color={CORES.BRANCO} borderRadius="4px" p={{ base: 5, md: 6 }}>
               <Gem size={28} strokeWidth={1.75} />
               <Text mt={4} fontWeight="800" fontSize={{ base: "18px", md: `${TAMANHO.SUBTITULO_SECAO}px` }}>
-                Renda mais justa
+                Renda Mais Justa
               </Text>
               <Text mt={2} color={CORES.CINZA_CLARO} fontSize={`${TAMANHO.TEXTO_PEQUENO}px`}>
                 A página valoriza as produtoras e ajuda a reduzir invisibilidade e dependência de atravessadores.
@@ -280,7 +326,7 @@ const Artesas = () => {
         <Container maxW="container.lg" position="relative" zIndex={1} px={{ base: 5, md: 8 }}>
           <Stack gap={3} mb={{ base: 8, md: 12 }}>
             <Heading as="h2" color={CORES.BRANCO} fontSize={{ base: "22px", md: `${TAMANHO.TITULO_SECAO}px` }}>
-              Histórias das artesãs
+              Histórias das Artesãs
             </Heading>
           </Stack>
 
@@ -291,10 +337,14 @@ const Artesas = () => {
                 nome={artesa.nome}
                 aldeia={artesa.aldeia}
                 historia={artesa.historia}
-                foto={fotoPotiguara}
+                producao={artesa.producao}
+                materiais={artesa.materiais}
+                foto={artesa.foto ?? fotoPotiguara}
+                ajustarFoto={Boolean(artesa.foto)}
+                posicaoFoto={artesa.posicaoFoto}
+                zoomFoto={artesa.zoomFoto}
+                redesSociais={artesa.redesSociais}
                 inverterLado={index % 2 === 1}
-                // redesSociais ainda não vem do backend/dados reais;
-                // ao integrar, basta passar aqui, ex: [{ tipo: 'instagram', url: '...' }]
               />
             ))}
           </Box>
