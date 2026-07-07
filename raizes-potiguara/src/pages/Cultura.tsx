@@ -106,7 +106,7 @@ const glossario = [
   {
     palavra: "Colmeia",
     significado: "Representa união, coletividade e trabalho em equipe.",
-    tupi: "Eiretama",
+    tupi: "Eiratyra",
   },
   {
     palavra: "Folha de Jurema",
@@ -121,7 +121,7 @@ const glossario = [
   {
     palavra: "Cobra Coral",
     significado: "Representa sabedoria e prudência.",
-    tupi: "Mboikorá",
+    tupi: "Mboipyranga",
   },
 ];
 
