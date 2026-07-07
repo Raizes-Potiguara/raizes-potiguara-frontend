@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Badge, Box, Flex, Image, Text } from "@chakra-ui/react";
 import { AtSign, MapPin, MessageCircle } from "lucide-react";
 import { CORES, RADIUS_PADRAO_BOTAO, TAMANHO } from "@/util/constants";
 
@@ -11,7 +11,10 @@ export interface PerfilArtesaProps {
   nome: string;
   aldeia: string;
   historia: string;
+  producao: string;
+  materiais: string[];
   foto: string;
+  ajustarFoto?: boolean;
   redesSociais?: RedeSocialArtesa[];
   inverterLado?: boolean;
 }
@@ -25,7 +28,10 @@ const PerfilArtesa = ({
   nome,
   aldeia,
   historia,
+  producao,
+  materiais,
   foto,
+  ajustarFoto = false,
   redesSociais = [],
   inverterLado = false,
 }: PerfilArtesaProps) => {
@@ -46,8 +52,35 @@ const PerfilArtesa = ({
           aspectRatio="1 / 1"
           bg={CORES.PRETO}
           boxShadow={`5px 5px 0 ${CORES.VERMELHO_ESCURO}`}
+          position="relative"
         >
-          <Image src={foto} alt={nome} w="100%" h="100%" objectFit="cover" />
+          {ajustarFoto ? (
+            <>
+              <Image
+                src={foto}
+                alt=""
+                position="absolute"
+                inset={0}
+                w="100%"
+                h="100%"
+                objectFit="cover"
+                filter="blur(10px)"
+                transform="scale(1.08)"
+                opacity={0.45}
+              />
+              <Image
+                src={foto}
+                alt={nome}
+                position="relative"
+                zIndex={1}
+                w="100%"
+                h="100%"
+                objectFit="contain"
+              />
+            </>
+          ) : (
+            <Image src={foto} alt={nome} w="100%" h="100%" objectFit="cover" />
+          )}
         </Box>
 
         {/* etiqueta torta com o nome, "pendurada" na base da foto */}
@@ -85,6 +118,18 @@ const PerfilArtesa = ({
       <Text color={CORES.CINZA_CLARINHO} fontSize={`${TAMANHO.CORPO_TEXTO}px`} mb={4}>
         {historia}
       </Text>
+
+      <Text color={CORES.BRANCO} fontSize={`${TAMANHO.CORPO_TEXTO}px`} fontWeight="800" mb={3}>
+        Produz: {producao}.
+      </Text>
+
+      <Flex gap={2} wrap="wrap" mb={4}>
+        {materiais.map((material) => (
+          <Badge key={material} bg={CORES.VERMELHO_CLARINHO} color={CORES.VERMELHO_ESCURO}>
+            {material}
+          </Badge>
+        ))}
+      </Flex>
 
       {/* espaço reservado para redes sociais; sem link cadastrado, some como placeholder desativado */}
       <Flex gap={3}>

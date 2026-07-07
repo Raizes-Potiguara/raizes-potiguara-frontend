@@ -2,6 +2,8 @@ import HoneycombBackgroundRed from "@/components/general/HoneycombBackgroundRed"
 import HoneycombBackgroundBlack from "@/components/general/HoneycombBackgroundBlack";
 import PerfilArtesa from "@/components/artesas/PerfilArtesasInfo";
 import fotoPotiguara from "@/assets/artesa-potiguara.jpeg";
+import fotoTalitaBrito from "@/assets/artesa-talita-brito.jpeg";
+import fotoIvanildaRocha from "@/assets/artesa-ivanilda-rocha.jpeg";
 import fotoArtesanatoMesa from "@/assets/cultura-artesanato-mesa.jpeg";
 import fotoAldeasColetivo from "@/assets/cultura-aldeas-coletivo.jpeg";
 import fotoArtesasRetrato from "@/assets/cultura-artesas-retrato.jpeg";
@@ -13,12 +15,13 @@ import { useEffect, useState } from "react";
 
 const artesas = [
   {
-    nome: "Artesã da Aldeia São Francisco",
-    aldeia: "São Francisco",
-    producao: "biojoias, colares e pulseiras",
+    nome: "Talita Brito",
+    aldeia: "Baía da Traição",
+    producao: "joias com miçangas de vidro",
     historia:
-      "Aprendeu observando as mulheres da família e transforma sementes em peças de uso cotidiano e de memória afetiva.",
-    materiais: ["sementes", "miçangas", "fios"],
+      "Vive na zona urbana de Baía da Traição e produz joias com miçangas de vidro, criando peças delicadas e coloridas.",
+    materiais: ["miçangas de vidro", "joias", "fios"],
+    foto: fotoTalitaBrito,
   },
   {
     nome: "Creuza Gomes",
@@ -29,28 +32,13 @@ const artesas = [
     materiais: ["sementes", "plumagens", "fibras"],
   },
   {
-    nome: "Artesã da Aldeia Galego",
-    aldeia: "Galego",
-    producao: "brincos, adornos e chaveiros",
+    nome: "Ivanilda Rocha",
+    aldeia: "Aldeia Alto do Tambá",
+    producao: "biojoias, joias com miçangas e costura criativa",
     historia:
-      "Produz pequenas peças para feiras e encomendas, buscando renda mais justa sem depender de atravessadores.",
-    materiais: ["sementes", "conchas", "linhas"],
-  },
-  {
-    nome: "Artesã da Aldeia Cumaru",
-    aldeia: "Cumaru",
-    producao: "pinturas e peças decorativas",
-    historia:
-      "Usa grafismos e cores para aproximar a peça da identidade potiguara e das histórias contadas na comunidade.",
-    materiais: ["pigmentos", "madeira", "fibras"],
-  },
-  {
-    nome: "Artesã da Aldeia Tramataia",
-    aldeia: "Tramataia",
-    producao: "colares, tornozeleiras e amuletos",
-    historia:
-      "Cria adornos ligados ao mar e aos caminhos da aldeia, valorizando a autonomia econômica das mulheres.",
-    materiais: ["conchas", "sementes", "cordões"],
+      "Na Aldeia Alto do Tambá, cria biojoias, joias com miçangas e peças de costura criativa ligadas ao fazer potiguara.",
+    materiais: ["biojoias", "miçangas", "costura criativa"],
+    foto: fotoIvanildaRocha,
   },
 ];
 
@@ -291,7 +279,10 @@ const Artesas = () => {
                 nome={artesa.nome}
                 aldeia={artesa.aldeia}
                 historia={artesa.historia}
-                foto={fotoPotiguara}
+                producao={artesa.producao}
+                materiais={artesa.materiais}
+                foto={artesa.foto ?? fotoPotiguara}
+                ajustarFoto={Boolean(artesa.foto)}
                 inverterLado={index % 2 === 1}
                 // redesSociais ainda não vem do backend/dados reais;
                 // ao integrar, basta passar aqui, ex: [{ tipo: 'instagram', url: '...' }]
