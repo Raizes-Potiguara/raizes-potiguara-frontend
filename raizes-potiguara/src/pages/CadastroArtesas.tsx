@@ -87,8 +87,16 @@ const CadastroArtesas = () => {
 			setTimeout(() => {
 				navigate("/admin");
 			}, 1000);
-		} catch {
-
+		} catch (error) {
+			const detalhe = error instanceof Error && error.message
+				? error.message
+				: "Não foi possível falar com o backend agora.";
+			toaster.create({
+				title: "Erro ao salvar",
+				description: detalhe,
+				type: "error",
+				duration: 5000,
+			});
 		} finally {
 			setCarregando(false);
 		}
