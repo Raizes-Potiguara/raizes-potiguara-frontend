@@ -13,7 +13,7 @@ const Home = () => {
       <SobrePovo/>
       <ArtesanatoAncestral/>
       <SeloIndigena/>
-      <MicButton />
+      <MicButton variant="home" />
     </>
   );
 }

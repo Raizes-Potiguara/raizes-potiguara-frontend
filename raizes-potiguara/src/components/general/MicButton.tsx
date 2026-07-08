@@ -1,5 +1,5 @@
 import { CORES, TAMANHO } from "@/util/constants";
-import { Box, CloseButton, Dialog, Flex, IconButton, Portal } from "@chakra-ui/react";
+import { Box, CloseButton, Dialog, Flex, IconButton, Portal, Text } from "@chakra-ui/react";
 import { Mic } from "lucide-react";
 import Inputs from "../vtt/Inputs";
 import { useState, useEffect } from "react";
@@ -7,23 +7,41 @@ import Conversa, { type MensagemChat } from "../vtt/Conversa";
 import { useLocation, useParams } from "react-router";
 import { ApiService } from "@/services/apiService";
 
-const MicButton = () => {
+type MicButtonProps = {
+	variant?: "padrao" | "home";
+};
+
+const conteudoPorVariant = {
+	padrao: {
+		titulo: "Assistente virtual",
+		mensagemInicial: "Olá! Como posso te ajudar hoje?",
+		chamada: "",
+	},
+	home: {
+		titulo: "Conheça a cultura Potiguara",
+		mensagemInicial: "Faça perguntas sobre o povo Potiguara, sua história, cultura e artesanato.",
+		chamada: "Pergunte sobre a cultura Potiguara",
+	},
+};
+
+const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 	const { id } = useParams<{ id: string }>();
 	const location = useLocation();
 	const [open, setOpen] = useState(false);
 	const perfilAssistente = resolverPerfilAssistente(location.pathname, id);
+	const conteudo = conteudoPorVariant[variant];
 
 	const [mensagens, setMensagens] = useState<MensagemChat[]>([
-		{ id: "msg_inicial", texto: "Olá! Como posso te ajudar hoje?", autor: "bot" }
+		{ id: "msg_inicial", texto: conteudo.mensagemInicial, autor: "bot" }
 	]);
 
 	useEffect(() => {
 		if (!open) {
 			setMensagens([
-				{ id: "msg_inicial", texto: "Olá! Como posso te ajudar hoje?", autor: "bot" }
+				{ id: "msg_inicial", texto: conteudo.mensagemInicial, autor: "bot" }
 			]);
 		}
-	}, [open]);
+	}, [open, conteudo.mensagemInicial]);
 
 	const enviarParaAssistente = async (
 		texto: string,
@@ -138,15 +156,32 @@ const MicButton = () => {
 						transition="all 0.2s ease"
 						pointerEvents={open ? "none" : "auto"}
 					>
-						<IconButton
-							rounded={"full"}
-							size={"2xl"}
-							variant={"subtle"}
-							bgColor={CORES.VERMELHO_VIVO}
-							boxShadow={"md"}
-						>
-							<Mic color={CORES.BRANCO} />
-						</IconButton>
+						<Flex alignItems="center" gap={3}>
+							{variant === "home" && (
+								<Box
+									bgColor={CORES.BRANCO}
+									color={CORES.PRETO}
+									borderRadius="full"
+									px={4}
+									py={2}
+									boxShadow="md"
+									maxW="210px"
+								>
+									<Text fontSize={TAMANHO.TEXTO_PEQUENO} fontWeight="bold" lineHeight={1.15}>
+										{conteudo.chamada}
+									</Text>
+								</Box>
+							)}
+							<IconButton
+								rounded={"full"}
+								size={"2xl"}
+								variant={"subtle"}
+								bgColor={variant === "home" ? CORES.PRETO : CORES.VERMELHO_VIVO}
+								boxShadow={"md"}
+							>
+								<Mic color={CORES.BRANCO} />
+							</IconButton>
+						</Flex>
 					</Box>
 				</Dialog.Trigger>
 
@@ -163,8 +198,13 @@ const MicButton = () => {
 						>
 							<Dialog.Header>
 								<Dialog.Title fontSize={TAMANHO.SUBTITULO_SECAO}>
-									Assistente virtual
+									{conteudo.titulo}
 								</Dialog.Title>
+								{variant === "home" && (
+									<Text color={CORES.CINZA_CLARO} fontSize={TAMANHO.TEXTO_PEQUENO} mt={1}>
+										Pergunte por texto ou voz.
+									</Text>
+								)}
 							</Dialog.Header>
 
 							<Dialog.CloseTrigger asChild>
