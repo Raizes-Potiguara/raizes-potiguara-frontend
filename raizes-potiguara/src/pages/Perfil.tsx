@@ -4,7 +4,7 @@ import PerfilFundacao from "@/components/perfil/PerfilFundacao";
 
 const Perfil = () => {
 
-  const tipoUserMock = 2; 
+  const tipoUserMock = Number(2);
   //1 = cliente, 2 = artesã e 3 = fundação só por enquanto pra dividir as telas
 
   return (
