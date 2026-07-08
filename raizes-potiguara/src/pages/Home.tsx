@@ -3,6 +3,7 @@ import Hero from '../components/home/Hero';
 import SobreYbira from '../components/home/SobreYbira';
 import SobrePovo from '@/components/home/SobrePovo';
 import SeloIndigena from '@/components/home/SeloIndigena';
+import MicButton from '@/components/general/MicButton';
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
       <SobrePovo/>
       <ArtesanatoAncestral/>
       <SeloIndigena/>
+      <MicButton />
     </>
   );
 }

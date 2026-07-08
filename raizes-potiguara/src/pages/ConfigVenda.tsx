@@ -3,7 +3,7 @@ import MicButton from "@/components/general/MicButton";
 import ProdutoCard from "@/components/paginas_artesas/ProdutoCard";
 import { CORES, RADIUS_PADRAO_CARD, TAMANHO } from "@/util/constants";
 import { Box, Card, Flex, Icon, IconButton, Image, SkeletonCircle, InputGroup, Input, Text, Textarea, Button, HStack, Stat, Badge } from "@chakra-ui/react";
-import { ArrowLeft, LucidePlusCircle, Pencil } from "lucide-react";
+import { ArrowLeft, LucidePlusCircle, PackageSearch, Pencil } from "lucide-react";
 import { LuUser, LuCoins, LuMail, LuHouse, LuAtSign, LuDollarSign, LuHandCoins, LuPlus } from "react-icons/lu";
 import { useNavigate } from "react-router";
 import { useState, useEffect } from "react";
@@ -135,6 +135,26 @@ const userId = 1;
                                 <Flex alignItems={"center"} gap={4}>
                                   <Icon><LucidePlusCircle/></Icon>
                                   <Text fontSize={TAMANHO.CORPO_TEXTO}>Adicionar Peça</Text>
+                                </Flex>
+                              </Card.Body>
+                          </Card.Root>
+
+                          <Card.Root
+                          flexDirection="row"
+                          boxShadow={"sm"}
+                          bgColor={"white/40"}
+                          overflow="hidden"
+                          w={"full"}
+                          h={"10vh"}
+                          alignItems={"center"}
+                          color={CORES.CINZA_ESCURO}
+                          border={0}
+                          onClick={()=>navigate(`loja`)}
+                          >
+                              <Card.Body>
+                                <Flex alignItems={"center"} gap={4}>
+                                  <Icon><PackageSearch/></Icon>
+                                  <Text fontSize={TAMANHO.CORPO_TEXTO}>Visualizar Loja</Text>
                                 </Flex>
                               </Card.Body>
                           </Card.Root>

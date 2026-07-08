@@ -10,6 +10,7 @@ export interface MensagemChat {
 	autor: "user" | "bot";
 	imagemUrl?: string;
 	audioUrl?: string;
+	carregandoResposta?: boolean;
 	carregandoAudio?: boolean;
 	erroAudio?: boolean;
 }
@@ -37,6 +38,7 @@ const Conversa = ({ mensagens }: ConversaProps) => {
 								msg={msg.texto}
 								imagemUrl={msg.imagemUrl}
 								audioUrl={msg.audioUrl}
+								carregandoResposta={msg.carregandoResposta}
 								carregandoAudio={msg.carregandoAudio}
 								erroAudio={msg.erroAudio}
 							/>

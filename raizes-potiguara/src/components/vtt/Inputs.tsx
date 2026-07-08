@@ -91,8 +91,31 @@ const Inputs = ({ setMensagens, onEnviarMensagem }: InputsProps) => {
     }
   };
 
+  const adicionarErroMicrofone = (texto: string) => {
+    setMensagens((mensagens) => [
+      ...mensagens,
+      {
+        id: `msg_bot_mic_${Date.now()}`,
+        texto,
+        autor: "bot",
+      },
+    ]);
+  };
+
   const iniciarGravacao = async () => {
     if (enviando || isRecording) return;
+
+    if (!window.isSecureContext && window.location.hostname !== "localhost") {
+      adicionarErroMicrofone(
+        "O navegador bloqueou o microfone porque esta página está em HTTP. Para gravar áudio no celular, use HTTPS ou teste primeiro pelo computador em localhost.",
+      );
+      return;
+    }
+
+    if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
+      adicionarErroMicrofone("Este navegador não liberou a gravação de áudio agora.");
+      return;
+    }
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -125,8 +148,10 @@ const Inputs = ({ setMensagens, onEnviarMensagem }: InputsProps) => {
 
       recorder.start();
       setIsRecording(true);
-    } catch {
+    } catch (error) {
       setIsRecording(false);
+      const detalhe = error instanceof Error && error.message ? ` Detalhe: ${error.message}` : "";
+      adicionarErroMicrofone(`Não consegui acessar o microfone. Verifique a permissão do navegador.${detalhe}`);
     }
   };
 
@@ -223,17 +248,18 @@ const Inputs = ({ setMensagens, onEnviarMensagem }: InputsProps) => {
           transform={isRecording ? "scale(1.2)" : "scale(1)"}
           transition="all 0.2s ease"
           animation={isRecording ?"pulse":"none"}
-          onMouseDown={() => {
-            if (usarMicrofone) void iniciarGravacao();
-          }}
-          onMouseUp={pararGravacao}
-          onMouseLeave={pararGravacao}
-          onTouchStart={() => {
-            if (usarMicrofone) void iniciarGravacao();
-          }}
-          onTouchEnd={pararGravacao}
           onClick={() => {
-            if (!usarMicrofone && !enviando) enviarMensagem();
+            if (!usarMicrofone && !enviando) {
+              enviarMensagem();
+              return;
+            }
+
+            if (isRecording) {
+              pararGravacao();
+              return;
+            }
+
+            void iniciarGravacao();
           }}
         >
           {usarMicrofone ? <Mic /> : <SendHorizonal />}

@@ -4,12 +4,14 @@ import { Mic } from "lucide-react";
 import Inputs from "../vtt/Inputs";
 import { useState, useEffect } from "react";
 import Conversa, { type MensagemChat } from "../vtt/Conversa";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { ApiService } from "@/services/apiService";
 
 const MicButton = () => {
 	const { id } = useParams<{ id: string }>();
+	const location = useLocation();
 	const [open, setOpen] = useState(false);
+	const perfilAssistente = resolverPerfilAssistente(location.pathname, id);
 
 	const [mensagens, setMensagens] = useState<MensagemChat[]>([
 		{ id: "msg_inicial", texto: "Olá! Como posso te ajudar hoje?", autor: "bot" }
@@ -28,32 +30,46 @@ const MicButton = () => {
 		imagem?: File | null,
 		audio?: Blob | null,
 	) => {
+		const mensagemBotId = `msg_bot_${Date.now()}`;
+
+		setMensagens((mensagensAtuais) => [
+			...mensagensAtuais,
+			{
+				id: mensagemBotId,
+				texto: "Preparando resposta...",
+				autor: "bot",
+				carregandoResposta: true,
+			},
+		]);
+
 		try {
 			const resposta = await ApiService.enviarAssistente({
 				texto,
 				imagem,
 				audio,
-				tipo_conta: "ARTESA",
-				usuario_id: resolverUsuarioIdArtesa(id),
+				tipo_conta: perfilAssistente.tipo_conta,
+				usuario_id: perfilAssistente.usuario_id,
 				contexto: {
-					origem: "chatbot_perfil_artesa",
+					origem: perfilAssistente.origem,
 					tela: window.location.pathname,
 				},
 			});
 
 			const mensagemResposta =
 				resposta.mensagem || "Não consegui entender agora. Pode tentar de novo?";
-			const mensagemBotId = `msg_bot_${Date.now()}`;
 
-			setMensagens((mensagensAtuais) => [
-				...mensagensAtuais,
-				{
-					id: mensagemBotId,
-					texto: mensagemResposta,
-					autor: "bot",
-					carregandoAudio: true,
-				},
-			]);
+			setMensagens((mensagensAtuais) =>
+				mensagensAtuais.map((mensagem) =>
+					mensagem.id === mensagemBotId
+						? {
+							...mensagem,
+							texto: mensagemResposta,
+							carregandoResposta: false,
+							carregandoAudio: true,
+						}
+						: mensagem,
+				),
+			);
 
 			try {
 				const audio = await ApiService.gerarAudioResposta(mensagemResposta);
@@ -82,15 +98,23 @@ const MicButton = () => {
 					),
 				);
 			}
-		} catch {
-			setMensagens((mensagensAtuais) => [
-				...mensagensAtuais,
-				{
-					id: `msg_bot_erro_${Date.now()}`,
-					texto: "Não consegui falar com o assistente agora. Tente novamente em instantes.",
-					autor: "bot",
-				},
-			]);
+		} catch (error) {
+			const detalhe =
+				error instanceof Error && error.message
+					? ` Detalhe: ${error.message}`
+					: "";
+			setMensagens((mensagensAtuais) =>
+				mensagensAtuais.map((mensagem) =>
+					mensagem.id === mensagemBotId
+						? {
+							...mensagem,
+							texto: `Não consegui falar com o assistente agora. Tente novamente em instantes.${detalhe}`,
+							carregandoResposta: false,
+							carregandoAudio: false,
+						}
+						: mensagem,
+				),
+			);
 		}
 	};
 
@@ -171,6 +195,22 @@ const resolverUsuarioIdArtesa = (id?: string) => {
 	if (!id) return "01";
 	if (id.length === 1 && /^\d$/.test(id)) return id.padStart(2, "0");
 	return id;
+};
+
+const resolverPerfilAssistente = (pathname: string, id?: string) => {
+	if (pathname.startsWith("/perfil/")) {
+		return {
+			tipo_conta: "ARTESA",
+			usuario_id: resolverUsuarioIdArtesa(id),
+			origem: "chatbot_perfil_artesa",
+		};
+	}
+
+	return {
+		tipo_conta: "CLIENTE",
+		usuario_id: "cliente-demo",
+		origem: "chatbot_cliente",
+	};
 };
 
 export default MicButton;

@@ -1,5 +1,5 @@
 import { TAMANHO, CORES } from "@/util/constants";
-import { Badge, Box, Card, Flex, HStack, Image, Button, Skeleton } from "@chakra-ui/react";
+import { Badge, Box, Card, Flex, HStack, Image, Button, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
 
 interface ProdutoCardProps {
@@ -36,11 +36,20 @@ const ProdutoCard = ({ dadosProduto }: ProdutoCardProps) => {
 						borderRightRadius={0}
 					/>
 				) : (
-					<Skeleton
+					<Flex
 						alignSelf={"stretch"}
 						w={"30vw"}
 						borderRightRadius={0}
-					/>
+						bgColor={CORES.CINZA_CLARINHO}
+						alignItems="center"
+						justifyContent="center"
+						textAlign="center"
+						px={2}
+					>
+						<Text color={CORES.CINZA_ESCURO} fontSize={TAMANHO.TEXTO_PEQUENO} fontWeight="bold">
+							foto não adicionada
+						</Text>
+					</Flex>
 				)}
 
 				<Box flex={1}>

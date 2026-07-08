@@ -46,7 +46,7 @@ const normalizarProdutoBackend = (produto: ProdutoComercializacaoItem): Produto 
 
 const normalizarImagemProduto = (imagem: string): string => {
   if (!imagem || imagem.startsWith('upload://')) {
-    return PRODUTOS_MOCK[0].imagemUrl;
+    return '';
   }
 
   return ApiService.montarUrlBackend(imagem);

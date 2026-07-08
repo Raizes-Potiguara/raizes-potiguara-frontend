@@ -5,6 +5,7 @@ export interface BalaoProps {
   msg: string;
   imagemUrl?: string;
   audioUrl?: string;
+  carregandoResposta?: boolean;
   carregandoAudio?: boolean;
   erroAudio?: boolean;
 }

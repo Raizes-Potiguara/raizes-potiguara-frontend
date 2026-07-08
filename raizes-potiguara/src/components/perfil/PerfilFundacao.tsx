@@ -1,21 +1,13 @@
 import { CORES, RADIUS_PADRAO_CARD, TAMANHO } from "@/util/constants";
 import { aplicarMascaraCnpj, aplicarMascaraTelefone } from "@/util/mascaras";
 import { ApiService } from "@/services/apiService";
-import { Avatar, Box, Button, Card, Center, Circle, CloseButton, Dialog, Field, Flex, Icon, Input, InputGroup, Stack, Text } from "@chakra-ui/react";
-import { Building2, Eye, EyeOff, LucidePlusCircle, Settings, Users } from "lucide-react";
+import { ARTESAS_DEMO, type ArtesaDemo } from "@/data/artesasDemo";
+import { Box, Button, Card, Center, Circle, CloseButton, Dialog, Field, Flex, Icon, Input, InputGroup, Stack, Text } from "@chakra-ui/react";
+import { Building2, Eye, EyeOff, LucidePlusCircle, Settings, Users, UsersRound } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toaster } from "@/components/ui/toaster";
 import { LuBuilding2, LuBadgeInfo, LuPhone, LuMail } from "react-icons/lu";
-
-interface ArtesaFundacao {
-	id: number;
-	uuid?: string | null;
-	nome: string;
-	aldeia?: string | null;
-	foto_url?: string | null;
-	produtos?: number;
-}
 
 const PerfilFundacao = () => {
 	const navigate = useNavigate();
@@ -32,14 +24,29 @@ const PerfilFundacao = () => {
 	});
 
 	const [draft, setDraft] = useState(dados);
-	const [artesas, setArtesas] = useState<ArtesaFundacao[]>([]);
+	const [artesas, setArtesas] = useState<ArtesaDemo[]>(ARTESAS_DEMO);
 
 	useEffect(() => {
 		const carregarDados = async () => {
 			try {
 				const listaArtesas = await ApiService.listarArtesasAdmin();
-				setArtesas(listaArtesas);
+				setArtesas(listaArtesas.length ? listaArtesas.map((artesa) => ({
+					id: artesa.id,
+					uuid: artesa.uuid || String(artesa.id),
+					nome: artesa.nome,
+					aldeia: artesa.aldeia || "Aldeia não informada",
+					descricao: "",
+					producao: "",
+					materiais: [],
+					chave_pix: "",
+					tipo_conta: "ARTESA",
+					foto: artesa.foto_url || "",
+					posicaoFoto: "center",
+					zoomFoto: 1,
+					produtos: 0,
+				})) : ARTESAS_DEMO);
 			} catch {
+				setArtesas(ARTESAS_DEMO);
 				console.error("Falha ao inicializar a tela.");
 			}
 		};
@@ -233,6 +240,26 @@ const PerfilFundacao = () => {
 								alignItems={"center"}
 								color={CORES.CINZA_ESCURO}
 								border={0}
+								onClick={() => navigate("/admin/visualizar-artesas")}
+								>
+									<Card.Body>
+									<Flex alignItems={"center"} gap={4}>
+										<Icon><UsersRound/></Icon>
+										<Text fontSize={TAMANHO.CORPO_TEXTO}>Visualizar Artesãs</Text>
+									</Flex>
+									</Card.Body>
+								</Card.Root>
+
+								<Card.Root
+								flexDirection="row"
+								boxShadow={"sm"}
+								bgColor={"white/40"}
+								overflow="hidden"
+								w={"full"}
+								h={"10vh"}
+								alignItems={"center"}
+								color={CORES.CINZA_ESCURO}
+								border={0}
 								onClick={() => navigate("/admin/cadastro")}
 								>
 									<Card.Body>
@@ -242,51 +269,6 @@ const PerfilFundacao = () => {
 									</Flex>
 									</Card.Body>
 								</Card.Root>
-								{artesas.map((artesa) => (
-									<Card.Root
-									key={artesa.uuid || artesa.id}
-									flexDirection="row"
-									boxShadow={"sm"}
-									bgColor={"white/40"}
-									overflow="hidden"
-									w={"full"}
-									h={"10vh"}
-									alignItems={"center"}
-									border={0}
-									>
-										<Card.Body p={4}  >
-										<Flex w={"full"} gap={4} placeContent={"space-between"}>
-
-										<Flex gap={4}>
-
-										<Avatar.Root>
-											<Avatar.Image src={artesa.foto_url || undefined} />
-											<Avatar.Fallback name={artesa.nome} />
-										</Avatar.Root>
-											<Flex flexDir={"column"}>
-												<Text fontSize={TAMANHO.CORPO_TEXTO}>{artesa.nome}</Text>
-												<Text
-														fontSize={TAMANHO.TEXTO_PEQUENO}
-														color={CORES.CINZA_ESCURO}>
-															{artesa.aldeia || "Aldeia não informada"} •{" "}
-															{artesa.produtos || 0} produtos
-												</Text>
-											</Flex>
-										</Flex>
-												<Button alignSelf={"end"}
-												rounded={"full"}
-												boxShadow={"sm"}
-												variant={"outline"}
-												color={CORES.CINZA_ESCURO}
-												borderColor={CORES.CINZA_CLARO}
-												onClick={() => navigate(`/perfil/${artesa.id}`)}
-												>
-													Abrir
-												</Button>
-											</Flex>
-										</Card.Body>
-									</Card.Root>
-								))}
 							</Stack>
 						</Card.Body>
 					</Card.Root>

@@ -4,6 +4,19 @@ const viteEnv = import.meta as ImportMeta & {
 	env?: Record<string, string | undefined>;
 };
 
+const resolverApiBaseUrl = () => {
+	const apiUrl = viteEnv.env?.VITE_API_BASE_URL;
+	if (apiUrl) {
+		return apiUrl;
+	}
+
+	if (typeof window !== "undefined" && window.location.hostname) {
+		return `${window.location.protocol}//${window.location.hostname}:8000/api/v1`;
+	}
+
+	return "http://localhost:8000/api/v1";
+};
+
 export interface CadastrarArtesaAdminPayload {
 	tipo_conta: string;
 	nome: string;
@@ -55,6 +68,22 @@ export interface ProdutoComercializacaoItem {
 	tags: string[];
 }
 
+export interface PedidoComercializacaoItem {
+	id: number;
+	nome_comprador: string;
+	contato_comprador?: string | null;
+	observacao?: string | null;
+	valor_total: string | number;
+	status: string;
+	itens: {
+		id: number;
+		produto_id: number;
+		quantidade: number;
+		preco_unitario: string | number;
+		subtotal: string | number;
+	}[];
+}
+
 export interface AssistentePayload {
 	texto: string;
 	tipo_conta: string;
@@ -80,9 +109,7 @@ export interface VozRespostaResponse {
 
 export class ApiService {
 	private static readonly URL = "API_URL";
-	private static readonly API_BASE_URL = (
-		viteEnv.env?.VITE_API_BASE_URL || "http://localhost:8000/api/v1"
-	).replace(/\/$/, "");
+	private static readonly API_BASE_URL = resolverApiBaseUrl().replace(/\/$/, "");
 	private static readonly BACKEND_BASE_URL = this.API_BASE_URL.replace(/\/api\/v1$/, "");
 
 	static async request<T>(action: string, dados: any = {}, arquivo?: File | null): Promise<T> {
@@ -226,6 +253,22 @@ export class ApiService {
 			}
 
 			return data as ProdutoComercializacaoItem[];
+		} catch (error: any) {
+			this.handleError(error);
+			throw error;
+		}
+	}
+
+	static async listarPedidosTalita(): Promise<PedidoComercializacaoItem[]> {
+		try {
+			const response = await fetch(`${this.API_BASE_URL}/comercializacao/pedidos/talita`);
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.message || data.detail || "Erro ao buscar pedidos da Talita.");
+			}
+
+			return data as PedidoComercializacaoItem[];
 		} catch (error: any) {
 			this.handleError(error);
 			throw error;

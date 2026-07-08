@@ -8,6 +8,7 @@ const BalaoBot = (
   {
     msg,
     audioUrl,
+    carregandoResposta,
     carregandoAudio,
     erroAudio,
   }: BalaoProps
@@ -45,7 +46,12 @@ const BalaoBot = (
           borderRadius: "2px",
         }}
       >
-        {audioUrl ? (
+        {carregandoResposta ? (
+          <Box display="flex" alignItems="center" gap={2}>
+            <Spinner size="sm" />
+            <Text fontSize={TAMANHO.TEXTO_PEQUENO}>Preparando resposta...</Text>
+          </Box>
+        ) : audioUrl ? (
           <Box display="flex" flexDir="column" alignItems="flex-start" gap={2}>
             <Box display="flex" alignItems="center" gap={2}>
               <audio ref={audioRef} src={audioUrl} preload="auto" />
