@@ -1,21 +1,5 @@
 import { toaster } from "@/components/ui/toaster";
-
-const viteEnv = import.meta as ImportMeta & {
-	env?: Record<string, string | undefined>;
-};
-
-const resolverApiBaseUrl = () => {
-	const apiUrl = viteEnv.env?.VITE_API_BASE_URL;
-	if (apiUrl) {
-		return apiUrl;
-	}
-
-	if (typeof window !== "undefined" && window.location.hostname) {
-		return `${window.location.protocol}//${window.location.hostname}:8000/api/v1`;
-	}
-
-	return "http://localhost:8000/api/v1";
-};
+import { apiUrl, BACKEND_BASE_URL, NGROK_HEADERS } from "@/config/api";
 
 export interface CadastrarArtesaAdminPayload {
 	tipo_conta: string;
@@ -107,59 +91,40 @@ export interface VozRespostaResponse {
 	modelo: string;
 }
 
+export interface TesteConexaoBackend {
+	ok: boolean;
+	url: string;
+	status?: number;
+	mensagem: string;
+	detalhe?: string;
+}
+
 export class ApiService {
-	private static readonly URL = "API_URL";
-	private static readonly API_BASE_URL = resolverApiBaseUrl().replace(/\/$/, "");
-	private static readonly BACKEND_BASE_URL = this.API_BASE_URL.replace(/\/api\/v1$/, "");
 	private static readonly REQUEST_TIMEOUT_MS = 90000;
 
 	static async request<T>(action: string, dados: any = {}, arquivo?: File | null): Promise<T> {
-		const formData = new FormData();
-
-		formData.append("payload", JSON.stringify({ action, ...dados }));
-
-		if (arquivo) {
-			formData.append("file", arquivo);
-		}
-
-		try {
-			const response = await fetch(this.URL, {
-				method: "POST",
-				body: formData,
-			});
-
-			const data = await response.json();
-
-			if (!response.ok) {
-				throw new Error(data.message || "Erro inesperado na comunicação");
-			}
-
-			return data as T;
-		} catch (error: any) {
-			this.handleError(error);
-			throw error;
-		}
+		console.warn("ApiService.request legado chamado sem endpoint real.", { action, dados, arquivo });
+		throw new Error("Esta ação ainda não possui endpoint integrado ao backend.");
 	}
 
 	static async cadastrarArtesaAdmin(
 		dados: CadastrarArtesaAdminPayload,
 	): Promise<CadastrarArtesaAdminResponse> {
 		try {
-			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/admin/artesas`, {
+			const response = await this.fetchComTimeout(apiUrl("/admin/artesas"), {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					"ngrok-skip-browser-warning": "true",
+					...NGROK_HEADERS,
 				},
 				body: JSON.stringify(dados),
 			});
 
-			const data = await response.json();
-
 			if (!response.ok) {
-				throw new Error(data.message || data.detail || "Erro inesperado na comunicação");
+				await this.lancarErroHttp(response);
 			}
 
+			const data = await response.json();
 			return data as CadastrarArtesaAdminResponse;
 		} catch (error: any) {
 			this.handleError(error);
@@ -169,17 +134,15 @@ export class ApiService {
 
 	static async listarArtesasAdmin(): Promise<ArtesaAdminListItem[]> {
 		try {
-			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/comercializacao/artesas`, {
-				headers: {
-					"ngrok-skip-browser-warning": "true",
-				},
+			const response = await this.fetchComTimeout(apiUrl("/comercializacao/artesas"), {
+				headers: NGROK_HEADERS,
 			});
-			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message || data.detail || "Erro inesperado na comunicação");
+				await this.lancarErroHttp(response);
 			}
 
+			const data = await response.json();
 			return data as ArtesaAdminListItem[];
 		} catch (error: any) {
 			this.handleError(error);
@@ -207,19 +170,17 @@ export class ApiService {
 		}
 
 		try {
-			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/assistente`, {
+			const response = await this.fetchComTimeout(apiUrl("/assistente"), {
 				method: "POST",
-				headers: {
-					"ngrok-skip-browser-warning": "true",
-				},
+				headers: NGROK_HEADERS,
 				body: formData,
 			});
-			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message || data.detail || "Erro inesperado na comunicação");
+				await this.lancarErroHttp(response);
 			}
 
+			const data = await response.json();
 			return data as AssistenteResponse;
 		} catch (error: any) {
 			this.handleError(error);
@@ -229,20 +190,20 @@ export class ApiService {
 
 	static async gerarAudioResposta(texto: string): Promise<VozRespostaResponse> {
 		try {
-			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/voz/resposta`, {
+			const response = await this.fetchComTimeout(apiUrl("/voz/resposta"), {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					"ngrok-skip-browser-warning": "true",
+					...NGROK_HEADERS,
 				},
 				body: JSON.stringify({ texto }),
 			});
-			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message || data.detail?.message || "Erro ao gerar áudio.");
+				await this.lancarErroHttp(response);
 			}
 
+			const data = await response.json();
 			return {
 				...data,
 				audio_url: this.montarUrlBackend(data.audio_url),
@@ -255,17 +216,15 @@ export class ApiService {
 
 	static async listarProdutosComercializacao(): Promise<ProdutoComercializacaoItem[]> {
 		try {
-			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/comercializacao/produtos`, {
-				headers: {
-					"ngrok-skip-browser-warning": "true",
-				},
+			const response = await this.fetchComTimeout(apiUrl("/comercializacao/produtos"), {
+				headers: NGROK_HEADERS,
 			});
-			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message || data.detail || "Erro ao buscar produtos.");
+				await this.lancarErroHttp(response);
 			}
 
+			const data = await response.json();
 			return data as ProdutoComercializacaoItem[];
 		} catch (error: any) {
 			this.handleError(error);
@@ -275,17 +234,15 @@ export class ApiService {
 
 	static async listarPedidosTalita(): Promise<PedidoComercializacaoItem[]> {
 		try {
-			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/comercializacao/pedidos/talita`, {
-				headers: {
-					"ngrok-skip-browser-warning": "true",
-				},
+			const response = await this.fetchComTimeout(apiUrl("/comercializacao/pedidos/talita"), {
+				headers: NGROK_HEADERS,
 			});
-			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message || data.detail || "Erro ao buscar pedidos da Talita.");
+				await this.lancarErroHttp(response);
 			}
 
+			const data = await response.json();
 			return data as PedidoComercializacaoItem[];
 		} catch (error: any) {
 			this.handleError(error);
@@ -308,7 +265,36 @@ export class ApiService {
 			return url;
 		}
 
-		return `${this.BACKEND_BASE_URL}${url.startsWith("/") ? url : `/${url}`}`;
+		return `${BACKEND_BASE_URL}${url.startsWith("/") ? url : `/${url}`}`;
+	}
+
+	static async testarConexaoBackend(): Promise<TesteConexaoBackend> {
+		const url = apiUrl("/health");
+		try {
+			const response = await this.fetchComTimeout(url, {
+				headers: NGROK_HEADERS,
+			}, 15000);
+			const detalhe = await response.text();
+
+			return {
+				ok: response.ok,
+				url,
+				status: response.status,
+				mensagem: response.ok
+					? "Backend conectado com sucesso."
+					: "Não foi possível conectar ao backend.",
+				detalhe,
+			};
+		} catch (error) {
+			const mensagem = error instanceof Error ? error.message : "Erro desconhecido.";
+			console.error("Erro ao chamar backend:", error);
+			return {
+				ok: false,
+				url,
+				mensagem: "Não foi possível conectar ao backend.",
+				detalhe: mensagem,
+			};
+		}
 	}
 
 	private static async fetchComTimeout(
@@ -332,5 +318,10 @@ export class ApiService {
 		} finally {
 			window.clearTimeout(timeout);
 		}
+	}
+
+	private static async lancarErroHttp(response: Response): Promise<never> {
+		const text = await response.text();
+		throw new Error(`Erro ${response.status}: ${text || response.statusText}`);
 	}
 }

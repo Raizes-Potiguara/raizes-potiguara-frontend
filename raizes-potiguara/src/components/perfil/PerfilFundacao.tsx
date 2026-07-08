@@ -25,6 +25,15 @@ const PerfilFundacao = () => {
 
 	const [draft, setDraft] = useState(dados);
 	const [artesas, setArtesas] = useState<ArtesaDemo[]>(ARTESAS_DEMO);
+	const [testeBackend, setTesteBackend] = useState<{
+		carregando: boolean;
+		mensagem: string;
+		detalhe?: string;
+		ok?: boolean;
+	}>({
+		carregando: false,
+		mensagem: "",
+	});
 
 	useEffect(() => {
 		const carregarDados = async () => {
@@ -98,6 +107,22 @@ const PerfilFundacao = () => {
 		} catch {
 
 		}
+	};
+
+	const testarConexaoBackend = async () => {
+		setTesteBackend({
+			carregando: true,
+			mensagem: "Testando conexão...",
+		});
+
+		const resultado = await ApiService.testarConexaoBackend();
+
+		setTesteBackend({
+			carregando: false,
+			mensagem: resultado.mensagem,
+			detalhe: `${resultado.status ? `Status ${resultado.status} · ` : ""}${resultado.url}`,
+			ok: resultado.ok,
+		});
 	};
 
 	return (
@@ -230,6 +255,47 @@ const PerfilFundacao = () => {
 							</Flex>
 
 							<Stack gap={3}>
+								<Card.Root
+								boxShadow={"sm"}
+								bgColor={"white/40"}
+								overflow="hidden"
+								w={"full"}
+								color={CORES.CINZA_ESCURO}
+								border={0}
+								>
+									<Card.Body>
+									<Flex flexDir="column" gap={2}>
+										<Button
+											size="sm"
+											rounded="full"
+											variant="outline"
+											borderColor={CORES.CINZA_CLARO}
+											color={CORES.PRETO}
+											loading={testeBackend.carregando}
+											onClick={testarConexaoBackend}
+										>
+											Testar conexão com backend
+										</Button>
+										{testeBackend.mensagem && (
+											<Box>
+												<Text
+													fontSize={TAMANHO.TEXTO_PEQUENO}
+													fontWeight="bold"
+													color={testeBackend.ok ? CORES.CINZA_ESCURO : CORES.VERMELHO_MEDIO}
+												>
+													{testeBackend.mensagem}
+												</Text>
+												{testeBackend.detalhe && (
+													<Text fontSize={TAMANHO.TEXTO_PEQUENO} color={CORES.CINZA_ESCURO}>
+														{testeBackend.detalhe}
+													</Text>
+												)}
+											</Box>
+										)}
+									</Flex>
+									</Card.Body>
+								</Card.Root>
+
 								<Card.Root
 								flexDirection="row"
 								boxShadow={"sm"}
