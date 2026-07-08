@@ -75,6 +75,7 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 
 			const mensagemResposta =
 				resposta.mensagem || "Não consegui entender agora. Pode tentar de novo?";
+			const textoAudio = selecionarTextoParaAudio(resposta, mensagemResposta);
 
 			setMensagens((mensagensAtuais) =>
 				mensagensAtuais.map((mensagem) =>
@@ -90,7 +91,7 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 			);
 
 			try {
-				const audio = await ApiService.gerarAudioResposta(mensagemResposta);
+				const audio = await ApiService.gerarAudioResposta(textoAudio);
 
 				setMensagens((mensagensAtuais) =>
 					mensagensAtuais.map((mensagem) =>
@@ -103,7 +104,8 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 							: mensagem,
 					),
 				);
-			} catch {
+			} catch (error) {
+				console.error("Erro ao gerar áudio da resposta:", error);
 				setMensagens((mensagensAtuais) =>
 					mensagensAtuais.map((mensagem) =>
 						mensagem.id === mensagemBotId
@@ -251,6 +253,17 @@ const resolverPerfilAssistente = (pathname: string, id?: string) => {
 		usuario_id: "cliente-demo",
 		origem: "chatbot_cliente",
 	};
+};
+
+const selecionarTextoParaAudio = (resposta: Record<string, unknown>, mensagem: string) => {
+	const resumo = typeof resposta.resumo_curto === "string" ? resposta.resumo_curto.trim() : "";
+	const texto = resumo || mensagem;
+
+	if (texto.length <= 900) {
+		return texto;
+	}
+
+	return `${texto.slice(0, 897).trim()}...`;
 };
 
 export default MicButton;

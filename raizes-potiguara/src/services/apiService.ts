@@ -204,6 +204,10 @@ export class ApiService {
 			}
 
 			const data = await response.json();
+			if (!data.audio_url) {
+				throw new Error("O backend não retornou a URL do áudio.");
+			}
+
 			return {
 				...data,
 				audio_url: this.montarUrlBackend(data.audio_url),
