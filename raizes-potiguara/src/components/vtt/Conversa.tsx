@@ -13,6 +13,8 @@ export interface MensagemChat {
 	carregandoResposta?: boolean;
 	carregandoAudio?: boolean;
 	erroAudio?: boolean;
+	audioStatus?: "gerando" | "pronto" | "tocando" | "erro";
+	audioErro?: string;
 }
 
 interface ConversaProps {
@@ -41,6 +43,8 @@ const Conversa = ({ mensagens }: ConversaProps) => {
 								carregandoResposta={msg.carregandoResposta}
 								carregandoAudio={msg.carregandoAudio}
 								erroAudio={msg.erroAudio}
+								audioStatus={msg.audioStatus}
+								audioErro={msg.audioErro}
 							/>
 						</MessageAnimation>
 					);

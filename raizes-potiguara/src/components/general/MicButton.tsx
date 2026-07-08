@@ -86,6 +86,8 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 							carregandoAudio: true,
 							erroAudio: false,
 							audioUrl: undefined,
+							audioStatus: "gerando",
+							audioErro: undefined,
 						}
 						: mensagem,
 				),
@@ -93,6 +95,19 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 
 			try {
 				const audio = await ApiService.gerarAudioResposta(mensagemResposta);
+				console.log("[TTS] resposta backend:", audio);
+				console.log("[TTS] audioUrl final:", audio.audio_url);
+
+				let audioStatus: "pronto" | "tocando" | "erro" = "pronto";
+				let audioErro: string | undefined;
+				try {
+					await tocarAudioImediatamente(audio.audio_url);
+					audioStatus = "tocando";
+				} catch (error) {
+					audioStatus = "erro";
+					audioErro = "Não foi possível tocar o áudio agora. Tente novamente.";
+					console.error("[TTS] erro ao tocar áudio:", error);
+				}
 
 				setMensagens((mensagensAtuais) =>
 					mensagensAtuais.map((mensagem) =>
@@ -103,6 +118,8 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 								carregandoResposta: false,
 								carregandoAudio: false,
 								erroAudio: false,
+								audioStatus,
+								audioErro,
 							}
 							: mensagem,
 					),
@@ -116,6 +133,8 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 								...mensagem,
 								carregandoAudio: false,
 								erroAudio: true,
+								audioStatus: "erro",
+								audioErro: "Não foi possível gerar áudio agora.",
 							}
 							: mensagem,
 					),
@@ -234,6 +253,17 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 			</Dialog.Root>
 		</>
 	);
+};
+
+const tocarAudioImediatamente = async (audioUrl: string) => {
+	if (!audioUrl) {
+		throw new Error("Resposta de voz sem audio_url.");
+	}
+
+	console.log("[TTS] tentando tocar:", audioUrl);
+	const audio = new Audio(audioUrl);
+	audio.preload = "auto";
+	await audio.play();
 };
 
 const resolverUsuarioIdArtesa = (id?: string) => {

@@ -12,11 +12,23 @@ const resolverApiBaseUrl = () => {
 };
 
 export const API_BASE_URL = resolverApiBaseUrl().replace(/\/+$/, "");
-export const BACKEND_BASE_URL = API_BASE_URL.replace(/\/api\/v1$/, "");
+
+export const getBackendOrigin = () => API_BASE_URL.replace(/\/api\/v1\/?$/, "");
+export const BACKEND_BASE_URL = getBackendOrigin();
 
 export const apiUrl = (path: string) => {
 	const cleanPath = path.replace(/^\/+/, "");
 	return `${API_BASE_URL}/${cleanPath}`;
+};
+
+export const resolveBackendAssetUrl = (url: string) => {
+	if (!url) return "";
+	if (url.startsWith("http://") || url.startsWith("https://")) {
+		return url;
+	}
+
+	const cleanPath = url.startsWith("/") ? url : `/${url}`;
+	return `${getBackendOrigin()}${cleanPath}`;
 };
 
 export const NGROK_HEADERS = {
@@ -26,3 +38,5 @@ export const NGROK_HEADERS = {
 if (import.meta.env.DEV) {
 	console.log("API_BASE_URL:", API_BASE_URL);
 }
+
+console.log("[Ybira Front] build com correção de áudio ativo", { API_BASE_URL });

@@ -11,21 +11,42 @@ const BalaoBot = (
     carregandoResposta,
     carregandoAudio,
     erroAudio,
+    audioStatus,
+    audioErro,
   }: BalaoProps
 ) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [mostrarTranscricao, setMostrarTranscricao] = useState(false);
+  const [estadoPlay, setEstadoPlay] = useState<"parado" | "tocando" | "erro">("parado");
 
-  const tocarAudio = () => {
+  console.log("[BalaoBot] audioUrl recebido:", audioUrl);
+
+  const tocarAudio = async () => {
+    if (!audioUrl) return;
+
+    console.log("[TTS] tentando tocar:", audioUrl);
     const audio = audioRef.current;
     if (audio) {
-      audio.currentTime = 0;
-      void audio.play();
-      return;
+      try {
+        setEstadoPlay("tocando");
+        audio.src = audioUrl;
+        audio.currentTime = 0;
+        audio.load();
+        await audio.play();
+        return;
+      } catch (error) {
+        console.error("[TTS] erro ao tocar áudio:", error);
+      }
     }
 
-    if (audioUrl) {
-      void new Audio(audioUrl).play();
+    try {
+      setEstadoPlay("tocando");
+      const audioDireto = new Audio(audioUrl);
+      audioDireto.preload = "auto";
+      await audioDireto.play();
+    } catch (error) {
+      setEstadoPlay("erro");
+      console.error("[TTS] erro ao tocar áudio:", error);
     }
   };
 
@@ -59,7 +80,17 @@ const BalaoBot = (
         ) : audioUrl ? (
           <Box display="flex" flexDir="column" alignItems="flex-start" gap={2}>
             <Box display="flex" alignItems="center" gap={2}>
-              <audio ref={audioRef} src={audioUrl} preload="auto" />
+              <audio
+                ref={audioRef}
+                src={audioUrl}
+                preload="auto"
+                onEnded={() => setEstadoPlay("parado")}
+                onPause={() => setEstadoPlay("parado")}
+                onError={(event) => {
+                  setEstadoPlay("erro");
+                  console.error("[TTS] erro no elemento audio:", event);
+                }}
+              />
               <IconButton
                 aria-label="Ouvir resposta"
                 rounded="full"
@@ -71,6 +102,15 @@ const BalaoBot = (
                 <Volume2 size={22} />
               </IconButton>
             </Box>
+            <Text fontSize={TAMANHO.TEXTO_PEQUENO} color={estadoPlay === "erro" ? CORES.VERMELHO_CLARINHO : CORES.CINZA_CLARO}>
+              {estadoPlay === "tocando"
+                ? "Reproduzindo..."
+                : estadoPlay === "erro"
+                  ? "Não foi possível tocar."
+                  : audioStatus === "pronto"
+                    ? "Áudio pronto."
+                    : ""}
+            </Text>
             <Button
               size="xs"
               variant="ghost"
@@ -97,7 +137,7 @@ const BalaoBot = (
         ) : erroAudio ? (
           <Box display="flex" flexDir="column" gap={2}>
             <Text fontSize={TAMANHO.TEXTO_PEQUENO} color={CORES.CINZA_CLARO}>
-              Não foi possível gerar áudio agora.
+              {audioErro || "Não foi possível gerar áudio agora."}
             </Text>
             <Text fontSize={TAMANHO.CORPO_TEXTO}>{msg}</Text>
           </Box>

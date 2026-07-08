@@ -1,5 +1,5 @@
 import { toaster } from "@/components/ui/toaster";
-import { apiUrl, BACKEND_BASE_URL, NGROK_HEADERS } from "@/config/api";
+import { apiUrl, NGROK_HEADERS, resolveBackendAssetUrl } from "@/config/api";
 
 export interface CadastrarArtesaAdminPayload {
 	tipo_conta: string;
@@ -89,6 +89,7 @@ export interface VozRespostaResponse {
 	audio_url: string;
 	mime_type: string;
 	modelo: string;
+	raw_audio_url?: string;
 }
 
 export interface TesteConexaoBackend {
@@ -208,9 +209,14 @@ export class ApiService {
 				throw new Error("O backend não retornou a URL do áudio.");
 			}
 
+			const finalAudioUrl = this.montarUrlBackend(data.audio_url);
+			console.log("[TTS] resposta backend:", data);
+			console.log("[TTS] audioUrl final:", finalAudioUrl);
+
 			return {
 				...data,
-				audio_url: this.montarUrlBackend(data.audio_url),
+				raw_audio_url: data.audio_url,
+				audio_url: finalAudioUrl,
 			} as VozRespostaResponse;
 		} catch (error: any) {
 			this.handleError(error);
@@ -265,11 +271,7 @@ export class ApiService {
 	}
 
 	static montarUrlBackend(url: string) {
-		if (url.startsWith("http://") || url.startsWith("https://")) {
-			return url;
-		}
-
-		return `${BACKEND_BASE_URL}${url.startsWith("/") ? url : `/${url}`}`;
+		return resolveBackendAssetUrl(url);
 	}
 
 	static async testarConexaoBackend(): Promise<TesteConexaoBackend> {

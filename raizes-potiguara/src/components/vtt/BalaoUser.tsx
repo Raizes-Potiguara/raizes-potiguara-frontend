@@ -8,6 +8,8 @@ export interface BalaoProps {
   carregandoResposta?: boolean;
   carregandoAudio?: boolean;
   erroAudio?: boolean;
+  audioStatus?: "gerando" | "pronto" | "tocando" | "erro";
+  audioErro?: string;
 }
 
 const BalaoUser = (
