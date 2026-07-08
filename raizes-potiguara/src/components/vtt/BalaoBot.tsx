@@ -89,10 +89,15 @@ const BalaoBot = (
             <Spinner size="sm" />
             <Text fontSize={TAMANHO.TEXTO_PEQUENO}>Preparando áudio...</Text>
           </Box>
+        ) : erroAudio ? (
+          <Box display="flex" flexDir="column" gap={2}>
+            <Text fontSize={TAMANHO.TEXTO_PEQUENO} color={CORES.CINZA_CLARO}>
+              Não foi possível gerar áudio agora.
+            </Text>
+            <Text fontSize={TAMANHO.CORPO_TEXTO}>{msg}</Text>
+          </Box>
         ) : (
-          <Text fontSize={erroAudio ? TAMANHO.TEXTO_PEQUENO : TAMANHO.CORPO_TEXTO}>
-            {erroAudio ? "Não foi possível gerar áudio agora." : msg}
-          </Text>
+          <Text fontSize={TAMANHO.CORPO_TEXTO}>{msg}</Text>
         )}
       </Box>
     </Box>

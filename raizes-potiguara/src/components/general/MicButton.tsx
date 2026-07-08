@@ -83,15 +83,11 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 							...mensagem,
 							texto: mensagemResposta,
 							carregandoResposta: false,
-							carregandoAudio: variant !== "home",
+							carregandoAudio: true,
 						}
 						: mensagem,
 				),
 			);
-
-			if (variant === "home") {
-				return;
-			}
 
 			try {
 				const audio = await ApiService.gerarAudioResposta(mensagemResposta);
