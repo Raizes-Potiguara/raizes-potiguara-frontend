@@ -97,11 +97,13 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 				const audio = await ApiService.gerarAudioResposta(mensagemResposta);
 				console.log("[TTS] resposta backend:", audio);
 				console.log("[TTS] audioUrl final:", audio.audio_url);
+				const audioTocavelUrl = await ApiService.criarUrlAudioTocavel(audio.audio_url);
+				console.log("[TTS] audioUrl tocável:", audioTocavelUrl);
 
 				let audioStatus: "pronto" | "tocando" | "erro" = "pronto";
 				let audioErro: string | undefined;
 				try {
-					await tocarAudioImediatamente(audio.audio_url);
+					await tocarAudioImediatamente(audioTocavelUrl);
 					audioStatus = "tocando";
 				} catch (error) {
 					audioStatus = "erro";
@@ -114,7 +116,7 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 						mensagem.id === mensagemBotId
 							? {
 								...mensagem,
-								audioUrl: audio.audio_url,
+								audioUrl: audioTocavelUrl,
 								carregandoResposta: false,
 								carregandoAudio: false,
 								erroAudio: false,

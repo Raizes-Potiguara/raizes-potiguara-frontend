@@ -224,6 +224,31 @@ export class ApiService {
 		}
 	}
 
+	static async criarUrlAudioTocavel(audioUrl: string): Promise<string> {
+		const finalAudioUrl = this.montarUrlBackend(audioUrl);
+		console.log("[TTS] baixando áudio para blob:", finalAudioUrl);
+
+		const response = await this.fetchComTimeout(finalAudioUrl, {
+			headers: NGROK_HEADERS,
+		});
+
+		if (!response.ok) {
+			await this.lancarErroHttp(response);
+		}
+
+		const blob = await response.blob();
+		if (!blob.size) {
+			throw new Error("Arquivo de áudio vazio.");
+		}
+
+		const blobUrl = URL.createObjectURL(blob);
+		console.log("[TTS] blobUrl final:", blobUrl, {
+			type: blob.type,
+			size: blob.size,
+		});
+		return blobUrl;
+	}
+
 	static async listarProdutosComercializacao(): Promise<ProdutoComercializacaoItem[]> {
 		try {
 			const response = await this.fetchComTimeout(apiUrl("/comercializacao/produtos"), {
