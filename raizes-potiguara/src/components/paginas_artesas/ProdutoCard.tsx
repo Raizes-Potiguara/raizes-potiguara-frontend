@@ -1,56 +1,100 @@
 import { TAMANHO, CORES } from "@/util/constants";
-import { Badge, Box, Card, Flex, HStack, Image, Button, Skeleton } from "@chakra-ui/react";
+import { Badge, Box, Card, Flex, HStack, Image, Button, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
 
-const ProdutoCard = () => {
+interface ProdutoCardProps {
+	dadosProduto: {
+		id: string | number;
+		nome: string;
+		foto_url?: string;
+		tags?: string[];
+	};
+}
 
-    const navigate = useNavigate();
-    const idProd = 1; //mock
+const ProdutoCard = ({ dadosProduto }: ProdutoCardProps) => {
+	const navigate = useNavigate();
 
-  return (
-    <>
+	return (
+		<>
+			<Card.Root
+				flexDirection="row"
+				boxShadow={"sm"}
+				bgColor={"white/40"}
+				overflow="hidden"
+				w={"full"}
+				h={"20vh"}
+				alignItems={"center"}
+				border={0}
+			>
+				{dadosProduto.foto_url ? (
+					<Image
+						src={dadosProduto.foto_url}
+						alt={dadosProduto.nome}
+						objectFit="cover"
+						alignSelf={"stretch"}
+						w={"30vw"}
+						borderRightRadius={0}
+					/>
+				) : (
+					<Flex
+						alignSelf={"stretch"}
+						w={"30vw"}
+						borderRightRadius={0}
+						bgColor={CORES.CINZA_CLARINHO}
+						alignItems="center"
+						justifyContent="center"
+						textAlign="center"
+						px={2}
+					>
+						<Text color={CORES.CINZA_ESCURO} fontSize={TAMANHO.TEXTO_PEQUENO} fontWeight="bold">
+							foto não adicionada
+						</Text>
+					</Flex>
+				)}
 
-        <Card.Root 
-        flexDirection="row" 
-        boxShadow={"sm"}
-        bgColor={"white/40"}
-        overflow="hidden" 
-        w={"full"}
-        h={"20vh"}
-        alignItems={"center"}
-        border={0}
-        >
-        <Skeleton
-            objectFit="cover"
-            alignSelf={"stretch"}
-            w={"30vw"}
-            borderRightRadius={0}
-       />
-        <Box>
-            <Card.Body p={4}>
-            <Card.Title fontSize={TAMANHO.TEXTO_GRANDE}>Nome da Peça</Card.Title>
-            <Flex flexDir={"column"} mt={1} gap={3}>
-            <HStack>
-                <Badge bgColor={CORES.VERMELHO_CLARINHO}>Categoria 1</Badge>
-                <Badge bgColor={CORES.VERMELHO_CLARINHO}>Categoria 2</Badge>
-            </HStack>
-            <Button 
-            rounded={"full"}
-            boxShadow={"sm"}
-            variant={"outline"}
-            color={CORES.CINZA_ESCURO}
-            borderColor={CORES.CINZA_CLARO}
-            onClick={()=>navigate(`${idProd}`)}
-            >
-                Editar
-            </Button>
-            </Flex>
-            </Card.Body>
-        </Box>
-        </Card.Root>
+				<Box flex={1}>
+					<Card.Body p={4}>
+						<Card.Title
+							fontSize={TAMANHO.TEXTO_GRANDE}
+							whiteSpace="nowrap"
+							overflow="hidden"
+							textOverflow="ellipsis"
+						>
+							{dadosProduto.nome}
+						</Card.Title>
 
-    </>
-  );
+						<Flex flexDir={"column"} mt={1} gap={3}>
+							<HStack flexWrap="wrap">
+								{dadosProduto.tags && dadosProduto.tags.length > 0 ? (
+									dadosProduto.tags.map((tag, index) => (
+										<Badge key={index} bgColor={CORES.VERMELHO_CLARINHO}>
+											{tag}
+										</Badge>
+									))
+								) : (
+									<Badge bgColor={CORES.CINZA_CLARO} color={CORES.CINZA_ESCURO}>
+										Sem tags
+									</Badge>
+								)}
+							</HStack>
+
+							<Button
+								rounded={"full"}
+								boxShadow={"sm"}
+								variant={"outline"}
+								color={CORES.CINZA_ESCURO}
+								borderColor={CORES.CINZA_CLARO}
+								alignSelf="flex-start"
+								onClick={() => navigate(`${dadosProduto.id}`)}
+							>
+								Editar
+							</Button>
+						</Flex>
+					</Card.Body>
+				</Box>
+			</Card.Root>
+		</>
+	);
 };
 
 export default ProdutoCard;

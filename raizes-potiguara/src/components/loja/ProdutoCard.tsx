@@ -30,13 +30,30 @@ export const ProdutoCard: React.FC<ProdutoCardProps> = ({ produto, aoAdicionarAo
       _hover={{ transform: 'translateY(-4px)', boxShadow: '6px 6px 0px rgba(0,0,0,0.25)' }}
     >
       <Box h="220px" w="100%" borderBottom={`2px solid ${CORES.CINZA_CLARO}`} overflow="hidden">
-        <Image
-          src={produto.imagemUrl}
-          alt={produto.nomePortugues}
-          objectFit="cover"
-          w="100%"
-          h="100%"
-        />
+        {produto.imagemUrl ? (
+          <Image
+            src={produto.imagemUrl}
+            alt={produto.nomePortugues}
+            objectFit="cover"
+            w="100%"
+            h="100%"
+          />
+        ) : (
+          <Flex
+            bg={CORES.CINZA_CLARINHO}
+            color={CORES.CINZA_ESCURO}
+            align="center"
+            justify="center"
+            textAlign="center"
+            w="100%"
+            h="100%"
+            px={4}
+          >
+            <Text fontSize={`${TAMANHO.TEXTO_PEQUENO}px`} fontWeight="bold">
+              foto não adicionada
+            </Text>
+          </Flex>
+        )}
       </Box>
 
       <Flex direction="column" p={5} flex="1" gap={2}>

@@ -1,15 +1,19 @@
 import { CORES, TAMANHO } from "@/util/constants";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Image, Text } from "@chakra-ui/react";
 
 export interface BalaoProps {
-  key: string;
   msg: string;
+  imagemUrl?: string;
+  audioUrl?: string;
+  carregandoResposta?: boolean;
+  carregandoAudio?: boolean;
+  erroAudio?: boolean;
 }
 
 const BalaoUser = (
   {
-    key,
     msg,
+    imagemUrl,
   }: BalaoProps
 ) => {
   
@@ -35,7 +39,19 @@ const BalaoUser = (
           borderRadius: "2px",
         }}
       >
-        <Text fontSize={TAMANHO.CORPO_TEXTO}>{msg}</Text>
+        {imagemUrl && (
+          <Image
+            src={imagemUrl}
+            alt="Imagem enviada"
+            w="120px"
+            maxW="100%"
+            aspectRatio="4 / 3"
+            objectFit="cover"
+            rounded="lg"
+            mb={msg ? 2 : 0}
+          />
+        )}
+        {msg && <Text fontSize={TAMANHO.CORPO_TEXTO}>{msg}</Text>}
       </Box>
     </Box>
   );

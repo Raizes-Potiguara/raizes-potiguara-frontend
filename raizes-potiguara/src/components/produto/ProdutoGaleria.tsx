@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Image } from '@chakra-ui/react';
+import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { CORES, RADIUS_PADRAO_CARD } from '../../util/constants';
 import type { Produto } from '../../types/produto';
 
@@ -19,7 +19,22 @@ export const ProdutoGaleria: React.FC<ProdutoGaleriaProps> = ({ produto }) => {
       borderRadius={`${RADIUS_PADRAO_CARD}px`}
       overflow="hidden"
     >
-      <Image src={produto.imagemUrl} alt={produto.nomePortugues} objectFit="cover" w="100%" h="100%" />
+      {produto.imagemUrl ? (
+        <Image src={produto.imagemUrl} alt={produto.nomePortugues} objectFit="cover" w="100%" h="100%" />
+      ) : (
+        <Flex
+          bg={CORES.CINZA_CLARINHO}
+          color={CORES.CINZA_ESCURO}
+          align="center"
+          justify="center"
+          textAlign="center"
+          w="100%"
+          h="100%"
+          px={4}
+        >
+          <Text fontWeight="bold">foto não adicionada</Text>
+        </Flex>
+      )}
     </Box>
   );
 };

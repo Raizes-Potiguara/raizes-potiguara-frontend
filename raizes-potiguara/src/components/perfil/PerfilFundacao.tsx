@@ -1,8 +1,10 @@
 import { CORES, RADIUS_PADRAO_CARD, TAMANHO } from "@/util/constants";
 import { aplicarMascaraCnpj, aplicarMascaraTelefone } from "@/util/mascaras";
-import { Avatar, Box, Button, Card, Center, Circle, CloseButton, Dialog, Field, Flex, HStack, Icon, Image, Input, InputGroup, Stack, Text } from "@chakra-ui/react";
-import { Badge, Building2, Eye, EyeOff, LucidePlusCircle, Plus, Settings, Users } from "lucide-react";
-import { useState } from "react";
+import { ApiService } from "@/services/apiService";
+import { ARTESAS_DEMO, type ArtesaDemo } from "@/data/artesasDemo";
+import { Box, Button, Card, Center, Circle, CloseButton, Dialog, Field, Flex, Icon, Input, InputGroup, Stack, Text } from "@chakra-ui/react";
+import { Building2, Eye, EyeOff, LucidePlusCircle, Settings, Users, UsersRound } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toaster } from "@/components/ui/toaster";
 import { LuBuilding2, LuBadgeInfo, LuPhone, LuMail } from "react-icons/lu";
@@ -22,30 +24,35 @@ const PerfilFundacao = () => {
 	});
 
 	const [draft, setDraft] = useState(dados);
+	const [artesas, setArtesas] = useState<ArtesaDemo[]>(ARTESAS_DEMO);
 
-	const artesasMock = [
-		{
-			id: 1,
-			nome: "Emile Silva",
-			aldeia: "Aldeia Jacaré",
-			produtos: 12,
-			foto: "https://i.pravatar.cc/150?u=emile"
-		},
-		{
-			id: 2,
-			nome: "João Souza",
-			aldeia: "Aldeia Alto",
-			produtos: 5,
-			foto: "https://i.pravatar.cc/150?u=joao"
-		},
-		{
-			id: 3,
-			nome: "Leo Santos",
-			aldeia: "Aldeia Jacaré",
-			produtos: 8,
-			foto: "https://i.pravatar.cc/150?u=leo"
-		},
-	];
+	useEffect(() => {
+		const carregarDados = async () => {
+			try {
+				const listaArtesas = await ApiService.listarArtesasAdmin();
+				setArtesas(listaArtesas.length ? listaArtesas.map((artesa) => ({
+					id: artesa.id,
+					uuid: artesa.uuid || String(artesa.id),
+					nome: artesa.nome,
+					aldeia: artesa.aldeia || "Aldeia não informada",
+					descricao: "",
+					producao: "",
+					materiais: [],
+					chave_pix: "",
+					tipo_conta: "ARTESA",
+					foto: artesa.foto_url || "",
+					posicaoFoto: "center",
+					zoomFoto: 1,
+					produtos: 0,
+				})) : ARTESAS_DEMO);
+			} catch {
+				setArtesas(ARTESAS_DEMO);
+				console.error("Falha ao inicializar a tela.");
+			}
+		};
+
+		carregarDados();
+	}, []);
 
 	const abrirModal = () => {
 		setDraft(dados);
@@ -65,7 +72,7 @@ const PerfilFundacao = () => {
 		handleChange("telefone", aplicarMascaraTelefone(e.target.value));
 	};
 
-	const handleSalvarEdicao = () => {
+	const handleSalvarEdicao = async () => {
 		if (!draft.nome || !draft.cnpj || !draft.telefone || !draft.email) {
 			toaster.create({
 				title: "Campos obrigatórios",
@@ -76,15 +83,21 @@ const PerfilFundacao = () => {
 			return;
 		}
 
-		setDados(draft);
-		setModalAberto(false);
+		try {
+			await ApiService.request("ATUALIZAR_ADMIN", draft);
 
-		toaster.create({
-			title: "Sucesso!",
-			description: "Dados atualizados com sucesso.",
-			type: "success",
-			duration: 3000,
-		});
+			setDados(draft);
+			setModalAberto(false);
+
+			toaster.create({
+				title: "Sucesso!",
+				description: "Dados atualizados com sucesso.",
+				type: "success",
+				duration: 3000,
+			});
+		} catch {
+
+		}
 	};
 
 	return (
@@ -120,7 +133,7 @@ const PerfilFundacao = () => {
 						<Card.Body>
 							<Flex flexDir="column" align="center" mb={6}>
 								<Center>
-									<Text 
+									<Text
 									fontSize={TAMANHO.SUBTITULO_PAGINA}
 									fontWeight={"bold"}
 									textAlign={"center"}
@@ -200,7 +213,7 @@ const PerfilFundacao = () => {
 												fontSize={TAMANHO.SUBTITULO_SECAO}
 												fontWeight={900}
 											>
-												{artesasMock.length} cadastradas
+												{artesas.length} cadastradas
 											</Text>
 										</Box>
 									</Flex>
@@ -218,10 +231,30 @@ const PerfilFundacao = () => {
 
 							<Stack gap={3}>
 								<Card.Root
-								flexDirection="row" 
+								flexDirection="row"
 								boxShadow={"sm"}
 								bgColor={"white/40"}
-								overflow="hidden" 
+								overflow="hidden"
+								w={"full"}
+								h={"10vh"}
+								alignItems={"center"}
+								color={CORES.CINZA_ESCURO}
+								border={0}
+								onClick={() => navigate("/admin/visualizar-artesas")}
+								>
+									<Card.Body>
+									<Flex alignItems={"center"} gap={4}>
+										<Icon><UsersRound/></Icon>
+										<Text fontSize={TAMANHO.CORPO_TEXTO}>Visualizar Artesãs</Text>
+									</Flex>
+									</Card.Body>
+								</Card.Root>
+
+								<Card.Root
+								flexDirection="row"
+								boxShadow={"sm"}
+								bgColor={"white/40"}
+								overflow="hidden"
 								w={"full"}
 								h={"10vh"}
 								alignItems={"center"}
@@ -236,50 +269,6 @@ const PerfilFundacao = () => {
 									</Flex>
 									</Card.Body>
 								</Card.Root>
-								{artesasMock.map((artesa) => (
-									<Card.Root 
-									flexDirection="row" 
-									boxShadow={"sm"}
-									bgColor={"white/40"}
-									overflow="hidden" 
-									w={"full"}
-									h={"10vh"}
-									alignItems={"center"}
-									border={0}
-									>
-										<Card.Body p={4}  >
-										<Flex w={"full"} gap={4} placeContent={"space-between"}>
-										
-										<Flex gap={4}>
-										
-										<Avatar.Root>
-											<Avatar.Image src={artesa.foto} />
-											<Avatar.Fallback name={artesa.nome} />
-										</Avatar.Root>
-											<Flex flexDir={"column"}>
-												<Text fontSize={TAMANHO.CORPO_TEXTO}>{artesa.nome}</Text>
-												<Text
-														fontSize={TAMANHO.TEXTO_PEQUENO}
-														color={CORES.CINZA_ESCURO}>
-															{artesa.aldeia} •{" "}
-															{artesa.produtos} produtos
-												</Text>
-											</Flex>
-										</Flex>
-												<Button alignSelf={"end"} 
-												rounded={"full"}
-												boxShadow={"sm"}
-												variant={"outline"}
-												color={CORES.CINZA_ESCURO}
-												borderColor={CORES.CINZA_CLARO}
-												onClick={() => navigate(`/perfil/${artesa.id}`)}
-												>
-													Abrir
-												</Button>
-											</Flex>
-										</Card.Body>
-									</Card.Root>
-								))}
 							</Stack>
 						</Card.Body>
 					</Card.Root>
