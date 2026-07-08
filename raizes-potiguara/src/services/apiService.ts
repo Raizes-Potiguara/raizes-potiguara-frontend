@@ -111,6 +111,7 @@ export class ApiService {
 	private static readonly URL = "API_URL";
 	private static readonly API_BASE_URL = resolverApiBaseUrl().replace(/\/$/, "");
 	private static readonly BACKEND_BASE_URL = this.API_BASE_URL.replace(/\/api\/v1$/, "");
+	private static readonly REQUEST_TIMEOUT_MS = 90000;
 
 	static async request<T>(action: string, dados: any = {}, arquivo?: File | null): Promise<T> {
 		const formData = new FormData();
@@ -144,10 +145,11 @@ export class ApiService {
 		dados: CadastrarArtesaAdminPayload,
 	): Promise<CadastrarArtesaAdminResponse> {
 		try {
-			const response = await fetch(`${this.API_BASE_URL}/admin/artesas`, {
+			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/admin/artesas`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
+					"ngrok-skip-browser-warning": "true",
 				},
 				body: JSON.stringify(dados),
 			});
@@ -167,7 +169,11 @@ export class ApiService {
 
 	static async listarArtesasAdmin(): Promise<ArtesaAdminListItem[]> {
 		try {
-			const response = await fetch(`${this.API_BASE_URL}/comercializacao/artesas`);
+			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/comercializacao/artesas`, {
+				headers: {
+					"ngrok-skip-browser-warning": "true",
+				},
+			});
 			const data = await response.json();
 
 			if (!response.ok) {
@@ -201,8 +207,11 @@ export class ApiService {
 		}
 
 		try {
-			const response = await fetch(`${this.API_BASE_URL}/assistente`, {
+			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/assistente`, {
 				method: "POST",
+				headers: {
+					"ngrok-skip-browser-warning": "true",
+				},
 				body: formData,
 			});
 			const data = await response.json();
@@ -220,10 +229,11 @@ export class ApiService {
 
 	static async gerarAudioResposta(texto: string): Promise<VozRespostaResponse> {
 		try {
-			const response = await fetch(`${this.API_BASE_URL}/voz/resposta`, {
+			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/voz/resposta`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
+					"ngrok-skip-browser-warning": "true",
 				},
 				body: JSON.stringify({ texto }),
 			});
@@ -245,7 +255,11 @@ export class ApiService {
 
 	static async listarProdutosComercializacao(): Promise<ProdutoComercializacaoItem[]> {
 		try {
-			const response = await fetch(`${this.API_BASE_URL}/comercializacao/produtos`);
+			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/comercializacao/produtos`, {
+				headers: {
+					"ngrok-skip-browser-warning": "true",
+				},
+			});
 			const data = await response.json();
 
 			if (!response.ok) {
@@ -261,7 +275,11 @@ export class ApiService {
 
 	static async listarPedidosTalita(): Promise<PedidoComercializacaoItem[]> {
 		try {
-			const response = await fetch(`${this.API_BASE_URL}/comercializacao/pedidos/talita`);
+			const response = await this.fetchComTimeout(`${this.API_BASE_URL}/comercializacao/pedidos/talita`, {
+				headers: {
+					"ngrok-skip-browser-warning": "true",
+				},
+			});
 			const data = await response.json();
 
 			if (!response.ok) {
@@ -291,5 +309,28 @@ export class ApiService {
 		}
 
 		return `${this.BACKEND_BASE_URL}${url.startsWith("/") ? url : `/${url}`}`;
+	}
+
+	private static async fetchComTimeout(
+		input: RequestInfo | URL,
+		init: RequestInit = {},
+		timeoutMs = this.REQUEST_TIMEOUT_MS,
+	) {
+		const controller = new AbortController();
+		const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+
+		try {
+			return await fetch(input, {
+				...init,
+				signal: controller.signal,
+			});
+		} catch (error) {
+			if (error instanceof DOMException && error.name === "AbortError") {
+				throw new Error("O backend demorou para responder. Tente novamente em instantes.");
+			}
+			throw error;
+		} finally {
+			window.clearTimeout(timeout);
+		}
 	}
 }
