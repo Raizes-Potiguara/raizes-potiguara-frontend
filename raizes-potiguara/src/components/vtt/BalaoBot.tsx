@@ -18,10 +18,15 @@ const BalaoBot = (
 
   const tocarAudio = () => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (audio) {
+      audio.currentTime = 0;
+      void audio.play();
+      return;
+    }
 
-    audio.currentTime = 0;
-    void audio.play();
+    if (audioUrl) {
+      void new Audio(audioUrl).play();
+    }
   };
 
   return (

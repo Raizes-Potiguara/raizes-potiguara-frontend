@@ -75,7 +75,6 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 
 			const mensagemResposta =
 				resposta.mensagem || "Não consegui entender agora. Pode tentar de novo?";
-			const textoAudio = selecionarTextoParaAudio(resposta, mensagemResposta);
 
 			setMensagens((mensagensAtuais) =>
 				mensagensAtuais.map((mensagem) =>
@@ -85,13 +84,15 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 							texto: mensagemResposta,
 							carregandoResposta: false,
 							carregandoAudio: true,
+							erroAudio: false,
+							audioUrl: undefined,
 						}
 						: mensagem,
 				),
 			);
 
 			try {
-				const audio = await ApiService.gerarAudioResposta(textoAudio);
+				const audio = await ApiService.gerarAudioResposta(mensagemResposta);
 
 				setMensagens((mensagensAtuais) =>
 					mensagensAtuais.map((mensagem) =>
@@ -99,7 +100,9 @@ const MicButton = ({ variant = "padrao" }: MicButtonProps) => {
 							? {
 								...mensagem,
 								audioUrl: audio.audio_url,
+								carregandoResposta: false,
 								carregandoAudio: false,
+								erroAudio: false,
 							}
 							: mensagem,
 					),
@@ -253,17 +256,6 @@ const resolverPerfilAssistente = (pathname: string, id?: string) => {
 		usuario_id: "cliente-demo",
 		origem: "chatbot_cliente",
 	};
-};
-
-const selecionarTextoParaAudio = (resposta: Record<string, unknown>, mensagem: string) => {
-	const resumo = typeof resposta.resumo_curto === "string" ? resposta.resumo_curto.trim() : "";
-	const texto = resumo || mensagem;
-
-	if (texto.length <= 900) {
-		return texto;
-	}
-
-	return `${texto.slice(0, 897).trim()}...`;
 };
 
 export default MicButton;
